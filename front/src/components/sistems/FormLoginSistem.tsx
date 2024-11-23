@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../styles/forms.css";
 import { setTokenIspCube } from "@/redux/userSlice";
 import PATHROUTES from "@/helpers/PathRoutes";
+import { fetchUsersIspCube } from "@/helpers/ispCubeActions";
+import { AppDispatch } from "@/redux/store";
 
 const FormLoginSistem: React.FC<{
   setViewModalSistem: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,8 +24,7 @@ const FormLoginSistem: React.FC<{
   const url = process.env.NEXT_PUBLIC_URL;
   const token = Cookies.get("token");
   const dataUser: IUser = useSelector((state: any) => state.user.user);
-  const dispatch = useDispatch();
-  
+  const dispatch: AppDispatch = useDispatch();
 
   const handleLoginIspCube = async (values: IUserIspCube) => {
     try {
@@ -36,11 +37,18 @@ const FormLoginSistem: React.FC<{
         values
       );
       if (response?.response.ok) {
-       
+        dispatch(
+          fetchUsersIspCube(
+            url!,
+            dataUser && dataUser.email,
+            token!,
+            response.data.token.token!
+          )
+        );
         dispatch(setTokenIspCube(response.data.token.token));
         setLoading(false);
         setViewModalSistem(false);
-        router.push(PATHROUTES.SERVICES)
+        router.push(`${PATHROUTES.SERVICES}/users`);
       }
     } catch (error) {
       console.log(error);

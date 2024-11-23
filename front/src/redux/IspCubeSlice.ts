@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IspCubeState {
-  users: any[]; 
+  users: any[] | null;
   loading: boolean;
   error: string | null;
 }
@@ -28,9 +28,14 @@ const ispCubeSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    logoutData(state, action: PayloadAction<any[]>) {
+      state.error = null;
+      state.loading = false;
+      state.users = null;
+    },
   },
 });
 
-export const { fetchUsersStart, fetchUsersSuccess, fetchUsersFailure } = ispCubeSlice.actions;
+export const { fetchUsersStart, fetchUsersSuccess, fetchUsersFailure,logoutData } =
+  ispCubeSlice.actions;
 export default ispCubeSlice.reducer;
-

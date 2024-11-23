@@ -5,14 +5,14 @@ import PATHROUTES from "@/helpers/PathRoutes";
 import { IUserLogin, TokenProps } from "@/helpers/types";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ButtonLogin from "./ButtonLogin";
 import ContainerInput from "./ContainerInput";
 import { Form, Formik } from "formik";
 import "../../styles/forms.css";
 import { setToken, setUserData } from "@/redux/userSlice";
 import { validarLogin } from "@/helpers/validateForms";
-import ModalResetPasswordInit from "./ModalResetPasswordInit";
+
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -44,6 +44,7 @@ const LoginForm: React.FC = () => {
         fetchDataUser(userData.token, secret, url).then((res) => {
           dispatch(setUserData(res));
         });
+        
         router.push(PATHROUTES.SISTEMS);
       }
     } catch (error: any) {

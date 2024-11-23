@@ -23,6 +23,12 @@ export interface TokenProps {
   token: string;
 }
 
+export interface PaginationProps {
+  productsPage: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  totalProducts: number | undefined;
+}
 export interface IUser {
   email: string;
   id: number;
