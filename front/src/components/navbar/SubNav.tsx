@@ -69,7 +69,7 @@ const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
         <Link
           href={`${PATHROUTES.DASHBOARD}/user`}
           className={`enlaces md:hidden hover:text-custom-white font-semibold text-6xl flex justify-end ${
-            pathName === `${PATHROUTES.DASHBOARD}/user`
+            pathName === `${PATHROUTES.DASHBOARD}/messages`
               ? "text-custom-white"
               : ""
           } `}

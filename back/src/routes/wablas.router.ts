@@ -1,11 +1,17 @@
 import { Router } from "express";
 import checkLogin from "../middlewares/checkLogin.middleware";
-import { fetchInfoMessages, sendMessages } from "../controllers/wablas.controller";
+import {
+  fetchInfoMessages,
+  fetchMessagesWablas,
+  scanQrCode,
+} from "../controllers/wablas.controller";
 
-const wablasRouter = Router()
+const wablasRouter = Router();
 
-wablasRouter.get("/fetchInfo", checkLogin, fetchInfoMessages)
+wablasRouter.get("/fetchInfo", checkLogin, fetchInfoMessages);
 
-wablasRouter.post("/sendMessage", checkLogin, sendMessages)
+wablasRouter.post("/sendMessage", checkLogin, fetchMessagesWablas);
 
-export default wablasRouter
+wablasRouter.post("/scanqr", checkLogin, scanQrCode);
+
+export default wablasRouter;

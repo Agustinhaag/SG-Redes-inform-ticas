@@ -3,17 +3,18 @@ import React, { useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { CSSTransition } from "react-transition-group";
 import "../../styles/modalResetPassword.css";
-import FormLoginSistem from "./FormLoginSistem";
+import FormNewMessage from "./FormNewMessage";
 
-const ModalSelectSistem: React.FC<{
-  viewModalSistem: boolean;
-  setViewModalSistem: React.Dispatch<React.SetStateAction<boolean>>;
-  nameSistem: string;
-}> = ({ viewModalSistem, setViewModalSistem, nameSistem }) => {
+
+const ModalNewMessage: React.FC<{
+    viewModalMessage: boolean;
+    setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>;
+
+}> = ({ viewModalMessage, setViewModalMessage }) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
   return (
     <CSSTransition
-      in={viewModalSistem}
+      in={viewModalMessage}
       timeout={900}
       classNames="modal"
       unmountOnExit
@@ -30,13 +31,13 @@ const ModalSelectSistem: React.FC<{
         >
           <div className=" flex items-center mb-5 pb-5 border-b border-custom-grey w-full">
             <h3 className="font-semibold text-2xl">
-              Inicie sesión en {nameSistem}
+              Envio masivo de mensajes
             </h3>
           </div>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setViewModalSistem(false);
+              setViewModalMessage(false);
             }}
             type="button"
             className="absolute top-5 right-5 py-1 px-1.5 transition-all  border-2 border-custom-blue bg-transparent rounded-md hover:bg-custom-blue text-custom-white hover:cursor-pointer"
@@ -44,11 +45,9 @@ const ModalSelectSistem: React.FC<{
             <IoMdClose />
           </button>
           <div>
-            <h3 className="text-xl font-light">
-              Por favor ingrese sus credenciales
-            </h3>
+         
 
-            <FormLoginSistem setViewModalSistem={setViewModalSistem}/>
+            <FormNewMessage setViewModalMessage={setViewModalMessage}/> 
           </div>
         </div>
       </div>
@@ -56,4 +55,4 @@ const ModalSelectSistem: React.FC<{
   );
 };
 
-export default ModalSelectSistem;
+export default ModalNewMessage;

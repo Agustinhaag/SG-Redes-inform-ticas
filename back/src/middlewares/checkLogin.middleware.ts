@@ -16,7 +16,6 @@ const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
     next(new ClientError("Invalid token"));
   }
 
-  
   next();
 };
 

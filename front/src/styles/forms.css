@@ -14,7 +14,7 @@
     border: 1px solid red;
   }
   .errorLabel{
-    color:red;
+    color:#ff0000;
   }
   .span {
     @apply flex justify-start sm:my-1 md:text-base text-xs min-h-6;

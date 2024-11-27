@@ -31,6 +31,7 @@ const Pagination: React.FC<PaginationProps> = ({
     >
       <button
         onClick={onPreviusPage}
+             type="button"
         disabled={currentPage === 1 ? true : false}
         className={`flex items-center sm:text-base text-xs justify-center border px-3 sm:py-1.5 rounded sm:w-24 w-[70px] text-black  hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all ${
           currentPage === 1
@@ -44,6 +45,7 @@ const Pagination: React.FC<PaginationProps> = ({
         {pageNumbers.map((page: number) => (
           <li key={page}>
             <button
+            type="button"
               className={`flex items-center sm:text-base text-xs justify-center border sm:px-3 w-9 py-1 rounded hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all ${
                 currentPage === page
                   ? "border-custom-blue bg-custom-blue text-custom-white"
@@ -59,6 +61,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
       <button
         onClick={onNextPage}
+             type="button"
         disabled={currentPage >= pageNumbers.length ? true : false}
         className={`flex items-center sm:text-base text-xs justify-center border px-3 sm:py-1.5 rounded sm:w-24 w-[70px] text-black  hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all  ${
           currentPage >= pageNumbers.length

@@ -104,3 +104,14 @@ export const validateLoginIspCube = (input: FormikValues): Partial<FormikValues>
  
   return errors;
 };
+
+export const validateSendMessage = (input: FormikValues): Partial<FormikValues> => {
+  const errors: Partial<FormikValues> = {};
+
+ 
+  if (!input.message) {
+    errors.message = "El mensaje es requerido";
+  }
+ 
+  return errors;
+};

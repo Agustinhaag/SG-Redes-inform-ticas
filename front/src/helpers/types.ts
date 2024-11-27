@@ -61,3 +61,16 @@ export type IspCubeState = {
   loading: boolean;
   error: string | null;
 };
+
+export interface FormValues {
+  addressee: string;
+  message: string;
+  filters: {
+    node_code: string[];
+    status: string[];
+    debt: string[]; 
+    showNodeDropdown:boolean
+    plan_id: number[], // Valores seleccionados de plan_id
+    showPlanDropdown: boolean,
+  };
+}

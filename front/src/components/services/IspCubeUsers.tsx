@@ -10,7 +10,6 @@ const IspCubeUsers: React.FC = () => {
   const [productsPage, setProductsPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
-
   const lastIndex = currentPage * productsPage;
   const firstIndex = lastIndex - productsPage;
 

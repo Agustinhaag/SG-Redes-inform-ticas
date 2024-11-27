@@ -48,7 +48,7 @@ const FormLoginSistem: React.FC<{
         dispatch(setTokenIspCube(response.data.token.token));
         setLoading(false);
         setViewModalSistem(false);
-        router.push(`${PATHROUTES.SERVICES}/users`);
+        router.push(`${PATHROUTES.SERVICES}/messages`);
       }
     } catch (error) {
       console.log(error);

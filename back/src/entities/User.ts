@@ -45,6 +45,11 @@ export class User {
   })
   role: Role;
 
+  @Column({
+    nullable: true,
+  })
+  tokenWablas: string;
+
   @OneToOne(() => Credential)
   @JoinColumn()
   credential: Credential;
