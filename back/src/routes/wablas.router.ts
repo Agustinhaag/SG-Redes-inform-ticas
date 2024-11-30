@@ -8,7 +8,7 @@ import {
 
 const wablasRouter = Router();
 
-wablasRouter.get("/fetchInfo", checkLogin, fetchInfoMessages);
+wablasRouter.post("/fetchInfo", checkLogin, fetchInfoMessages);
 
 wablasRouter.post("/sendMessage", checkLogin, fetchMessagesWablas);
 

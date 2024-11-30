@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import ModalNewMessage from "./ModalNewMessage";
-
+import ListMessages from "./ListMessages";
 const ViewMessagesWablas: React.FC = () => {
   const [viewModalMessage, setViewModalMessage] = useState<boolean>(false);
-
+  
   const toggleMenu = () => {
     setViewModalMessage(!viewModalMessage);
   };
@@ -18,6 +18,7 @@ const ViewMessagesWablas: React.FC = () => {
       >
         Enviar mensajes
       </button>
+      <ListMessages />
       {viewModalMessage && (
         <div
           className="fixed inset-0 bg-black bg-opacity-55 z-40"

@@ -4,8 +4,9 @@ import { IoCloseSharp } from "react-icons/io5";
 import PATHROUTES from "@/helpers/PathRoutes";
 import { usePathname } from "next/navigation";
 import { IUser } from "@/helpers/types";
-import { FaRegCircleUser } from "react-icons/fa6";
+
 import { useSelector } from "react-redux";
+
 
 interface SubNavProps {
   typeClass: boolean;
@@ -16,6 +17,7 @@ const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
   const tokenIspCube: string = useSelector(
     (state: any) => state.user.tokenIspCube
   );
+
   const classHeader: string =
     "flex flex-col md:gap-6 gap-4 md:visible invisible md:flex-row text-custom-grey justify-start fixed md:relative top-0 right-0 text-right md:justify-between md:w-1/3 w-1/2 min-w-56 z-50 md:py-0 md:px-0 px-5 pt-14 translate-x-full md:translate-x-0 md:h-6";
   const classFooter: string =
@@ -56,27 +58,16 @@ const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
         Sistemas
       </Link>
       <Link
-        href={`${PATHROUTES.SERVICES}/users`}
+        href={PATHROUTES.SERVICES}
         className={`enlaces ${
           dataUser && tokenIspCube ? "block" : "hidden"
         } hover:text-custom-white font-semibold ${
-          pathName === `${PATHROUTES.SERVICES}/users` ? "text-custom-white" : ""
+          pathName === `${PATHROUTES.SERVICES}` ? "text-custom-white" : ""
         } `}
       >
         Servicios
       </Link>
-      {dataUser ? (
-        <Link
-          href={`${PATHROUTES.DASHBOARD}/user`}
-          className={`enlaces md:hidden hover:text-custom-white font-semibold text-6xl flex justify-end ${
-            pathName === `${PATHROUTES.DASHBOARD}/messages`
-              ? "text-custom-white"
-              : ""
-          } `}
-        >
-          <FaRegCircleUser />
-        </Link>
-      ) : (
+      {!dataUser && (
         <div className="pt-8">
           <Link
             href={PATHROUTES.REGISTER}

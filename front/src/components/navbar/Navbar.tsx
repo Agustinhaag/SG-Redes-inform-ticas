@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import SubNav from "./SubNav";
 import { FaRegCircleUser } from "react-icons/fa6";
@@ -9,11 +9,14 @@ import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import PATHROUTES from "@/helpers/PathRoutes";
 import { IUser } from "@/helpers/types";
+import ButtonUser from "./ButtonUser";
 
 const Navbar: React.FC = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const dataUser: IUser = useSelector((state: any) => state.user.user);
   const token = Cookies.get("token");
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const menu: HTMLElement | null = document.getElementById("menu");
@@ -60,6 +63,18 @@ const Navbar: React.FC = () => {
     };
   }, [token]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <header
       ref={headerRef}
@@ -86,17 +101,12 @@ const Navbar: React.FC = () => {
           <RxHamburgerMenu />
         </span>
         {token && dataUser ? (
-          <Link
-            href={`${PATHROUTES.DASHBOARD}/user`}
-            className="md:flex hidden items-center gap-2 text-custom-white"
-          >
-            <p className="text-xl font-medium overflow-hidden max-w-40 max-h-8 capitalize">
-              {dataUser?.name}
-            </p>
-            <span className="text-5xl">
-              <FaRegCircleUser />
-            </span>
-          </Link>
+          <ButtonUser
+            isMenuOpen={isMenuOpen}
+            menuRef={menuRef}
+            setIsMenuOpen={setIsMenuOpen}
+            dataUser={dataUser}
+          />
         ) : (
           <div className="md:flex hidden sm:gap-4 sm:text-lg text-sm gap-2 sm:flex-row flex-col text-custom-white">
             <Link

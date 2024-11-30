@@ -15,11 +15,7 @@ const validateJWT = async (
       );
       return false;
     }
-    // if (Number(payload.userId) !== Number(user.id)) {
-    //   //si el id no coincide retornamos false
-    //   console.error("Token inválido:", payload);
-    //   return false;
-    // }
+
     return true;
   } catch (error) {
     console.error("JWT Validation Error:", error);
@@ -30,6 +26,9 @@ const validateJWT = async (
 export const middleware = async (request: NextRequest) => {
   const secret = process.env.SECRET;
   const userData = request.cookies.get("token")?.value;
+  const ispCubeToken = request.cookies.get("tokenIspCube")?.value;
+  const { pathname } = request.nextUrl;
+
   if (!userData) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -40,8 +39,13 @@ export const middleware = async (request: NextRequest) => {
       return NextResponse.next();
     }
   }
-};
 
+  if (pathname.startsWith("/services")) {
+    if (!ispCubeToken) {
+      return NextResponse.redirect(new URL("/sistems", request.url)); // Redirige al login de ISPCube
+    }
+  }
+};
 
 export const config = {
   matcher: ["/services", "/dashboard", "/sistems"], //rutas protegidas

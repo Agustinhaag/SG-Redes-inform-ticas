@@ -68,9 +68,21 @@ export interface FormValues {
   filters: {
     node_code: string[];
     status: string[];
-    debt: string[]; 
-    showNodeDropdown:boolean
-    plan_id: number[], // Valores seleccionados de plan_id
-    showPlanDropdown: boolean,
+    debt: string[];
+    showNodeDropdown: boolean;
+    plan_name: number[]; // Valores seleccionados de plan_id
+    showPlanDropdown: boolean;
   };
+}
+
+export interface IMessageUser {
+  category: string;
+  date: { created_at: string; updated_at: string };
+  file: null;
+  id: string;
+  message: string;
+  phone: { from: string; to: string };
+  status: string;
+  type: string;
+  userName: string;
 }

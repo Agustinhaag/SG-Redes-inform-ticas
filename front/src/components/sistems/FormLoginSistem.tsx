@@ -24,6 +24,9 @@ const FormLoginSistem: React.FC<{
   const url = process.env.NEXT_PUBLIC_URL;
   const token = Cookies.get("token");
   const dataUser: IUser = useSelector((state: any) => state.user.user);
+  const tokenIspCube: string = useSelector(
+    (state: any) => state.user.tokenIspCube
+  );
   const dispatch: AppDispatch = useDispatch();
 
   const handleLoginIspCube = async (values: IUserIspCube) => {
@@ -37,6 +40,7 @@ const FormLoginSistem: React.FC<{
         values
       );
       if (response?.response.ok) {
+        dispatch(setTokenIspCube(response.data.token.token));
         dispatch(
           fetchUsersIspCube(
             url!,
@@ -45,10 +49,9 @@ const FormLoginSistem: React.FC<{
             response.data.token.token!
           )
         );
-        dispatch(setTokenIspCube(response.data.token.token));
         setLoading(false);
         setViewModalSistem(false);
-        router.push(`${PATHROUTES.SERVICES}/messages`);
+        if (tokenIspCube) router.push(`${PATHROUTES.SERVICES}`);
       }
     } catch (error) {
       console.log(error);

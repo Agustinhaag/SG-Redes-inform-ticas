@@ -8,7 +8,7 @@ const FilterOfPay:React.FC<{
       node_code: any[];
       status: string[];
       debt: string[];
-      plan_id: any[];
+      plan_name: any[];
   }) => void;
   }> = ({formikProps, handleFilter })=> {
   return (

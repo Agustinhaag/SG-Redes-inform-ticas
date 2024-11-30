@@ -17,7 +17,7 @@ const fetchSendMessage = async (
       },
       body: JSON.stringify({
         message,
-        phones: ["5493548604817"],
+        phones: ["2915036060"],
       }),
     });
 
@@ -46,7 +46,7 @@ export const validateSendAll = async (
   manualSelection: string[],
   filteredUsers: any[],
   users: any[],
-  message: string,
+  personalizedMessages: string[], // Ahora este es un arreglo de mensajes personalizados
   setFilteredUsers: React.Dispatch<React.SetStateAction<any[]>>,
   setManualSelection: React.Dispatch<React.SetStateAction<any[]>>,
   resetForm: () => void,
@@ -61,8 +61,8 @@ export const validateSendAll = async (
 
   let recipients: string[] = [];
   const result = await Swal.fire({
-    title: "Confirma que desea hacer el envio masivo de mensajes?",
-    text: "Si no ha asignado parametros de filtrado el mensaje se enviara a todos los usuarios.",
+    title: "Confirma que desea hacer el envío masivo de mensajes?",
+    text: "Si no ha asignado parámetros de filtrado, el mensaje se enviará a todos los usuarios.",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -82,30 +82,42 @@ export const validateSendAll = async (
     resetForm();
     return;
   }
+
   if (noSelection) {
-    recipients = users.map((user) => user.phones[0]?.number);
+    // Filtra usuarios que tienen al menos un número de teléfono
+    recipients = users
+      .map((user) => user.phones[0]?.number)
+      .filter((phone) => phone); // Elimina los valores undefined o null
     setViewModalMessage(false);
   } else {
+    // Filtra usuarios que tienen al menos un número de teléfono
     recipients =
       manualSelection.length > 0
         ? manualSelection.map((key) => key.split("-")[1])
-        : filteredUsers.map((user) => user.phones[0]?.number);
+        : filteredUsers
+            .map((user) => user.phones[0]?.number)
+            .filter((phone) => phone); // Elimina los valores undefined o null
   }
 
   // Prepara el payload para el envío
-  const payload = { message, recipients };
-
   try {
-    console.log("Payload enviado:", payload);
-    // Aquí iría la lógica de envío al servidor, e.g.:
-    await fetchSendMessage(
-      url,
-      payload.message,
-      payload.recipients,
-      setError,
-      token,
-      setViewModalMessage
-    );
+    for (let i = 0; i < recipients.length; i++) {
+      const message = personalizedMessages[i]; // Toma el mensaje personalizado para este usuario
+      await fetchSendMessage(
+        url,
+        message,
+        [recipients[i]], // Enviar solo a este destinatario
+        setError,
+        token,
+        setViewModalMessage
+      );
+    }
+
+    Swal.fire({
+      title: "Envío exitoso",
+      text: "Todos los mensajes fueron enviados correctamente.",
+      icon: "success",
+    });
   } catch (err) {
     Swal.fire({
       title: "Error",
@@ -113,5 +125,21 @@ export const validateSendAll = async (
       icon: "error",
     });
     console.error("Error al enviar mensajes:", err);
+  }
+};
+
+export const fetchAllMessages = async (token: string, url: string) => {
+  try {
+    const response = await fetch(`${url}/wablas/fetchInfo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `${token}`,
+      },
+    });
+    const data = response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
   }
 };

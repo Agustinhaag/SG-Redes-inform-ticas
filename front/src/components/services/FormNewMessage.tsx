@@ -19,21 +19,28 @@ const FormNewMessage: React.FC<{
 }> = ({ setViewModalMessage }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const users: any[] = useSelector((state: any) => state.ispCube.users);
+  console.log(users);
   const [error, setError] = useState<string | null>(null);
   const [filteredUsers, setFilteredUsers] = useState<any[]>(users);
   const [manualSelection, setManualSelection] = useState<string[]>([]);
   const [showManualSelection, setShowManualSelection] =
     useState<boolean>(false);
-    const url = process.env.NEXT_PUBLIC_URL;
-    const token = Cookies.get("token");
+  const url = process.env.NEXT_PUBLIC_URL;
+  const token = Cookies.get("token");
+  const userVariables = [
+    { key: "{{name}}", description: "Nombre " },
+    { key: "{{debt}}", description: "Saldo" },
+    { key: "{{address}}", description: "Dirección" },
+    { key: "{{plan_name}}", description: "Plan" },
+  ];
 
   const handleFilter = (filters: {
     node_code: any[];
     status: string[];
     debt: string[];
-    plan_id: any[];
+    plan_name: string[]; // Cambiado a plan_name
   }) => {
-    const { node_code, status, debt, plan_id } = filters;
+    const { node_code, status, debt, plan_name } = filters;
 
     const newFilteredUsers = users.filter((user) => {
       const matchesNode = node_code.length
@@ -54,16 +61,22 @@ const FormNewMessage: React.FC<{
           )
         : true;
 
-      const matchesPlan = plan_id.length
-        ? user.connections?.some((connection: any) =>
-            plan_id.includes(connection.plan_id)
-          )
+      const matchesPlan = plan_name.length
+        ? plan_name.includes(user.plan_name)
         : true;
 
       return matchesNode && matchesStatus && matchesDebt && matchesPlan;
     });
 
     setFilteredUsers(newFilteredUsers);
+  };
+
+  const personalizeMessage = (template: string, user: any) => {
+    return template
+      .replace(/{{name}}/g, user.name)
+      .replace(/{{debt}}/g, user.debt || "N/A")
+      .replace(/{{address}}/g, user.address || "N/A")
+      .replace(/{{plan_name}}/g, user.plan_name || "N/A");
   };
 
   return (
@@ -76,7 +89,7 @@ const FormNewMessage: React.FC<{
           status: [],
           debt: [],
           showNodeDropdown: false,
-          plan_id: [],
+          plan_name: [],
           showPlanDropdown: false,
         },
       }}
@@ -88,7 +101,9 @@ const FormNewMessage: React.FC<{
             manualSelection, // Selección manual
             filteredUsers, // Usuarios filtrados
             users, // Todos los usuarios
-            values.message, // Mensaje
+            filteredUsers.map((user) =>
+              personalizeMessage(values.message, user)
+            ), // Generar un mensaje personalizado para cada usuario
             setFilteredUsers,
             setManualSelection,
             resetForm,
@@ -98,7 +113,7 @@ const FormNewMessage: React.FC<{
             setError
           );
 
-          // setLoading(true);
+          setLoading(false);
         } catch (err) {
           setLoading(false);
           setError("Error al conectar con el servidor");
@@ -132,6 +147,8 @@ const FormNewMessage: React.FC<{
             />
           </div>
 
+          {/* Botones para agregar variables */}
+
           <ManualSelection
             users={users}
             manualSelection={manualSelection}
@@ -146,6 +163,25 @@ const FormNewMessage: React.FC<{
           {formikProps.errors.addressee && (
             <div className="text-[#ff0000]">{formikProps.errors.addressee}</div>
           )}
+
+          <div className="variable-list flex gap-2 mb-4">
+            {userVariables.map((variable) => (
+              <button
+                key={variable.key}
+                type="button"
+                onClick={() =>
+                  formikProps.setFieldValue(
+                    "message",
+                    formikProps.values.message + " " + variable.key
+                  )
+                }
+                className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300"
+              >
+                {variable.description}
+              </button>
+            ))}
+          </div>
+
           <ContainerInput
             error={error}
             formikProps={formikProps}

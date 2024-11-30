@@ -9,7 +9,7 @@ const FilterOfStatus: React.FC<{
     node_code: any[];
     status: string[];
     debt: string[];
-    plan_id: any[];
+    plan_name: any[];
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
   // Obtener los estados únicos

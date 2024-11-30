@@ -1,23 +1,21 @@
 "use client";
-import { useEffect, useState } from "react";
 import CardSistem from "@/components/sistems/CardSistem";
 import PATHROUTES from "@/helpers/PathRoutes";
 import Link from "next/link";
-import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutSistem } from "@/redux/userSlice";
+import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
 const Sistems: React.FC = () => {
-  const [tokenIspCube, setTokenIspCube] = useState<string | null>(null);
   const dispatch = useDispatch();
   const router = useRouter();
+const tokenIspCube: string | undefined = useSelector(
+  (state: any) => state.user?.tokenIspCube
+);
 
-  useEffect(() => {
-    const token = Cookies.get("tokenIspCube");
-    setTokenIspCube(token || null);
-  }, []);
+
 
   const changeSistem = () => {
     Swal.fire({
@@ -47,13 +45,12 @@ const Sistems: React.FC = () => {
       }
     });
   };
-  
 
   return (
     <main className="text-custom-white">
-      {tokenIspCube ? (
+      {tokenIspCube || Cookies.get("tokenIspCube") ? (
         <section>
-          <h2>Ya ha seleccionado un sistema para operar</h2>
+          <h1>Ya ha seleccionado un sistema para operar</h1>
           <Link href={PATHROUTES.LANDING}>Volver</Link>
           <button onClick={changeSistem}>Elegir otro sistema</button>
         </section>

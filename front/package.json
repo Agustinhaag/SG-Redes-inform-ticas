@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
+    "dayjs": "^1.11.13",
     "emailjs": "^4.0.3",
     "formik": "^2.4.6",
     "jose": "^5.9.6",

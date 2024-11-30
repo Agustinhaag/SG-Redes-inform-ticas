@@ -25,9 +25,9 @@ const IspCubeUsers: React.FC = () => {
   return (
     <section>
       {!users ||
-      users.lenght === 0 ||
+      users.length === 0 ||
       !filteredUsers ||
-      filteredUsers.lenght === 0 ||
+      filteredUsers.length === 0 ||
       loading ? (
         <Spinner title="Cargando usuarios..." />
       ) : filteredUsers && filteredUsers.length > 0 ? (

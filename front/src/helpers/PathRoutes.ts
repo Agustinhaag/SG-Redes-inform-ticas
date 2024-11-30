@@ -1,5 +1,5 @@
 enum PATHROUTES {
-  DASHBOARD = "/account",
+  DASHBOARD = "/dashboard",
   LANDING = "/",
   LOGIN = "/login",
   REGISTER = "/register",
