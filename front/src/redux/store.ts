@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
-import ispCubeReducer from "./IspCubeSlice";
+
 
 const store = configureStore({
   reducer: {
     user: userReducer,
-    ispCube: ispCubeReducer,
+    
   },
 });
 

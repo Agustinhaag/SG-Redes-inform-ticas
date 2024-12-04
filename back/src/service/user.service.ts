@@ -13,11 +13,11 @@ import {
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/envs";
 import LoginUserDto from "../dtos/loginUserDto";
-import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
 import dayjs from "dayjs";
 import { sendPasswordResetEmail } from "../helpers/sendEmailResetPassword";
-import { decrypt } from "../helpers/hashPropsHeader";
+import { decrypt, encrypt } from "../helpers/hashPropsHeader";
+import { Role, Status } from "../utils/types";
 
 export const checkUserExists = async (email: string): Promise<boolean> => {
   const user = await userModel.findOneBy({ email });
@@ -28,10 +28,16 @@ export const registerUserService = async (
   registerUserDto: RegisterUserDto
 ): Promise<string> => {
   try {
-    const user = userModel.create(registerUserDto);
+    const user = userModel.create({
+      ...registerUserDto,
+      role: registerUserDto.role || Role.USER,
+    });
     const credential = await createCredentialService({
       password: registerUserDto.password,
     });
+    if (user.role === Role.ADMIN) {
+      user.status = Status.ACTIVE;
+    }
 
     user.credential = credential;
     await userModel.save(user);
@@ -168,7 +174,7 @@ export const findByEmail = async (email: string) => {
     }
     return user;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw new ClientError("Error al obtener el usuario", 500);
   }
 };

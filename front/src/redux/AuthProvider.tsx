@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import { setUserData, setToken } from "./userSlice";
 import { fetchDataUser } from "@/helpers/fetchDataUser";
 import { AppDispatch } from "@/redux/store";
-import { fetchUsersIspCube } from "@/helpers/ispCubeActions";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -25,11 +24,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         .then((userData) => {
           dispatch(setUserData(userData));
           dispatch(setToken(tokenString));
-          if (tokenString && tokenIspCube) {
-            dispatch(
-              fetchUsersIspCube(url!, userData.email, tokenString, tokenIspCube)
-            );
-          }
         })
         .catch((error) => {
           console.error("Error fetching user data", error);

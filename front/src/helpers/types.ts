@@ -37,6 +37,7 @@ export interface IUser {
   role: string;
   status: string;
   surname: string;
+  tokenwablas?: string | null;
 }
 
 export interface InputProps {

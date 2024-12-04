@@ -11,7 +11,6 @@ export const createCredentialService = async (
   try {
     const { password } = credentialDto;
 
-    // Crear instancia temporal para validar antes de guardarla
     const tempCredential = new Credential();
     tempCredential.password = password; // Validamos la contraseña sin hash
    

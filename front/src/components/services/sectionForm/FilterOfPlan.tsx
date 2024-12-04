@@ -13,7 +13,7 @@ const FilterOfPlan: React.FC<{
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
   return (
-    <div className="relative w-full flex flex-col">
+    <div className="relative w-1/2 flex flex-col">
       <span className="text-custom-white text-sm">Planes</span>
 
       <div className="flex items-center">
@@ -33,7 +33,7 @@ const FilterOfPlan: React.FC<{
               !formikProps.values.filters.showPlanDropdown
             )
           }
-          className="ml-2 bg-custom-red text-white p-2 rounded"
+        className="ml-2 bg-custom-red text-white py-2 px-3 rounded bg-black hover:bg-neutral-950"
         >
           {formikProps.values.filters.showPlanDropdown ? "▲" : "▼"}
         </button>

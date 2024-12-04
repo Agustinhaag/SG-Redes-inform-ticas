@@ -8,22 +8,37 @@ import {
 
 export const fetchInfoMessages = catchedController(
   async (req: Request, res: Response) => {
-    const messages = await fetchMessages();
+    const { id } = req.body;
+    const userId = parseInt(id);
+   
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: "ID de usuario inválido" });
+    }
+    const messages = await fetchMessages(userId);
     res.status(201).send(messages);
   }
 );
 
 export const fetchMessagesWablas = catchedController(
   async (req: Request, res: Response) => {
-    const { message, phones } = req.body;
-    const response = await sendMessages(message, phones);
+    const { message, phones, id } = req.body;
+    const userId = parseInt(id);
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: "ID de usuario inválido" });
+    }
+    const response = await sendMessages(message, phones, userId);
     res.status(201).send(response);
   }
 );
 
 export const scanQrCode = catchedController(
   async (req: Request, res: Response) => {
-    const response = await fetchQrCode();
+    const { id } = req.body;
+    const userId = parseInt(id);
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: "ID de usuario inválido" });
+    }
+    const response = await fetchQrCode(userId);
     res.status(201).send(response);
   }
 );

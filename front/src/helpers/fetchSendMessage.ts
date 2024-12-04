@@ -6,7 +6,7 @@ const fetchSendMessage = async (
   phones: string[],
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   token: string,
-  setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>
+  id: number
 ) => {
   try {
     const response = await fetch(`${url}/wablas/sendMessage`, {
@@ -17,20 +17,14 @@ const fetchSendMessage = async (
       },
       body: JSON.stringify({
         message,
-        phones: ["2915036060"],
+        phones: ["5493548604817"],
+        id,
       }),
     });
 
     const data = await response.json();
 
     if (response.ok) {
-      setViewModalMessage(false);
-      Swal.fire({
-        title: "Mensajes enviados",
-        text: "¡Se han enviado a todos los usuarios seleccionados!",
-        icon: "success",
-      });
-
       return { response, data };
     } else {
       const errorMessage = data.error;
@@ -46,19 +40,30 @@ export const validateSendAll = async (
   manualSelection: string[],
   filteredUsers: any[],
   users: any[],
-  personalizedMessages: string[], // Ahora este es un arreglo de mensajes personalizados
+  personalizedMessages: string[],
   setFilteredUsers: React.Dispatch<React.SetStateAction<any[]>>,
   setManualSelection: React.Dispatch<React.SetStateAction<any[]>>,
   resetForm: () => void,
   setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>,
   url: string,
   token: string,
-  setError: React.Dispatch<React.SetStateAction<string | null>>
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  id: number,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ): Promise<void> => {
+  setLoading(true);
   const noSelection =
     (!manualSelection || manualSelection.length === 0) &&
     (!filteredUsers || filteredUsers.length === 0);
-
+  if (noSelection) {
+    Swal.fire({
+      title: "No hay usuarios",
+      text: "No se encontraron usuarios para enviar los mensajes.",
+      icon: "info",
+    });
+    setLoading(false); 
+    return;
+  }
   let recipients: string[] = [];
   const result = await Swal.fire({
     title: "Confirma que desea hacer el envío masivo de mensajes?",
@@ -77,6 +82,7 @@ export const validateSendAll = async (
       text: "Puede programar un nuevo envío.",
       icon: "info",
     });
+    setLoading(false);
     setFilteredUsers([]);
     setManualSelection([]);
     resetForm();
@@ -109,16 +115,18 @@ export const validateSendAll = async (
         [recipients[i]], // Enviar solo a este destinatario
         setError,
         token,
-        setViewModalMessage
+        id
       );
     }
-
+    setLoading(true);
     Swal.fire({
       title: "Envío exitoso",
       text: "Todos los mensajes fueron enviados correctamente.",
       icon: "success",
     });
+    setViewModalMessage(false);
   } catch (err) {
+    setLoading(false);
     Swal.fire({
       title: "Error",
       text: "Hubo un problema al enviar los mensajes.",
@@ -128,7 +136,11 @@ export const validateSendAll = async (
   }
 };
 
-export const fetchAllMessages = async (token: string, url: string) => {
+export const fetchAllMessages = async (
+  token: string,
+  url: string,
+  id: number
+) => {
   try {
     const response = await fetch(`${url}/wablas/fetchInfo`, {
       method: "POST",
@@ -136,8 +148,9 @@ export const fetchAllMessages = async (token: string, url: string) => {
         "Content-Type": "application/json",
         authorization: `${token}`,
       },
+      body: JSON.stringify({ id }),
     });
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (error) {
     console.log(error);

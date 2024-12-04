@@ -1,25 +1,26 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContainerInput from "../forms/ContainerInput";
 import ButtonLogin from "../forms/ButtonLogin";
 import Cookies from "js-cookie";
 import "../../styles/forms.css";
 import { useSelector } from "react-redux";
 import ManualSelection from "./sectionForm/ManualSelection";
-import { FormValues } from "@/helpers/types";
+import { FormValues, IUser } from "@/helpers/types";
 import FilterOfNodo from "./sectionForm/FilterOfNodo";
 import FilterOfStatus from "./sectionForm/FilterOfStatus";
 import FilterOfPay from "./sectionForm/FilterOfPay";
 import FilterOfPlan from "./sectionForm/FilterOfPlan";
 import { validateSendMessage } from "@/helpers/validateForms";
 import { validateSendAll } from "@/helpers/fetchSendMessage";
+import { fetchAllUsersIspCube } from "@/helpers/fetchIspCube";
 
 const FormNewMessage: React.FC<{
   setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ setViewModalMessage }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const users: any[] = useSelector((state: any) => state.ispCube.users);
-  console.log(users);
+  const [users, setUsers] = useState<any[]>([]);
+  const dataUser: IUser = useSelector((state: any) => state.user.user);
   const [error, setError] = useState<string | null>(null);
   const [filteredUsers, setFilteredUsers] = useState<any[]>(users);
   const [manualSelection, setManualSelection] = useState<string[]>([]);
@@ -27,6 +28,10 @@ const FormNewMessage: React.FC<{
     useState<boolean>(false);
   const url = process.env.NEXT_PUBLIC_URL;
   const token = Cookies.get("token");
+  const tokenIspCube: string = useSelector(
+    (state: any) => state.user.tokenIspCube
+  );
+
   const userVariables = [
     { key: "{{name}}", description: "Nombre " },
     { key: "{{debt}}", description: "Saldo" },
@@ -34,11 +39,19 @@ const FormNewMessage: React.FC<{
     { key: "{{plan_name}}", description: "Plan" },
   ];
 
+  useEffect(() => {
+    fetchAllUsersIspCube(url!, dataUser.email, token!, tokenIspCube!).then(
+      (res) => {
+        setUsers(res);
+      }
+    );
+  }, []);
+
   const handleFilter = (filters: {
     node_code: any[];
     status: string[];
     debt: string[];
-    plan_name: string[]; // Cambiado a plan_name
+    plan_name: string[];
   }) => {
     const { node_code, status, debt, plan_name } = filters;
 
@@ -97,23 +110,33 @@ const FormNewMessage: React.FC<{
       validate={validateSendMessage}
       onSubmit={async (values, { resetForm }) => {
         try {
+          const selectedUsers =
+            manualSelection.length > 0
+              ? manualSelection.map((key) => {
+                  const [userId] = key.split("-"); // Obtén el ID del usuario desde la clave única
+                  return users.find((user) => user.id === parseInt(userId, 10)); // Busca el usuario en la lista completa
+                })
+              : filteredUsers;
+
+          const personalizedMessages = selectedUsers.map((user) =>
+            personalizeMessage(values.message, user)
+          );
+
           await validateSendAll(
             manualSelection, // Selección manual
             filteredUsers, // Usuarios filtrados
             users, // Todos los usuarios
-            filteredUsers.map((user) =>
-              personalizeMessage(values.message, user)
-            ), // Generar un mensaje personalizado para cada usuario
+            personalizedMessages,
             setFilteredUsers,
             setManualSelection,
             resetForm,
             setViewModalMessage,
             url!,
             token!,
-            setError
+            setError,
+            dataUser.id,
+            setLoading
           );
-
-          setLoading(false);
         } catch (err) {
           setLoading(false);
           setError("Error al conectar con el servidor");
@@ -122,29 +145,32 @@ const FormNewMessage: React.FC<{
     >
       {(formikProps) => (
         <Form className="flex flex-col items-start text-black">
-          <div className="w-full flex flex-wrap gap-3 mb-4">
+          <div className="w-full flex flex-col gap-5 mb-4">
             {/* Filtro por nodo */}
-            <FilterOfNodo
-              formikProps={formikProps}
-              handleFilter={handleFilter}
-              users={users}
-            />
-            <FilterOfPlan
-              formikProps={formikProps}
-              handleFilter={handleFilter}
-              users={users}
-            />
-            {/* Filtro por estado */}
-            <FilterOfStatus
-              formikProps={formikProps}
-              handleFilter={handleFilter}
-              users={users}
-            />
-            {/* Filtro por deuda */}
-            <FilterOfPay
-              formikProps={formikProps}
-              handleFilter={handleFilter}
-            />
+            <div className="flex gap-5">
+              <FilterOfNodo
+                formikProps={formikProps}
+                handleFilter={handleFilter}
+                users={users}
+              />
+              <FilterOfStatus
+                formikProps={formikProps}
+                handleFilter={handleFilter}
+                users={users}
+              />
+            </div>
+            <div className="flex gap-5">
+              <FilterOfPlan
+                formikProps={formikProps}
+                handleFilter={handleFilter}
+                users={users}
+              />
+
+              <FilterOfPay
+                formikProps={formikProps}
+                handleFilter={handleFilter}
+              />
+            </div>
           </div>
 
           {/* Botones para agregar variables */}
@@ -157,14 +183,11 @@ const FormNewMessage: React.FC<{
             showManualSelection={showManualSelection}
           />
 
-          {error && (
-            <p className="text-red-600 text-center mb-2 w-full">¡{error}!</p>
-          )}
           {formikProps.errors.addressee && (
             <div className="text-[#ff0000]">{formikProps.errors.addressee}</div>
           )}
 
-          <div className="variable-list flex gap-2 mb-4">
+          <div className="variable-list flex gap-2 my-3 justify-end w-full">
             {userVariables.map((variable) => (
               <button
                 key={variable.key}
@@ -181,18 +204,23 @@ const FormNewMessage: React.FC<{
               </button>
             ))}
           </div>
+          <div className="w-4/5">
+            <ContainerInput
+              error={error}
+              formikProps={formikProps}
+              nombre="message"
+              title="Mensaje"
+              type="text"
+              textarea={true}
+            />
+          </div>
 
-          <ContainerInput
-            error={error}
-            formikProps={formikProps}
-            nombre="message"
-            title="Mensaje"
-            type="text"
-            textarea={true}
-          />
           <div className="cont-btn flex flex-col w-full justify-center mb-5">
             <ButtonLogin loading={loading} name="Enviar" />
           </div>
+          {error && (
+            <p className="text-red-600 text-center mb-2 w-full">¡{error}!</p>
+          )}
         </Form>
       )}
     </Formik>

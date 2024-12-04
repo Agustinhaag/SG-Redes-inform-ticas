@@ -5,11 +5,9 @@ import { CSSTransition } from "react-transition-group";
 import "../../styles/modalResetPassword.css";
 import FormNewMessage from "./FormNewMessage";
 
-
 const ModalNewMessage: React.FC<{
-    viewModalMessage: boolean;
-    setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>;
-
+  viewModalMessage: boolean;
+  setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ viewModalMessage, setViewModalMessage }) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
   return (
@@ -22,7 +20,7 @@ const ModalNewMessage: React.FC<{
     >
       <div ref={nodeRef} className="modal-overlay  z-50">
         <div
-          className="modal-content"
+          className="modal-content-message"
           style={{
             boxShadow: "rgba(0, 0, 0, 0.6) 0px 10px 30px 0px",
 
@@ -30,9 +28,7 @@ const ModalNewMessage: React.FC<{
           }}
         >
           <div className=" flex items-center mb-5 pb-5 border-b border-custom-grey w-full">
-            <h3 className="font-semibold text-2xl">
-              Envio masivo de mensajes
-            </h3>
+            <h3 className="font-semibold text-2xl">Envio masivo de mensajes</h3>
           </div>
           <button
             onClick={(e) => {
@@ -45,9 +41,7 @@ const ModalNewMessage: React.FC<{
             <IoMdClose />
           </button>
           <div>
-         
-
-            <FormNewMessage setViewModalMessage={setViewModalMessage}/> 
+            <FormNewMessage setViewModalMessage={setViewModalMessage} />
           </div>
         </div>
       </div>

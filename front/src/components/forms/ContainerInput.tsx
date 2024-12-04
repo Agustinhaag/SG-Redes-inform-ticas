@@ -37,7 +37,7 @@ const ContainerInput: React.FC<InputProps> = ({
             (formikProps.errors[nombre] && formikProps.touched[nombre]) || error
               ? "error"
               : ""
-          } input`}
+          } input ${textarea && "resize-none min-h-52"}`}
           placeholder=" "
         />
         <label
@@ -46,7 +46,7 @@ const ContainerInput: React.FC<InputProps> = ({
             (formikProps.errors[nombre] && formikProps.touched[nombre]) || error
               ? "errorLabel"
               : ""
-          } label`}
+          } label ${textarea && "text-gray-400"}`}
           style={{
             top: "50%",
             transform: "translateY(-50%)",

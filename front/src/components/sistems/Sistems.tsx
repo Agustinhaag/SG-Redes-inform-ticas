@@ -7,15 +7,26 @@ import { logoutSistem } from "@/redux/userSlice";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Spinner from "../spinner/Spinner";
 
 const Sistems: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-const tokenIspCube: string | undefined = useSelector(
-  (state: any) => state.user?.tokenIspCube
-);
 
+  // Estado para determinar si hay un token
+  const [isReady, setIsReady] = useState(false); 
+  const [hasToken, setHasToken] = useState(false);
 
+  const tokenIspCube: string | undefined = useSelector(
+    (state: any) => state.user?.tokenIspCube
+  );
+
+  useEffect(() => {
+    const clientToken = Cookies.get("tokenIspCube");
+    setHasToken(!!clientToken || !!tokenIspCube);
+    setIsReady(true); // Marca que el cliente está listo
+  }, [tokenIspCube]);
 
   const changeSistem = () => {
     Swal.fire({
@@ -46,9 +57,13 @@ const tokenIspCube: string | undefined = useSelector(
     });
   };
 
+  if (!isReady) {
+    return <Spinner title="Cargando"/>;
+  }
+
   return (
     <main className="text-custom-white">
-      {tokenIspCube || Cookies.get("tokenIspCube") ? (
+      {hasToken ? (
         <section>
           <h1>Ya ha seleccionado un sistema para operar</h1>
           <Link href={PATHROUTES.LANDING}>Volver</Link>

@@ -10,10 +10,11 @@ const FilterOfNodo: React.FC<{
     status: string[];
     debt: string[];
     plan_name: any[];
+    
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
   return (
-    <div className="relative w-full flex flex-col">
+    <div className="relative w-1/2 flex flex-col">
       <span className="text-custom-white text-sm">Nodos</span>
 
       <div className="flex items-center">
@@ -33,7 +34,7 @@ const FilterOfNodo: React.FC<{
               !formikProps.values.filters.showNodeDropdown
             )
           }
-          className="ml-2 bg-custom-red text-white p-2 rounded"
+          className="ml-2 bg-custom-red text-white py-2 px-3 rounded bg-black hover:bg-neutral-950"
         >
           {formikProps.values.filters.showNodeDropdown ? "▲" : "▼"}
         </button>

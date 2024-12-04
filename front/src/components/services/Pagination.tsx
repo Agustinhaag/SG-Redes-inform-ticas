@@ -27,11 +27,11 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <nav
       aria-label="Page navigation example"
-      className="w-11/12 mx-auto flex justify-between mb-3"
+      className="w-full  flex justify-between my-3 text-gray-400"
     >
       <button
         onClick={onPreviusPage}
-             type="button"
+        type="button"
         disabled={currentPage === 1 ? true : false}
         className={`flex items-center sm:text-base text-xs justify-center border px-3 sm:py-1.5 rounded sm:w-24 w-[70px] text-black  hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all ${
           currentPage === 1
@@ -41,11 +41,11 @@ const Pagination: React.FC<PaginationProps> = ({
       >
         Anterior
       </button>
-      <ul className="flex gap-2 bg-transparent text-black">
+      <ul className="flex gap-2 bg-transparent ">
         {pageNumbers.map((page: number) => (
           <li key={page}>
             <button
-            type="button"
+              type="button"
               className={`flex items-center sm:text-base text-xs justify-center border sm:px-3 w-9 py-1 rounded hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all ${
                 currentPage === page
                   ? "border-custom-blue bg-custom-blue text-custom-white"
@@ -61,9 +61,9 @@ const Pagination: React.FC<PaginationProps> = ({
 
       <button
         onClick={onNextPage}
-             type="button"
+        type="button"
         disabled={currentPage >= pageNumbers.length ? true : false}
-        className={`flex items-center sm:text-base text-xs justify-center border px-3 sm:py-1.5 rounded sm:w-24 w-[70px] text-black  hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all  ${
+        className={`flex items-center sm:text-base text-xs justify-center border px-3 sm:py-1.5 rounded sm:w-24 w-[70px]   hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all  ${
           currentPage >= pageNumbers.length
             ? "text-gray-400 hover:bg-inherit hover:border-inherit hover:text-gray-400 "
             : ""

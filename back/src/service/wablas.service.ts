@@ -1,20 +1,47 @@
-import { APIKEY_WABLAS, URL_WABLAS } from "../config/envs";
+import { userModel } from "../config/dataSource";
+import { URL_WABLAS } from "../config/envs";
+import { decrypt } from "../helpers/hashPropsHeader";
 import { ClientError } from "../utils/errors";
 
-export const fetchMessages = async () => {
+const hashRevertToken = async (userId: number) => {
   try {
-    const response = await fetch(`${URL_WABLAS}/report-realtime`, {
-      headers: { Authorization: APIKEY_WABLAS },
-    });
-    const data = await response.json();
-    return data;
+    const user = await userModel.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new ClientError("Usuario no encontrado", 404);
+    }
+    if (!user.tokenwablas) {
+      throw new ClientError("No posee un token almacenado", 400);
+    } else {
+      const token = decrypt(user.tokenwablas);
+      return token;
+    }
+  } catch (error) {
+    throw new ClientError("Error al decifrar el token", 500);
+  }
+};
+
+export const fetchMessages = async (userId: number) => {
+  try {
+    const token = await hashRevertToken(userId);
+    if (token) {
+      const response = await fetch(`${URL_WABLAS}/report-realtime`, {
+        headers: { Authorization: token },
+      });
+      const data = await response.json();
+      return data;
+    }
   } catch (error) {
     console.log(error);
     throw new ClientError("Error al obtener los mensajes", 500);
   }
 };
 
-export const sendMessages = async (message: string, phones: string[]) => {
+export const sendMessages = async (
+  message: string,
+  phones: string[],
+  userId: number
+) => {
   try {
     const validPhones = phones.filter(
       (phone) => phone !== undefined && phone !== "undefined"
@@ -32,16 +59,16 @@ export const sendMessages = async (message: string, phones: string[]) => {
       message: message,
     };
     const urlEncodedData = new URLSearchParams(dataSend).toString();
+    const token = await hashRevertToken(userId);
     const response = await fetch(`${URL_WABLAS}/send-message`, {
       method: "POST",
       headers: {
-        Authorization: APIKEY_WABLAS,
+        Authorization: token,
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: urlEncodedData,
     });
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -49,9 +76,10 @@ export const sendMessages = async (message: string, phones: string[]) => {
   }
 };
 
-export const fetchQrCode = () => {
+export const fetchQrCode = async (userId: number) => {
   try {
-    const urlQr = `${URL_WABLAS}/device/scan?token=${APIKEY_WABLAS}`;
+    const token = await hashRevertToken(userId);
+    const urlQr = `${URL_WABLAS}/device/scan?token=${token}`;
     return urlQr;
   } catch (error) {
     console.log(error);

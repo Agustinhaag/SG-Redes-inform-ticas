@@ -48,13 +48,13 @@ export class User {
   @Column({
     nullable: true,
   })
-  tokenWablas: string;
+  tokenwablas: string;
 
   @OneToOne(() => Credential)
   @JoinColumn()
   credential: Credential;
 
-  @OneToOne(() => IspCubeUser, { nullable: true, cascade: true }) // Relación con ISP Cube User
+  @OneToOne(() => IspCubeUser, { nullable: true, cascade: true })
   @JoinColumn()
   ispCubeUser: IspCubeUser | null;
 }

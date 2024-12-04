@@ -35,6 +35,7 @@ const RegisterForm: React.FC = () => {
         throw new Error("Error al crear un usuario");
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
       setError("Error al registrar un usuario. Inténtelo nuevamente.");
     } finally {

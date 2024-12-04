@@ -41,7 +41,8 @@ export const handleSubmitIpsCube = async (
   token: string,
   email: string,
   url: string,
-  values: IUserIspCube
+  values: IUserIspCube,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   try {
     const body = {
@@ -75,5 +76,7 @@ export const handleSubmitIpsCube = async (
   } catch (error: any) {
     console.error("Error en handleSubmitIspCube:", error.message);
     setError(error.message || "Error al ingresar a ISPCube");
+  } finally {
+    setLoading(false);
   }
 };

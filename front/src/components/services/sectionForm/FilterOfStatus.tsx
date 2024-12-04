@@ -32,11 +32,11 @@ const FilterOfStatus: React.FC<{
   };
 
   return (
-    <div>
-      <label>Estado:</label>
-      <div className="flex flex-col gap-2">
+    <div className='w-1/2  text-custom-white '>
+      <label className='text-sm'>Estado:</label>
+      <div className="flex gap-4">
         {uniqueStatuses.map((status) => (
-          <div key={status} className="flex items-center">
+          <div key={status} className="flex items-center gap-1">
             <input
               type="checkbox"
               id={`status-${status}`}
@@ -46,7 +46,7 @@ const FilterOfStatus: React.FC<{
               )}
               onChange={() => handleStatusChange(status)}
             />
-            <label htmlFor={`status-${status}`} className="ml-2">
+            <label htmlFor={`status-${status}`} className="text-neutral-300">
               {status}
             </label>
           </div>

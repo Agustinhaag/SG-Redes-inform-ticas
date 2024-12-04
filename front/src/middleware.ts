@@ -48,5 +48,11 @@ export const middleware = async (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/services", "/dashboard", "/sistems"], //rutas protegidas
+  matcher: [
+    "/services",
+    "/dashboard",
+    "/sistems",
+    "/dashboard/user",
+    "/dashboard/admin",
+  ], 
 };

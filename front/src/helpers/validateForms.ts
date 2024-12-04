@@ -86,7 +86,9 @@ export const validatePassword = (
   return errors;
 };
 
-export const validateLoginIspCube = (input: FormikValues): Partial<FormikValues> => {
+export const validateLoginIspCube = (
+  input: FormikValues
+): Partial<FormikValues> => {
   const errors: Partial<FormikValues> = {};
 
   if (!input.username) {
@@ -101,17 +103,30 @@ export const validateLoginIspCube = (input: FormikValues): Partial<FormikValues>
   if (!input.passwordIspCube) {
     errors.passwordIspCube = "La contraseña es requerida";
   }
- 
+
   return errors;
 };
 
-export const validateSendMessage = (input: FormikValues): Partial<FormikValues> => {
+export const validateSendMessage = (
+  input: FormikValues
+): Partial<FormikValues> => {
   const errors: Partial<FormikValues> = {};
 
- 
   if (!input.message) {
     errors.message = "El mensaje es requerido";
   }
- 
+
+  return errors;
+};
+
+export const validateNewToken = (
+  input: FormikValues
+): Partial<FormikValues> => {
+  const errors: Partial<FormikValues> = {};
+
+  if (!input.apikey) {
+    errors.apikey = "La Api-Key es requerido";
+  }
+
   return errors;
 };

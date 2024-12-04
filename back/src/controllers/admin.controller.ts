@@ -1,5 +1,6 @@
 import { User } from "../entities/User";
 import {
+  addNewToken,
   findAllUsers,
   toggleUserStatusService,
 } from "../service/admin.service";
@@ -24,6 +25,21 @@ export const toggleStatusUser = catchedController(
 
     res.status(200).json({
       message: `Estado del usuario actualizado a: ${newStatus}`,
+    });
+  }
+);
+
+export const addToken = catchedController(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { token } = req.body;
+    const userId = parseInt(id);
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: "ID de usuario inválido" });
+    }
+    await addNewToken(userId, token);
+    res.status(200).json({
+      message: "Se ha añadido el token correctamente",
     });
   }
 );

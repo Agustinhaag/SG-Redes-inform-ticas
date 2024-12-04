@@ -12,11 +12,11 @@ const FilterOfPay:React.FC<{
   }) => void;
   }> = ({formikProps, handleFilter })=> {
   return (
-    <div>
-    <label>Deuda:</label>
-    <div className="flex flex-col">
+    <div className='w-1/2 text-custom-white'>
+    <label className='text-sm'>Deuda:</label>
+    <div className="flex gap-4">
       {["positive", "negative", "zero"].map((debtType) => (
-        <label key={debtType} className="flex items-center gap-2">
+        <label key={debtType} className="flex items-center gap-1 text-neutral-300">
           <input
             type="checkbox"
             name="filters.debt"

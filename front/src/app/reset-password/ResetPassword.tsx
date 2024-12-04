@@ -27,7 +27,7 @@ const ResetPassword: React.FC = () => {
             new TextEncoder().encode(secret)
           );
           setStatusToken(true);
-        } catch (error: any) {
+        } catch (error:any) {
           if (error.message.includes('"exp" claim timestamp check failed')) {
             setStatusToken(false);
             console.log("El token expiro");

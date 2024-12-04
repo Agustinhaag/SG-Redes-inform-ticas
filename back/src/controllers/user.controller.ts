@@ -11,13 +11,14 @@ import { User } from "../entities/User";
 
 export const userRegister = catchedController(
   async (req: Request, res: Response) => {
-    const { email, password, name, surname, phone } = req.body;
+    const { email, password, name, surname, phone, role } = req.body;
     const newUser = await registerUserService({
       email,
       password,
       name,
       surname,
       phone,
+      role,
     });
     res.status(201).send({ register: true });
   }

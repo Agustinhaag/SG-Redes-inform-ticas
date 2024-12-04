@@ -48,6 +48,7 @@ const LoginForm: React.FC = () => {
         router.push(PATHROUTES.SISTEMS);
       }
     } catch (error: any) {
+      setLoading(false);
       console.log(error.message);
       setError(
         error.message || "Error al iniciar sesión. Inténtelo nuevamente."

@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../styles/forms.css";
 import { setTokenIspCube } from "@/redux/userSlice";
 import PATHROUTES from "@/helpers/PathRoutes";
-import { fetchUsersIspCube } from "@/helpers/ispCubeActions";
 import { AppDispatch } from "@/redux/store";
 
 const FormLoginSistem: React.FC<{
@@ -37,21 +36,14 @@ const FormLoginSistem: React.FC<{
         token!,
         dataUser.email,
         url!,
-        values
+        values,
+        setLoading
       );
       if (response?.response.ok) {
         dispatch(setTokenIspCube(response.data.token.token));
-        dispatch(
-          fetchUsersIspCube(
-            url!,
-            dataUser && dataUser.email,
-            token!,
-            response.data.token.token!
-          )
-        );
         setLoading(false);
         setViewModalSistem(false);
-        if (tokenIspCube) router.push(`${PATHROUTES.SERVICES}`);
+        router.push(`${PATHROUTES.SERVICES}`);
       }
     } catch (error) {
       console.log(error);
