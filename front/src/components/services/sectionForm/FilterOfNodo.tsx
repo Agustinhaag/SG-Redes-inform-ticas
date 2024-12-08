@@ -14,7 +14,7 @@ const FilterOfNodo: React.FC<{
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
   return (
-    <div className="relative w-1/2 flex flex-col">
+    <div className="relative sm:w-1/2 w-full flex flex-col">
       <span className="text-custom-white text-sm">Nodos</span>
 
       <div className="flex items-center">

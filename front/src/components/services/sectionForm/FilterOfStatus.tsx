@@ -1,6 +1,6 @@
-import { FormValues } from '@/helpers/types';
-import { FormikProps } from 'formik';
-import React from 'react';
+import { FormValues } from "@/helpers/types";
+import { FormikProps } from "formik";
+import React from "react";
 
 const FilterOfStatus: React.FC<{
   users: any[];
@@ -13,7 +13,9 @@ const FilterOfStatus: React.FC<{
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
   // Obtener los estados únicos
-  const uniqueStatuses = [...new Set(users.map((user) => user.status))];
+  const uniqueStatuses = [
+    ...new Set(users && users.map((user) => user.status)),
+  ];
 
   // Manejar cambios en los checkboxes
   const handleStatusChange = (status: string) => {
@@ -32,9 +34,9 @@ const FilterOfStatus: React.FC<{
   };
 
   return (
-    <div className='w-1/2  text-custom-white '>
-      <label className='text-sm'>Estado:</label>
-      <div className="flex gap-4">
+    <div className="sm:w-1/2 w-full text-custom-white ">
+      <label className="text-sm">Estado:</label>
+      <div className="flex flex-wrap gap-4">
         {uniqueStatuses.map((status) => (
           <div key={status} className="flex items-center gap-1">
             <input

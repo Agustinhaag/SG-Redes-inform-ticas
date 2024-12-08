@@ -24,7 +24,7 @@ const AdminFunctions: React.FC = () => {
   return (
     <div className="text-custom-white">
       <h2 className="text-xl mb-3">Lista de usuarios</h2>
-      {users.length > 0 ? (
+      {users && users.length > 0 ? (
         <div className="flex flex-col gap-2 mb-2">
           {users.map((user) => (
             <CardUsers user={user} key={user.id} />

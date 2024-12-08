@@ -10,11 +10,21 @@ const CardUsers: React.FC<{ user: IUser }> = ({ user }) => {
   const token: string = useSelector((state: any) => state.user.token);
   const [viewModalToken, setViewModalToken] = useState<boolean>(false);
   return (
-    <div className="flex lg:gap-5 md:gap-3 gap-2 items-center px-3 py-6 bg-black bg-opacity-50 rounded ">
+    <div
+      className={`flex lg:gap-5 md:gap-3 ${
+        user.tokenwablas ? "sm:gap-12 gap-7" : "gap-2"
+      } items-center px-3 py-6 bg-black bg-opacity-50 rounded `}
+    >
       <p className="sm:block hidden text-2xl">
         <RiShieldUserFill />
       </p>
-      <div className="flex gap-4 medium-xs:flex-row flex-col">
+      <div
+        className={`flex ${
+          user.tokenwablas
+            ? "sm:gap-12 medium-xs:gap-7 gap-4 medium-xs:w-auto w-3/4"
+            : "gap-4 "
+        } medium-xs:flex-row flex-col`}
+      >
         <p className="flex gap-1">
           <span className="capitalize">{user.name}</span>
           <span className="capitalize">{user.surname}</span>
@@ -33,7 +43,7 @@ const CardUsers: React.FC<{ user: IUser }> = ({ user }) => {
         </p>
       </div>
 
-      <div className="flex gap-8 medium-xs:flex-row flex-col ">
+      <div className={`flex gap-8 medium-xs:flex-row flex-col `}>
         <button
           className={`rounded-md p-2 text-custom-white ${
             user.status !== "active"

@@ -15,7 +15,6 @@ export const fetchInfoMessages = catchedController(
       return res.status(400).json({ error: "ID de usuario inválido" });
     }
     const messages = await fetchMessages(userId);
-    console.log(messages);
     res.status(201).send(messages);
   }
 );

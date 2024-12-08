@@ -63,7 +63,7 @@ const ManualSelection: React.FC<{
               <div className="w-full mb-4">
                 <h3 className="font-semibold">Selección Manual</h3>
 
-                <div className=" max-h-40 w-full flex flex-wrap">
+                <div className=" sm:max-h-40  w-full grid sm:grid-cols-2 grid-cols-1">
                   {filteredUsers.slice(firstIndex, lastIndex).map((user) => {
                     const phone = user.phones[0]?.number;
                     const uniqueKey = `${user.id}-${phone}`;
@@ -71,26 +71,24 @@ const ManualSelection: React.FC<{
                     return (
                       <div
                         key={uniqueKey}
-                        className="flex items-center gap-2 w-1/2"
+                        className="flex  items-center gap-2  w-full"
                       >
                         <input
                           type="checkbox"
                           checked={manualSelection.includes(uniqueKey)}
                           onChange={() => toggleManualSelection(uniqueKey)}
                         />
-                        <span>
-                          {user.name}
-                        </span>
+                        <span>{user.name}</span>
                       </div>
                     );
                   })}
-                  <Pagination
-                    productsPage={productsPage}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    totalProducts={totalProducts}
-                  />
                 </div>
+                <Pagination
+                  productsPage={productsPage}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  totalProducts={totalProducts}
+                />
               </div>
             </>
           ) : (

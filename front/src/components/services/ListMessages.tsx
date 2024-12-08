@@ -67,21 +67,22 @@ const ListMessages: React.FC = () => {
   }, [dataUser, token, tokenIspCube, url]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <h2 className="text-xl mb-3">Mensajes enviados</h2>
-      <div className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {isLoading ? (
-          <div className="flex justify-center w-full">
-            <Spinner title="Cargando usuarios" />
-          </div>
-        ) : messages && messages.length > 0 ? (
-          messages.map((message: IMessageUser) => (
+
+      {isLoading ? (
+        <div className="flex justify-center w-full">
+          <Spinner title="Cargando usuarios" />
+        </div>
+      ) : messages && messages.length > 0 ? (
+        messages.map((message: IMessageUser) => (
+          <div className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             <CardMessages message={message} key={message.id} />
-          ))
-        ) : (
-          <p style={{ color: "#52525B" }}>No se encontraron mensajes.</p>
-        )}
-      </div>
+          </div>
+        ))
+      ) : (
+        <p style={{ color: "#52525B" }}>No se encontraron mensajes.</p>
+      )}
     </div>
   );
 };

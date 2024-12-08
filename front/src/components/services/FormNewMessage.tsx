@@ -147,7 +147,7 @@ const FormNewMessage: React.FC<{
         <Form className="flex flex-col items-start text-black">
           <div className="w-full flex flex-col gap-5 mb-4">
             {/* Filtro por nodo */}
-            <div className="flex gap-5">
+            <div className="flex sm:flex-row flex-col gap-5">
               <FilterOfNodo
                 formikProps={formikProps}
                 handleFilter={handleFilter}
@@ -159,7 +159,7 @@ const FormNewMessage: React.FC<{
                 users={users}
               />
             </div>
-            <div className="flex gap-5">
+            <div className="flex sm:flex-row flex-col gap-5">
               <FilterOfPlan
                 formikProps={formikProps}
                 handleFilter={handleFilter}
@@ -187,7 +187,7 @@ const FormNewMessage: React.FC<{
             <div className="text-[#ff0000]">{formikProps.errors.addressee}</div>
           )}
 
-          <div className="variable-list flex gap-2 my-3 justify-start w-full">
+          <div className="variable-list flex gap-2 my-3 justify-start w-full flex-wrap">
             {userVariables.map((variable) => (
               <button
                 key={variable.key}
@@ -204,7 +204,7 @@ const FormNewMessage: React.FC<{
               </button>
             ))}
           </div>
-          <div className="w-4/5">
+          <div className="sm:w-4/5 w-full">
             <ContainerInput
               error={error}
               formikProps={formikProps}
