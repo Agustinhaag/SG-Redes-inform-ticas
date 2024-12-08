@@ -12,6 +12,7 @@ const ContainerInput: React.FC<InputProps> = ({
   error,
   textarea = false,
   recoveryPass = false,
+  contact = false,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [viewResetPassword, setViewResetPassword] = useState<boolean>(false);
@@ -37,18 +38,23 @@ const ContainerInput: React.FC<InputProps> = ({
             (formikProps.errors[nombre] && formikProps.touched[nombre]) || error
               ? "error"
               : ""
-          } input ${textarea && "resize-none min-h-52"}`}
+          } ${contact ? "input-contact" : "input"}  ${
+            textarea && "resize-none min-h-52"
+          }`}
           placeholder=" "
         />
         <label
           htmlFor={nombre}
-          className={`${
-            (formikProps.errors[nombre] && formikProps.touched[nombre]) || error
-              ? "errorLabel"
-              : ""
-          } label ${textarea && "text-gray-400"}`}
+          className={`label 
+            ${
+              (formikProps.errors[nombre] && formikProps.touched[nombre]) ||
+              error
+                ? "errorLabel"
+                : ""
+            } 
+            ${textarea ? (contact ? "text-black" : "text-gray-400") : ""}`}
           style={{
-            top: "50%",
+            top: textarea ? "20%": "50%",
             transform: "translateY(-50%)",
             transition: ".4s",
           }}

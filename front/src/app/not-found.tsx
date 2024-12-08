@@ -17,7 +17,7 @@ export const NotFoundPage: React.FC = () => {
   }, [count]);
 
   return (
-    <main className="flex md:pt-10 pt-24 md:flex-row flex-col w-full h-full bg-custom-white items-center justify-between px-5">
+    <main className="flex md:pt-10 pt-24 md:flex-row flex-col w-full h-full  items-center justify-between px-5">
       <div className="flex flex-col md:pl-2 justify-center w-full md:w-2/4 pt-2 md:items-start items-center">
         <h1 className="font-semibold text-6xl md:text-8xl mb-4">¡Oops!</h1>
         <p className="text-2xl mt-3 mb-5">

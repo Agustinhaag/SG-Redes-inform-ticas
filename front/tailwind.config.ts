@@ -14,6 +14,10 @@ export default {
         "custom-blue": "#4285F4",
         "custom-white": "#F6F6F6",
       },
+      screens: {
+        "xs": '420px', 
+       "medium-xs":"500px"
+      },
     },
   },
   plugins: [], 

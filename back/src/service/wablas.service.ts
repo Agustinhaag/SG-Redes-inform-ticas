@@ -26,7 +26,10 @@ export const fetchMessages = async (userId: number) => {
     const token = await hashRevertToken(userId);
     if (token) {
       const response = await fetch(`${URL_WABLAS}/report-realtime`, {
-        headers: { Authorization: token },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:`${token}`,
+        },
       });
       const data = await response.json();
       return data;
@@ -79,8 +82,10 @@ export const sendMessages = async (
 export const fetchQrCode = async (userId: number) => {
   try {
     const token = await hashRevertToken(userId);
-    const urlQr = `${URL_WABLAS}/device/scan?token=${token}`;
-    return urlQr;
+    if(token){
+      const urlQr = `${URL_WABLAS}/device/scan?token=${token}`;
+      return urlQr;
+    }
   } catch (error) {
     console.log(error);
     throw new ClientError("Error al generar QR");

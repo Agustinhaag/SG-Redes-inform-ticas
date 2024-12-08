@@ -21,7 +21,7 @@ const ModalSelectSistem: React.FC<{
     >
       <div ref={nodeRef} className="modal-overlay  z-50">
         <div
-          className="modal-content"
+          className="modal-content-sistem"
           style={{
             boxShadow: "rgba(0, 0, 0, 0.6) 0px 10px 30px 0px",
 

@@ -48,6 +48,7 @@ export interface InputProps {
   error?: string | null;
   textarea?: boolean;
   recoveryPass?: boolean;
+  contact?:boolean;
 }
 
 export interface IUserIspCube {

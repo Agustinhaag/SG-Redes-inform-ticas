@@ -101,7 +101,7 @@ export const addToken = async (
         icon: "success",
       });
     }
-    return data
+    return data;
   } catch (error: any) {
     console.log(error);
     setError(error);

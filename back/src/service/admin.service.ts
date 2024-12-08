@@ -23,6 +23,7 @@ export const toggleUserStatusService = async (
 
     return user.status;
   } catch (error) {
+    console.log(error);
     throw new ClientError("No se pudo modificar el estado del usuario", 500);
   }
 };

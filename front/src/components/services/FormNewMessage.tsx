@@ -187,7 +187,7 @@ const FormNewMessage: React.FC<{
             <div className="text-[#ff0000]">{formikProps.errors.addressee}</div>
           )}
 
-          <div className="variable-list flex gap-2 my-3 justify-end w-full">
+          <div className="variable-list flex gap-2 my-3 justify-start w-full">
             {userVariables.map((variable) => (
               <button
                 key={variable.key}

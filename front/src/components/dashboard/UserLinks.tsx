@@ -107,7 +107,7 @@ const UserLinks: React.FC = () => {
         <>
           <button
             onClick={handleLogout}
-            className="border md:w-1/2 w-1/5 md:h-auto h-12 flex gap-1 items-center text-sm border-custom-red py-2 px-3 text-center min-w-36 rounded-md bg-transparent text-custom-white hover:bg-custom-red hover:cursor-pointer"
+            className="border md:w-1/2 w-1/5 md:h-auto h-12 flex gap-1 items-center text-sm border-custom-blue py-2 px-3 text-center min-w-36 rounded-md bg-transparent text-custom-white hover:bg-custom-blue hover:cursor-pointer"
           >
             <span className="text-xl">
               <MdLogout />

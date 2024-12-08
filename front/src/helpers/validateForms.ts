@@ -130,3 +130,22 @@ export const validateNewToken = (
 
   return errors;
 };
+
+export const validateContact = (input: FormikValues): Partial<FormikValues> => {
+  const errors: Partial<FormikValues> = {};
+  const emailRegex: RegExp = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/;
+
+  if (!input.email) {
+    errors.email = "El email es requerido";
+  }
+  if (input.email && !emailRegex.test(input.email)) {
+    errors.email = "El email es inválido";
+  }
+  if (!input.name) {
+    errors.name = "El nombre es requerido";
+  }
+  if (!input.message) {
+    errors.message = "El mensaje es requerido";
+  }
+  return errors;
+};

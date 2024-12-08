@@ -17,7 +17,7 @@ const fetchSendMessage = async (
       },
       body: JSON.stringify({
         message,
-        phones: ["5493548604817"],
+        phones,
         id,
       }),
     });
@@ -61,7 +61,7 @@ export const validateSendAll = async (
       text: "No se encontraron usuarios para enviar los mensajes.",
       icon: "info",
     });
-    setLoading(false); 
+    setLoading(false);
     return;
   }
   let recipients: string[] = [];
@@ -153,6 +153,52 @@ export const fetchAllMessages = async (
     const data = await response.json();
     return data;
   } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchScanQrCode = async (
+  url: string,
+  token: string,
+  id: number,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  try {
+    setLoading(true);
+    const result = await Swal.fire({
+      title: "¿Generar código QR?",
+      text: "Generará un código QR para vincular dispositivos.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, generar.",
+      cancelButtonText: "Cancelar",
+    });
+    if (!result.isConfirmed) {
+      Swal.fire({
+        title: "Operación cancelada",
+        text: "Puede intentarlo nuevamente si lo desea.",
+        icon: "info",
+      });
+      setLoading(false);
+      return false;
+    }
+    const response = await fetch(`${url}/wablas/scanqr`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `${token}`,
+      },
+      body: JSON.stringify({ id }),
+    });
+    const data = await response.json();
+    if (data) {
+      setLoading(false);
+      window.location.href = data;
+    }
+  } catch (error) {
+    setLoading(false);
     console.log(error);
   }
 };

@@ -34,19 +34,19 @@ const Footer: React.FC = () => {
               <span>
                 <FaPhoneAlt className="text-custom-blue" />
               </span>
-              (506) 7095-9924
+              5493435066999
             </p>
             <p className="flex gap-1 items-center">
               <span>
                 <FaWhatsapp className="text-custom-blue" />
               </span>
-              (506) 7095-9924
+              5493435066999
             </p>
             <p className="flex gap-1 items-center">
               <span>
                 <MdEmail className="text-custom-blue" />
               </span>
-              info@garage.com
+              contacto@sgredesinformaticas.com.ar
             </p>
           </div>
         </div>

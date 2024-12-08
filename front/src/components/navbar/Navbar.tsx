@@ -4,9 +4,8 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import SubNav from "./SubNav";
-import { FaRegCircleUser } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import Cookies from "js-cookie";
+
 import PATHROUTES from "@/helpers/PathRoutes";
 import { IUser } from "@/helpers/types";
 import ButtonUser from "./ButtonUser";
@@ -14,9 +13,7 @@ import ButtonUser from "./ButtonUser";
 const Navbar: React.FC = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const dataUser: IUser = useSelector((state: any) => state.user.user);
-  const token = Cookies.get("token");
-  const menuRef = useRef<HTMLDivElement>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const token: string = useSelector((state: any) => state.user.token);
 
   useEffect(() => {
     const menu: HTMLElement | null = document.getElementById("menu");
@@ -63,18 +60,6 @@ const Navbar: React.FC = () => {
     };
   }, [token]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
     <header
       ref={headerRef}
@@ -101,23 +86,18 @@ const Navbar: React.FC = () => {
           <RxHamburgerMenu />
         </span>
         {token && dataUser ? (
-          <ButtonUser
-            isMenuOpen={isMenuOpen}
-            menuRef={menuRef}
-            setIsMenuOpen={setIsMenuOpen}
-            dataUser={dataUser}
-          />
+          <ButtonUser dataUser={dataUser} />
         ) : (
           <div className="md:flex hidden sm:gap-4 sm:text-lg text-sm gap-2 sm:flex-row flex-col text-custom-white">
             <Link
               href={PATHROUTES.LOGIN}
-              className="text-custom-white bg-custom-blue py-1 px-3 rounded w-24 text-center hover:bg-blue-700"
+              className="enlaces text-custom-white bg-custom-blue py-1 px-3 rounded w-24 text-center hover:bg-blue-700"
             >
               Acceder
             </Link>
             <Link
               href={PATHROUTES.REGISTER}
-              className="text-sky-900 bg-custom-white py-1 px-3 w-24 rounded-md border hover:text-custom-white hover:bg-transparent hover:border-custom-white"
+              className="enlaces text-sky-900 bg-custom-white py-1 px-3 w-24 rounded-md border hover:text-custom-white hover:bg-transparent hover:border-custom-white"
             >
               Registro
             </Link>

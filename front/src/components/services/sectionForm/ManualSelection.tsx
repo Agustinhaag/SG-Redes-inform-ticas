@@ -79,7 +79,7 @@ const ManualSelection: React.FC<{
                           onChange={() => toggleManualSelection(uniqueKey)}
                         />
                         <span>
-                          {user.name} - {phone}
+                          {user.name}
                         </span>
                       </div>
                     );

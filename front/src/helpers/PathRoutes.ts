@@ -3,9 +3,9 @@ enum PATHROUTES {
   LANDING = "/",
   LOGIN = "/login",
   REGISTER = "/register",
-  CONTACT = "/contacto",
+  CONTACT = "/contact",
   SERVICES = "/services",
-  SISTEMS = "/sistems"
+  SISTEMS = "/sistems",
 }
 
 export default PATHROUTES;
