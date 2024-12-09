@@ -10,9 +10,9 @@ export const NotFoundPage: React.FC = () => {
       setCount(count - 1);
     }, 1000);
 
-    // if (count === 0) {
-    //   redirect("/");
-    // }
+    if (count === 0) {
+      redirect("/");
+    }
     return () => clearInterval(interval);
   }, [count]);
 
