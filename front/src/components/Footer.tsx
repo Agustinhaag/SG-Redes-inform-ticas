@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
           <Image
             loading="lazy"
             src="/files/SG-FB-logo.png"
-            alt="Garagejs"
+            alt="SG-Redes informáticas"
             width={80}
             height={80}
             className="sm:w-[70px] w-14"
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
               <span>
                 <FaWhatsapp className="text-custom-blue" />
               </span>
-              5493435066999
+              3435066999
             </p>
             <p className="flex gap-1 items-center">
               <span>
@@ -51,30 +51,22 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-col  items-center gap-5">
-          <Link href={"https://x.com/"} className="text-2xl">
+          <Link href={"https://x.com"} className="text-2xl">
             <FaSquareXTwitter className="text-custom-blue" />
           </Link>
-          <Link
-            href={
-              "https://www.linkedin.com/in/agustin-gerardo-haag-letterucci-8a6546225/"
-            }
-            className="text-2xl"
-          >
+          <Link href={"https://www.linkedin.com/in"} className="text-2xl">
             <FaLinkedin className="text-custom-blue" />
           </Link>
-          <Link href={"https://www.youtube.com/"} className="text-2xl">
+          <Link href={"https://www.youtube.com"} className="text-2xl">
             <FaYoutube className="text-custom-blue" />
           </Link>
-          <Link
-            href={"https://www.instagram.com/agushaag22/"}
-            className="text-2xl"
-          >
+          <Link href={"https://www.instagram.com"} className="text-2xl">
             <FaInstagram className="text-custom-blue" />
           </Link>
         </div>
       </div>
       <p className="text-center text-custom-grey">
-        &copy; 2024 GarageJS. Todos los derechos reservados.
+        &copy; 2024 SG-Redes informáticas. Todos los derechos reservados.
       </p>
     </footer>
   );

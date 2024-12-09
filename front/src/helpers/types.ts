@@ -48,7 +48,7 @@ export interface InputProps {
   error?: string | null;
   textarea?: boolean;
   recoveryPass?: boolean;
-  contact?:boolean;
+  contact?: boolean;
 }
 
 export interface IUserIspCube {
@@ -91,12 +91,11 @@ export interface IMessageUser {
 
 export interface RootState {
   user: {
-    user:IUser;
+    user: IUser;
     token: string;
-    tokenIspCube:string;
+    tokenIspCube: string;
     // Otras propiedades del usuario, si las hay
   };
-  
 }
 
 export interface SubNavProps {
@@ -108,4 +107,10 @@ export interface PageProps {
   params: {
     detail: string;
   };
+}
+
+export interface BannerProps {
+  img: string;
+  text: string;
+  title: string;
 }

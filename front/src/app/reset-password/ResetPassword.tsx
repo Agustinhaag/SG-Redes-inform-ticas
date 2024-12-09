@@ -48,12 +48,17 @@ const ResetPasswordContent: React.FC = () => {
       {statusToken ? (
         <FormResetPassword token={token} />
       ) : (
-        <div>
-          <h2>Lo sentimos, su enlace expiró</h2>
+        <div className="flex justify-center flex-col pl-3 pt-2 gap-3">
+          <h2 className="text-xl">Lo sentimos, su enlace expiró</h2>
           <p>
             Por favor, inicie nuevamente el restablecimiento de su contraseña
           </p>
-          <Link href={PATHROUTES.LOGIN}>Volver</Link>
+          <Link
+            href={PATHROUTES.LOGIN}
+            className="p-2 w-24 text-center hover:bg-custom-blue rounded-md bg-blue-600 "
+          >
+            Volver
+          </Link>
         </div>
       )}
     </main>

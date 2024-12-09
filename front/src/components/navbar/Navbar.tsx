@@ -68,7 +68,7 @@ const Navbar: React.FC = () => {
       <div className="pl-3 flex w-3/5 gap-4">
         <Image
           src={"/files/SG-FB-logo.png"}
-          alt="Garagejs"
+          alt="SG-Redes informáticas"
           width={40}
           height={10}
         />

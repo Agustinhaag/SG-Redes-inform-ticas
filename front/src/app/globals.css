@@ -9,9 +9,15 @@
 }
 
 main {
-  padding-top: 100px;
+  padding-top: 85px;
   height: 100%;
   min-height: 70vh;
+}
+
+@layer utilities {
+  .custom-button {
+    @apply bg-custom-blue text-white px-6 py-3 rounded-lg hover:bg-blue-700;
+  }
 }
 
 .switch {
@@ -57,6 +63,22 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(26px);
+}
+
+.container-proyect .proyecto {
+  min-width: 33.33%;
+  transition: 1s ease all;
+}
+.container-proyect .proyecto-banner {
+  min-width: 100%;
+  transition: 2s ease all;
+}
+.container-proyect-home .proyecto {
+  width: 33.33%;
+}
+.flecha-izquierda:hover,
+.flecha-derecha:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.863) !important;
 }
 
 @media (max-width: 768px) {
