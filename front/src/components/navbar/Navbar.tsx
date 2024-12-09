@@ -7,13 +7,13 @@ import SubNav from "./SubNav";
 import { useSelector } from "react-redux";
 
 import PATHROUTES from "@/helpers/PathRoutes";
-import { IUser } from "@/helpers/types";
+import { IUser, RootState } from "@/helpers/types";
 import ButtonUser from "./ButtonUser";
 
 const Navbar: React.FC = () => {
   const headerRef = useRef<HTMLDivElement>(null);
-  const dataUser: IUser = useSelector((state: any) => state.user.user);
-  const token: string = useSelector((state: any) => state.user.token);
+  const dataUser: IUser = useSelector((state: RootState) => state.user.user);
+  const token: string = useSelector((state: RootState) => state.user.token);
 
   useEffect(() => {
     const menu: HTMLElement | null = document.getElementById("menu");

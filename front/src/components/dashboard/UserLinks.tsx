@@ -11,7 +11,7 @@ import PATHROUTES from "@/helpers/PathRoutes";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { IUser } from "@/helpers/types";
+import { IUser, RootState } from "@/helpers/types";
 import { logout } from "@/redux/userSlice";
 
 const UserLinks: React.FC = () => {
@@ -19,9 +19,9 @@ const UserLinks: React.FC = () => {
   const dispatch = useDispatch();
   const pathName = usePathname();
   const tokenIspCube: string =
-    useSelector((state: any) => state.user.tokenIspCube) || "";
+    useSelector((state: RootState) => state.user.tokenIspCube) || "";
   const dataUser: IUser | null =
-    useSelector((state: any) => state.user.user) || null;
+    useSelector((state: RootState) => state.user.user) || null;
 
   const handleLogout = () => {
     Swal.fire({
@@ -33,7 +33,7 @@ const UserLinks: React.FC = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, cerrar sesión.",
       cancelButtonText: "Cancelar",
-    }).then((result: any) => {
+    }).then((result) => {
       if (result.isConfirmed) {
         dispatch(logout());
         router.push(PATHROUTES.LANDING);

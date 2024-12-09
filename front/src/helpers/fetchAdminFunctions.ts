@@ -35,8 +35,9 @@ export const activateUser = async (url: string, token: string, id: number) => {
         text: "Puede intentarlo nuevamente si lo desea.",
         icon: "info",
       });
-      return;
+      return false; 
     }
+
     const response = await fetch(`${url}/admin/toggle-status/${id}`, {
       method: "PUT",
       headers: {
@@ -44,18 +45,20 @@ export const activateUser = async (url: string, token: string, id: number) => {
         authorization: `${token}`,
       },
     });
+
     const data = await response.json();
     if (response.ok) {
-      await fetchAllUsers(url, token);
       Swal.fire({
         title: "¡Estado cambiado exitosamente!",
         text: `${data.message}`,
         icon: "success",
       });
+      return true; 
     }
   } catch (error) {
     console.log(error);
   }
+  return false; 
 };
 
 export const addToken = async (

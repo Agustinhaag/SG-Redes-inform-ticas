@@ -44,11 +44,11 @@ const ModalSelectSistem: React.FC<{
             <IoMdClose />
           </button>
           <div>
-            <h3 className="text-xl font-light">
+            <h3 className="text-xl font-light mb-4">
               Por favor ingrese sus credenciales
             </h3>
 
-            <FormLoginSistem setViewModalSistem={setViewModalSistem}/>
+            <FormLoginSistem setViewModalSistem={setViewModalSistem} />
           </div>
         </div>
       </div>

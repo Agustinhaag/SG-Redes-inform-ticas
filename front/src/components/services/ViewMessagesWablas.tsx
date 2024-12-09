@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import ModalNewMessage from "./ModalNewMessage";
 import ListMessages from "./ListMessages";
 import Cookies from "js-cookie";
-import { IUser } from "@/helpers/types";
+import { IUser, RootState } from "@/helpers/types";
 import { useSelector } from "react-redux";
 import { fetchScanQrCode } from "@/helpers/fetchSendMessage";
 import style from "../forms/button.module.css";
 const ViewMessagesWablas: React.FC = () => {
   const [viewModalMessage, setViewModalMessage] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const dataUser: IUser = useSelector((state: any) => state.user.user);
+  const dataUser: IUser = useSelector((state: RootState) => state.user.user);
   const url = process.env.NEXT_PUBLIC_URL;
   const token = Cookies.get("token");
   const toggleMenu = () => {

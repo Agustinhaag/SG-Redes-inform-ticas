@@ -88,3 +88,24 @@ export interface IMessageUser {
   type: string;
   userName: string;
 }
+
+export interface RootState {
+  user: {
+    user:IUser;
+    token: string;
+    tokenIspCube:string;
+    // Otras propiedades del usuario, si las hay
+  };
+  
+}
+
+export interface SubNavProps {
+  typeClass: boolean;
+  dataUser: IUser;
+}
+
+export interface PageProps {
+  params: {
+    detail: string;
+  };
+}

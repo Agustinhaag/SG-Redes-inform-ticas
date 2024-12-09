@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { fetchAllMessages } from "@/helpers/fetchSendMessage";
 import { useSelector } from "react-redux";
-import { IMessageUser, IUser } from "@/helpers/types";
+import { IMessageUser, IUser, RootState } from "@/helpers/types";
 import CardMessages from "./CardMessages";
 import { fetchAllUsersIspCube } from "@/helpers/fetchIspCube";
 import Spinner from "../spinner/Spinner";
@@ -12,7 +12,7 @@ const ListMessages: React.FC = () => {
   const [messages, setMessages] = useState<IMessageUser[] | undefined>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // Nuevo estado para el Spinner
-  const dataUser: IUser = useSelector((state: any) => state.user.user);
+  const dataUser: IUser = useSelector((state: RootState) => state.user.user);
   const tokenIspCube: string = useSelector(
     (state: any) => state.user.tokenIspCube
   );
@@ -76,8 +76,8 @@ const ListMessages: React.FC = () => {
         </div>
       ) : messages && messages.length > 0 ? (
         messages.map((message: IMessageUser) => (
-          <div className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            <CardMessages message={message} key={message.id} />
+          <div key={message.id}  className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            <CardMessages message={message} />
           </div>
         ))
       ) : (

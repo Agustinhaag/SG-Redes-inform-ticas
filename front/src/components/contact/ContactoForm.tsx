@@ -46,14 +46,14 @@ const ContactoForm: React.FC = () => {
             onSubmit={(values, { resetForm }) => {
               emailjs
                 .sendForm(serviceId!, templateId!, "#form", publicKey)
-                .then((res) => {
+                .then(() => {
                   Swal.fire({
                     title: "¡Mensaje enviado exitosamente!",
                     text: "Pronto recibira una respuesta de nuestro equipo",
                     icon: "success",
                   });
                 })
-                .then((res) => {
+                .then(() => {
                   resetForm();
                   setFormSubmit(true);
                 })

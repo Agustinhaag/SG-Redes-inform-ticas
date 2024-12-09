@@ -5,13 +5,14 @@ import PATHROUTES from "@/helpers/PathRoutes";
 import Link from "next/link";
 import React from "react";
 
-const Dashboard: React.FC<{ params: { detail: string } }> = ({ params }) => {
+
+const Dashboard: React.FC<any> = ({ params }) => {
   const { detail } = params;
 
   if (detail !== "user" && detail !== "admin") {
     return (
       <main>
-        Parametro invalido.
+        <p>Parámetro inválido.</p>
         <Link
           href={`${PATHROUTES.DASHBOARD}/user`}
           className="bg-custom-red rounded font-semibold py-2 px-6 hover:bg-red-600 text-custom-white"
@@ -21,6 +22,7 @@ const Dashboard: React.FC<{ params: { detail: string } }> = ({ params }) => {
       </main>
     );
   }
+
   return (
     <main className="flex h-full md:flex-row flex-col w-11/12 mx-auto">
       <UserLinks />

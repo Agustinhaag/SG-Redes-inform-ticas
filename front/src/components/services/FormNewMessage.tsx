@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import "../../styles/forms.css";
 import { useSelector } from "react-redux";
 import ManualSelection from "./sectionForm/ManualSelection";
-import { FormValues, IUser } from "@/helpers/types";
+import { FormValues, IUser, RootState } from "@/helpers/types";
 import FilterOfNodo from "./sectionForm/FilterOfNodo";
 import FilterOfStatus from "./sectionForm/FilterOfStatus";
 import FilterOfPay from "./sectionForm/FilterOfPay";
@@ -20,7 +20,7 @@ const FormNewMessage: React.FC<{
 }> = ({ setViewModalMessage }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<any[]>([]);
-  const dataUser: IUser = useSelector((state: any) => state.user.user);
+  const dataUser: IUser = useSelector((state: RootState) => state.user.user);
   const [error, setError] = useState<string | null>(null);
   const [filteredUsers, setFilteredUsers] = useState<any[]>(users);
   const [manualSelection, setManualSelection] = useState<string[]>([]);

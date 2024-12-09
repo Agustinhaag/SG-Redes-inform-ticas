@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { validateLoginIspCube } from "@/helpers/validateForms";
 import Cookies from "js-cookie";
 import { handleSubmitIpsCube } from "@/helpers/fetchFormLogin";
-import { IUser, IUserIspCube } from "@/helpers/types";
+import { IUser, IUserIspCube, RootState } from "@/helpers/types";
 import { useDispatch, useSelector } from "react-redux";
 import "../../styles/forms.css";
 import { setTokenIspCube } from "@/redux/userSlice";
@@ -22,7 +22,7 @@ const FormLoginSistem: React.FC<{
   const [error, setError] = useState<string | null>(null);
   const url = process.env.NEXT_PUBLIC_URL;
   const token = Cookies.get("token");
-  const dataUser: IUser = useSelector((state: any) => state.user.user);
+  const dataUser: IUser = useSelector((state: RootState) => state.user.user);
   const tokenIspCube: string = useSelector(
     (state: any) => state.user.tokenIspCube
   );

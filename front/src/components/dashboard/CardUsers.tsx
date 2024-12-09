@@ -1,14 +1,24 @@
 import { activateUser } from "@/helpers/fetchAdminFunctions";
-import { IUser } from "@/helpers/types";
+import { IUser, RootState } from "@/helpers/types";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ModalNewToken from "./ModalNewToken";
 import { RiShieldUserFill } from "react-icons/ri";
 
-const CardUsers: React.FC<{ user: IUser }> = ({ user }) => {
+const CardUsers: React.FC<{ user: IUser; onChangeState: () => void }> = ({
+  user,
+  onChangeState,
+}) => {
   const url = process.env.NEXT_PUBLIC_URL!;
-  const token: string = useSelector((state: any) => state.user.token);
+  const token: string = useSelector((state: RootState) => state.user.token);
   const [viewModalToken, setViewModalToken] = useState<boolean>(false);
+  const handleToggleState = async () => {
+    const success = await activateUser(url!, token!, user.id);
+    if (success) {
+      onChangeState(); 
+    }
+  };
+
   return (
     <div
       className={`flex lg:gap-5 md:gap-3 ${
@@ -50,7 +60,7 @@ const CardUsers: React.FC<{ user: IUser }> = ({ user }) => {
               ? "bg-green-600 hover:bg-green-500"
               : "bg-red-600 hover:bg-red-500"
           }`}
-          onClick={async () => await activateUser(url!, token!, user.id)}
+          onClick={handleToggleState}
         >
           {user.status === "active" ? "Suspender" : "Activar"}
         </button>

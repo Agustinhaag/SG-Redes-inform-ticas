@@ -1,4 +1,4 @@
-import { IUser } from "@/helpers/types";
+import { IUser, RootState } from "@/helpers/types";
 import React, { useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { CSSTransition } from "react-transition-group";
@@ -20,21 +20,18 @@ const ModalNewToken: React.FC<{
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const url = process.env.NEXT_PUBLIC_URL!;
-  const token: string = useSelector((state: any) => state.user.token);
+  const token: string = useSelector((state: RootState) => state.user.token);
 
-  const handleAddToken = async (values: any) => {
+  const handleAddToken = async (value: string) => {
     try {
-      const response = await addToken(
-        url!,
-        token!,
-        values.apikey,
-        user.id,
-        setError
-      );
+      setLoading(true);
+      const response = await addToken(url!, token!, value, user.id, setError);
       if (response || response === false) {
+        setLoading(false);
         setViewModalToken(false);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -77,7 +74,7 @@ const ModalNewToken: React.FC<{
               }}
               validate={validateNewToken}
               onSubmit={async (values) => {
-                await handleAddToken(values);
+                await handleAddToken(values.apikey);
               }}
             >
               {(formikProps) => (

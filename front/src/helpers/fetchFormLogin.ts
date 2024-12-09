@@ -30,9 +30,14 @@ export const handleSubmit = async ({
       const errorMessage = data.error || textError;
       setError(errorMessage);
     }
-  } catch (error: any) {
-    console.error("Error en handleSubmit:", error.message);
-    setError(error.message || textError);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error en handleSubmit:", error.message);
+      setError(error.message || textError);
+    } else {
+      console.error("Error desconocido en handleSubmit:", error);
+      setError(textError); // Usa un mensaje de error predeterminado si no es una instancia de Error
+    }
   }
 };
 
@@ -73,10 +78,15 @@ export const handleSubmitIpsCube = async (
       const errorMessage = data.error;
       setError(errorMessage);
     }
-  } catch (error: any) {
-    console.error("Error en handleSubmitIspCube:", error.message);
-    setError(error.message || "Error al ingresar a ISPCube");
-  } finally {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error en handleSubmit:", error.message);
+      setError(error.message );
+    } else {
+      console.error("Error desconocido en handleSubmit:", error);
+      
+    }
+  }finally {
     setLoading(false);
   }
 };

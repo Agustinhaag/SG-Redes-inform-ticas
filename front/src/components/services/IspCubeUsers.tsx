@@ -6,7 +6,7 @@ import CardUserIspCube from "./CardUserIspCube";
 import Pagination from "./Pagination";
 import Cookies from "js-cookie";
 import { fetchAllUsersIspCube } from "@/helpers/fetchIspCube";
-import { IUser } from "@/helpers/types";
+import { IUser, RootState } from "@/helpers/types";
 
 const IspCubeUsers: React.FC = () => {
   const tokenIspCube: string = useSelector(
@@ -20,7 +20,7 @@ const IspCubeUsers: React.FC = () => {
 
   const url = process.env.NEXT_PUBLIC_URL;
   const token = Cookies.get("token");
-  const dataUser: IUser = useSelector((state: any) => state.user.user);
+  const dataUser: IUser = useSelector((state: RootState) => state.user.user);
 
   const lastIndex = currentPage * productsPage;
   const firstIndex = lastIndex - productsPage;
