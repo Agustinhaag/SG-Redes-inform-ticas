@@ -1,3 +1,4 @@
+import axios from "axios";
 import { userModel } from "../config/dataSource";
 import { URL_WABLAS } from "../config/envs";
 import { decrypt } from "../helpers/hashPropsHeader";
@@ -28,7 +29,7 @@ export const fetchMessages = async (userId: number) => {
       const response = await fetch(`${URL_WABLAS}/report-realtime`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization:`${token}`,
+          Authorization: `${token}`,
         },
       });
       const data = await response.json();
@@ -81,10 +82,17 @@ export const sendMessages = async (
 
 export const fetchQrCode = async (userId: number) => {
   try {
+    const serial = "";
     const token = await hashRevertToken(userId);
-    if(token){
-      const urlQr = `${URL_WABLAS}/device/scan?token=${token}`;
-      return urlQr;
+    if (token) {
+      const response = await fetch(
+        `https://deu.wablas.com/api/device/reset-qr-code/2TLOPF`
+      );
+      if (!response) {
+        throw new Error("Error al generar el QR");
+      }
+      const data = await response.text();
+     
     }
   } catch (error) {
     console.log(error);

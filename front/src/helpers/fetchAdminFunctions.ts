@@ -35,7 +35,7 @@ export const activateUser = async (url: string, token: string, id: number) => {
         text: "Puede intentarlo nuevamente si lo desea.",
         icon: "info",
       });
-      return false; 
+      return false;
     }
 
     const response = await fetch(`${url}/admin/toggle-status/${id}`, {
@@ -53,18 +53,19 @@ export const activateUser = async (url: string, token: string, id: number) => {
         text: `${data.message}`,
         icon: "success",
       });
-      return true; 
+      return true;
     }
   } catch (error) {
     console.log(error);
   }
-  return false; 
+  return false;
 };
 
 export const addToken = async (
   url: string,
   token: string,
   apikey: string,
+  deviceId: string,
   id: number,
   setError: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
@@ -93,7 +94,7 @@ export const addToken = async (
         "Content-Type": "application/json",
         authorization: `${token}`,
       },
-      body: JSON.stringify({ apikey }),
+      body: JSON.stringify({ apikey, deviceId }),
     });
     const data = await response.json();
     if (response.ok) {

@@ -15,20 +15,29 @@ const ModalNewToken: React.FC<{
   setViewModalToken: React.Dispatch<React.SetStateAction<boolean>>;
   viewModalToken: boolean;
   user: IUser;
-}> = ({ setViewModalToken, viewModalToken, user }) => {
+  onChangeState: () => void;
+}> = ({ setViewModalToken, viewModalToken, user, onChangeState }) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const url = process.env.NEXT_PUBLIC_URL!;
   const token: string = useSelector((state: RootState) => state.user.token);
 
-  const handleAddToken = async (value: string) => {
+  const handleAddToken = async (apikey: string, deviceId: string) => {
     try {
       setLoading(true);
-      const response = await addToken(url!, token!, value, user.id, setError);
+      const response = await addToken(
+        url!,
+        token!,
+        apikey,
+        deviceId,
+        user.id,
+        setError
+      );
       if (response || response === false) {
         setLoading(false);
         setViewModalToken(false);
+        onChangeState();
       }
     } catch (error) {
       setLoading(false);
@@ -53,8 +62,8 @@ const ModalNewToken: React.FC<{
           }}
         >
           <div className=" flex items-center mb-5 pb-5 border-b border-custom-grey w-full">
-            <h3 className="font-semibold text-2xl">
-              Añadir ApiKey Wablas al usuario: {user.name}
+            <h3 className="font-semibold text-xl">
+              Añadir ApiKey y DeviceId Wablas
             </h3>
           </div>
           <button
@@ -71,10 +80,11 @@ const ModalNewToken: React.FC<{
             <Formik
               initialValues={{
                 apikey: "",
+                deviceId: "",
               }}
               validate={validateNewToken}
               onSubmit={async (values) => {
-                await handleAddToken(values.apikey);
+                await handleAddToken(values.apikey, values.deviceId);
               }}
             >
               {(formikProps) => (
@@ -85,6 +95,13 @@ const ModalNewToken: React.FC<{
                     nombre="apikey"
                     title="Api-Key"
                     type="password"
+                  />
+                  <ContainerInput
+                    error={error}
+                    formikProps={formikProps}
+                    nombre="deviceId"
+                    title="N° device"
+                    type="text"
                   />
 
                   {error && (

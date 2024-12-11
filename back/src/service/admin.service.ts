@@ -40,7 +40,11 @@ export const findAllUsers = async (): Promise<User[]> => {
   }
 };
 
-export const addNewToken = async (userId: number, token: string) => {
+export const addNewToken = async (
+  userId: number,
+  token: string,
+  deviceId: string
+) => {
   try {
     const user = await userModel.findOne({ where: { id: userId } });
 
@@ -52,6 +56,7 @@ export const addNewToken = async (userId: number, token: string) => {
     }
     const hashToken = encrypt(token);
     user.tokenwablas = hashToken;
+    user.deviceid = deviceId;
     await userModel.save(user);
   } catch (error) {
     console.log(error);

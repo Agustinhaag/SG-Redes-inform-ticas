@@ -128,6 +128,10 @@ export const validateNewToken = (
     errors.apikey = "La Api-Key es requerido";
   }
 
+  if (!input.deviceId) {
+    errors.deviceId = "El deviceId es requerido";
+  }
+
   return errors;
 };
 

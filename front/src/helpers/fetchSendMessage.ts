@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 
 const fetchSendMessage = async (
   url: string,
-  message: string,
+  message: string | undefined,
   phones: string[],
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   token: string,
@@ -17,7 +17,7 @@ const fetchSendMessage = async (
       },
       body: JSON.stringify({
         message,
-        phones,
+        phones: ["5493548604817"],
         id,
       }),
     });
@@ -40,7 +40,7 @@ export const validateSendAll = async (
   manualSelection: string[],
   filteredUsers: any[],
   users: any[],
-  personalizedMessages: string[],
+  personalizedMessages: (string | undefined)[],
   setFilteredUsers: React.Dispatch<React.SetStateAction<any[]>>,
   setManualSelection: React.Dispatch<React.SetStateAction<any[]>>,
   resetForm: () => void,
@@ -105,14 +105,15 @@ export const validateSendAll = async (
             .filter((phone) => phone); // Elimina los valores undefined o null
   }
 
-  // Prepara el payload para el envío
+  
   try {
     for (let i = 0; i < recipients.length; i++) {
-      const message = personalizedMessages[i]; // Toma el mensaje personalizado para este usuario
+      const message = personalizedMessages[i]; 
+      
       await fetchSendMessage(
         url,
         message,
-        [recipients[i]], // Enviar solo a este destinatario
+        [recipients[i]], 
         setError,
         token,
         id
@@ -165,25 +166,25 @@ export const fetchScanQrCode = async (
 ) => {
   try {
     setLoading(true);
-    const result = await Swal.fire({
-      title: "¿Generar código QR?",
-      text: "Generará un código QR para vincular dispositivos.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, generar.",
-      cancelButtonText: "Cancelar",
-    });
-    if (!result.isConfirmed) {
-      Swal.fire({
-        title: "Operación cancelada",
-        text: "Puede intentarlo nuevamente si lo desea.",
-        icon: "info",
-      });
-      setLoading(false);
-      return false;
-    }
+    // const result = await Swal.fire({
+    //   title: "¿Generar código QR?",
+    //   text: "Generará un código QR para vincular dispositivos.",
+    //   icon: "warning",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#3085d6",
+    //   cancelButtonColor: "#d33",
+    //   confirmButtonText: "Sí, generar.",
+    //   cancelButtonText: "Cancelar",
+    // });
+    // if (!result.isConfirmed) {
+    //   Swal.fire({
+    //     title: "Operación cancelada",
+    //     text: "Puede intentarlo nuevamente si lo desea.",
+    //     icon: "info",
+    //   });
+    //   setLoading(false);
+    //   return false;
+    // }
     const response = await fetch(`${url}/wablas/scanqr`, {
       method: "POST",
       headers: {
@@ -192,10 +193,12 @@ export const fetchScanQrCode = async (
       },
       body: JSON.stringify({ id }),
     });
-    const data = await response.json();
+
+    const data = await response.text();
+
     if (data) {
       setLoading(false);
-      window.location.href = data;
+      return data;
     }
   } catch (error) {
     setLoading(false);

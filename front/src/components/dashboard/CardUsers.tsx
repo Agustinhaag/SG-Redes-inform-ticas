@@ -19,6 +19,13 @@ const CardUsers: React.FC<{ user: IUser; onChangeState: () => void }> = ({
     }
   };
 
+  const namesArray = user.name.split(' ');
+  const surnamesArray = user.surname.split(' ');
+
+
+  const firstName = namesArray[0];
+  const firstSurname = surnamesArray[0];
+
   return (
     <div
       className={`flex lg:gap-5 md:gap-3 ${
@@ -36,8 +43,8 @@ const CardUsers: React.FC<{ user: IUser; onChangeState: () => void }> = ({
         } medium-xs:flex-row flex-col`}
       >
         <p className="flex gap-1">
-          <span className="capitalize">{user.name}</span>
-          <span className="capitalize">{user.surname}</span>
+        <span className="capitalize">{firstName}</span>
+        <span className="capitalize">{firstSurname}</span>
         </p>
         <p>+{user.phone}</p>
 
@@ -83,6 +90,7 @@ const CardUsers: React.FC<{ user: IUser; onChangeState: () => void }> = ({
         setViewModalToken={setViewModalToken}
         user={user}
         viewModalToken={viewModalToken}
+        onChangeState={onChangeState}
       />
     </div>
   );

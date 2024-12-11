@@ -7,6 +7,8 @@ import { IUser, RootState } from "@/helpers/types";
 import { useSelector } from "react-redux";
 import { fetchScanQrCode } from "@/helpers/fetchSendMessage";
 import style from "../forms/button.module.css";
+import QrCodeGenerator from "./QrCode";
+
 const ViewMessagesWablas: React.FC = () => {
   const [viewModalMessage, setViewModalMessage] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -28,16 +30,17 @@ const ViewMessagesWablas: React.FC = () => {
         >
           Enviar mensajes
         </button>
-        {dataUser && dataUser.tokenwablas && (
-          <button
-            className="border-2 xs:w-auto w-2/3 min-w-44 border-custom-blue rounded-md px-6 py-2.5 hover:bg-custom-blue text-custom-white"
-            onClick={async () =>
-              await fetchScanQrCode(url!, token!, dataUser.id, setLoading)
-            }
-          >
-            {loading ? <span className={style.loader}></span> : "Generar QR"}
-          </button>
-        )}
+        {/* {dataUser && dataUser.tokenwablas && (
+          // <button
+          //   className="border-2 xs:w-auto w-2/3 min-w-44 border-custom-blue rounded-md px-6 py-2.5 hover:bg-custom-blue text-custom-white"
+          //   onClick={async () =>
+          //     await fetchScanQrCode(url!, token!, dataUser.id, setLoading)
+          //   }
+          // >
+          //   {loading ? <span className={style.loader}></span> : "Generar QR"}
+          // </button>
+          <QrCodeGenerator appUrl="https://deu.wablas.com" serial="2TLOPF" />
+        )}  */}
       </div>
       <ListMessages />
       {viewModalMessage && (

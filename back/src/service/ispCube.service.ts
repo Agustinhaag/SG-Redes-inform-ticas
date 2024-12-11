@@ -122,3 +122,41 @@ export const getUsersFromIspCubeService = async (
     throw new ClientError("No se pudo conectar con IspCube.", 500);
   }
 };
+
+export const factFetchLink = async (
+  token: string,
+  user: User,
+  id: string,
+
+) => {
+  try {
+    const response = await fetch(
+      `${ISPCUBEURL}/api/bills/last_bill_api?customer_id=${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "api-key": user.ispCubeUser!.apiKey,
+          "client-id": user.ispCubeUser!.clientId,
+          username: user.ispCubeUser!.username,
+          "login-type": "api",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // if (!response.ok) {
+    // throw new ClientError(
+    //   `Error al obtener datos de IspCube: ${response.statusText}`,
+    //   400
+    // );
+    // }
+
+    const fact = await response.text();
+
+    return fact;
+  } catch (error) {
+    console.error("Error en el servicio de IspCube:", error);
+    throw new ClientError("No se pudo conectar con IspCube.", 500);
+  }
+};

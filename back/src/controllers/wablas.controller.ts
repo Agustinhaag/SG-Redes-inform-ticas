@@ -39,6 +39,6 @@ export const scanQrCode = catchedController(
       return res.status(400).json({ error: "ID de usuario inválido" });
     }
     const response = await fetchQrCode(userId);
-    res.status(201).json(response);
+    res.status(201).send(response);
   }
 );

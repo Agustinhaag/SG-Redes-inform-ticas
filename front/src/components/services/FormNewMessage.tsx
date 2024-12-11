@@ -14,12 +14,14 @@ import FilterOfPlan from "./sectionForm/FilterOfPlan";
 import { validateSendMessage } from "@/helpers/validateForms";
 import { validateSendAll } from "@/helpers/fetchSendMessage";
 import { fetchAllUsersIspCube } from "@/helpers/fetchIspCube";
+import { fetchUserInvoices } from "@/helpers/fetchInvoices";
 
 const FormNewMessage: React.FC<{
   setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ setViewModalMessage }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<any[]>([]);
+  const [invoices, setInvoices] = useState<Record<number, string>>({});
   const dataUser: IUser = useSelector((state: RootState) => state.user.user);
   const [error, setError] = useState<string | null>(null);
   const [filteredUsers, setFilteredUsers] = useState<any[]>(users);
@@ -33,10 +35,11 @@ const FormNewMessage: React.FC<{
   );
 
   const userVariables = [
-    { key: "{{name}}", description: "Nombre " },
+    { key: "{{name}}", description: "Nombre" },
     { key: "{{debt}}", description: "Saldo" },
     { key: "{{address}}", description: "Dirección" },
     { key: "{{plan_name}}", description: "Plan" },
+    { key: "{{invoices}}", description: "Facturas" }, // Nueva variable
   ];
 
   useEffect(() => {
@@ -46,6 +49,32 @@ const FormNewMessage: React.FC<{
       }
     );
   }, []);
+
+  const fetchInvoicesForUsers = async (users: any[]) => {
+    const invoicePromises = users.map(async (user) => {
+      try {
+        const invoiceData = await fetchUserInvoices(
+          url!,
+          dataUser.email,
+          token!,
+          tokenIspCube,
+          user.id
+        );
+        return { userId: user.id, invoice: invoiceData };
+      } catch (err) {
+        console.error(`Error fetching invoices for user ${user.id}`, err);
+        return { userId: user.id, invoice: "Error al obtener facturas" };
+      }
+    });
+
+    const resolvedInvoices = await Promise.all(invoicePromises);
+    const invoiceMap: Record<number, string> = {};
+    resolvedInvoices.forEach(({ userId, invoice }) => {
+      invoiceMap[userId] = invoice;
+    });
+
+    return invoiceMap; // Devuelve el mapa directamente
+  };
 
   const handleFilter = (filters: {
     node_code: any[];
@@ -84,12 +113,59 @@ const FormNewMessage: React.FC<{
     setFilteredUsers(newFilteredUsers);
   };
 
-  const personalizeMessage = (template: string, user: any) => {
+  const personalizeMessage = (
+    template: string,
+    user: any,
+    invoiceMap: Record<number, string>
+  ) => {
     return template
       .replace(/{{name}}/g, user.name)
       .replace(/{{debt}}/g, user.debt || "N/A")
       .replace(/{{address}}/g, user.address || "N/A")
-      .replace(/{{plan_name}}/g, user.plan_name || "N/A");
+      .replace(/{{plan_name}}/g, user.plan_name || "N/A")
+      .replace(/{{invoices}}/g, invoiceMap[user.id] || "N/A");
+  };
+
+  const handleSubmit = async (values: FormValues, resetForm: () => void) => {
+    try {
+      setLoading(true);
+
+      const selectedUsers =
+        manualSelection.length > 0
+          ? manualSelection.map((key) => {
+              const [userId] = key.split("-");
+              return users.find((user) => user.id === parseInt(userId, 10));
+            })
+          : filteredUsers;
+
+      // Espera a obtener todas las facturas antes de proceder
+      const invoiceData = await fetchInvoicesForUsers(selectedUsers);
+
+      // Personaliza los mensajes con los datos de las facturas
+      const personalizedMessages = selectedUsers.map((user) =>
+        personalizeMessage(values.message, user, invoiceData)
+      );
+
+      // Procede con el envío
+      await validateSendAll(
+        manualSelection,
+        filteredUsers,
+        users,
+        personalizedMessages,
+        setFilteredUsers,
+        setManualSelection,
+        resetForm,
+        setViewModalMessage,
+        url!,
+        token!,
+        setError,
+        dataUser.id,
+        setLoading
+      );
+    } catch (err) {
+      setLoading(false);
+      setError("Error al conectar con el servidor");
+    }
   };
 
   return (
@@ -109,38 +185,7 @@ const FormNewMessage: React.FC<{
       enableReinitialize
       validate={validateSendMessage}
       onSubmit={async (values, { resetForm }) => {
-        try {
-          const selectedUsers =
-            manualSelection.length > 0
-              ? manualSelection.map((key) => {
-                  const [userId] = key.split("-"); // Obtén el ID del usuario desde la clave única
-                  return users.find((user) => user.id === parseInt(userId, 10)); // Busca el usuario en la lista completa
-                })
-              : filteredUsers;
-
-          const personalizedMessages = selectedUsers.map((user) =>
-            personalizeMessage(values.message, user)
-          );
-
-          await validateSendAll(
-            manualSelection, // Selección manual
-            filteredUsers, // Usuarios filtrados
-            users, // Todos los usuarios
-            personalizedMessages,
-            setFilteredUsers,
-            setManualSelection,
-            resetForm,
-            setViewModalMessage,
-            url!,
-            token!,
-            setError,
-            dataUser.id,
-            setLoading
-          );
-        } catch (err) {
-          setLoading(false);
-          setError("Error al conectar con el servidor");
-        }
+        await handleSubmit(values, resetForm);
       }}
     >
       {(formikProps) => (

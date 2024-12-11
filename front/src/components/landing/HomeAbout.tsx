@@ -12,12 +12,11 @@ const HomeAbout: React.FC = () => {
       </h1>
 
       <p className="text-m text-center mx-10 mb-8">
-        En un mundo donde la excelencia en el soporte técnico es más que una
-        promesa, somos la fuerza que impulsa la innovación y la eficiencia en la
-        gestión tecnológica. Elegirnos significa optar por un socio que entiende
-        que cada sistema tiene su importancia y cada cliente, una necesidad
-        única. En nuestra empresa, no solo resolvemos problemas técnicos;
-        transformamos la experiencia digital.
+        Más de 10 años de experiencia administrando ISPs respaldan nuestro
+        trabajo. Brindamos asistencia técnica remota a redes wireless, ethernet
+        y ópticas (FTTH) que operan con las últimas tecnologías y los equipos de
+        las principales marcas como Mikrotik, Ubiquiti, Mimosa, Huawei, TP-Link,
+        y más.
       </p>
 
       <div className="flex sm:flex-row flex-col justify-center gap-6">

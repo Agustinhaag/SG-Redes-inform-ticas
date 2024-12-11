@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  fetchFactController,
   getUsersFromIspCubeController,
   loginIspCube,
 } from "../controllers/ispCube.controller";
@@ -10,5 +11,7 @@ const ispCubeRouter = Router();
 ispCubeRouter.post("/login", checkLogin, loginIspCube);
 
 ispCubeRouter.post("/users", checkLogin, getUsersFromIspCubeController);
+
+ispCubeRouter.post("/fact", checkLogin, fetchFactController);
 
 export default ispCubeRouter;

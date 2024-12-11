@@ -50,6 +50,11 @@ export class User {
   })
   tokenwablas: string;
 
+  @Column({
+    nullable: true,
+  })
+  deviceid: string;
+
   @OneToOne(() => Credential)
   @JoinColumn()
   credential: Credential;

@@ -36,7 +36,7 @@ const ListMessages: React.FC = () => {
             url!,
             dataUser.id
           );
-
+        
           if (
             usersResponse &&
             usersResponse.length > 0 &&
@@ -72,11 +72,14 @@ const ListMessages: React.FC = () => {
 
       {isLoading ? (
         <div className="flex justify-center w-full">
-          <Spinner title="Cargando usuarios" />
+          <Spinner title="Cargando mensajes" />
         </div>
       ) : messages && messages.length > 0 ? (
         messages.map((message: IMessageUser) => (
-          <div key={message.id}  className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            key={message.id}
+            className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          >
             <CardMessages message={message} />
           </div>
         ))

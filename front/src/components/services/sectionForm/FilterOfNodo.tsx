@@ -10,11 +10,10 @@ const FilterOfNodo: React.FC<{
     status: string[];
     debt: string[];
     plan_name: any[];
-    
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
   return (
-    <div className="relative sm:w-1/2 w-full flex flex-col">
+    <div className="relative sm:w-1/2 sm:h-full w-full flex flex-col">
       <span className="text-custom-white text-sm">Nodos</span>
 
       <div className="flex items-center">
