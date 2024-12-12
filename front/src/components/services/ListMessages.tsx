@@ -36,7 +36,7 @@ const ListMessages: React.FC = () => {
             url!,
             dataUser.id
           );
-        
+
           if (
             usersResponse &&
             usersResponse.length > 0 &&
@@ -65,7 +65,6 @@ const ListMessages: React.FC = () => {
 
     fetchData();
   }, [dataUser, token, tokenIspCube, url]);
-
   return (
     <div className="flex flex-col w-full">
       <h2 className="text-xl mb-3">Mensajes enviados</h2>
@@ -75,14 +74,11 @@ const ListMessages: React.FC = () => {
           <Spinner title="Cargando mensajes" />
         </div>
       ) : messages && messages.length > 0 ? (
-        messages.map((message: IMessageUser) => (
-          <div
-            key={message.id}
-            className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            <CardMessages message={message} />
-          </div>
-        ))
+        <div className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {messages.map((message: IMessageUser) => (
+            <CardMessages message={message} key={message.id} />
+          ))}
+        </div>
       ) : (
         <p style={{ color: "#52525B" }}>No se encontraron mensajes.</p>
       )}

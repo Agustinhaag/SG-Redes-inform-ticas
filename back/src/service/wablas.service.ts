@@ -1,4 +1,3 @@
-import axios from "axios";
 import { userModel } from "../config/dataSource";
 import { URL_WABLAS } from "../config/envs";
 import { decrypt } from "../helpers/hashPropsHeader";
@@ -82,17 +81,10 @@ export const sendMessages = async (
 
 export const fetchQrCode = async (userId: number) => {
   try {
-    const serial = "";
     const token = await hashRevertToken(userId);
     if (token) {
-      const response = await fetch(
-        `https://deu.wablas.com/api/device/reset-qr-code/2TLOPF`
-      );
-      if (!response) {
-        throw new Error("Error al generar el QR");
-      }
-      const data = await response.text();
-     
+      const urlQr = `${URL_WABLAS}/device/scan?token=${token}`;
+      return urlQr;
     }
   } catch (error) {
     console.log(error);

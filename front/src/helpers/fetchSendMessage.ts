@@ -105,15 +105,14 @@ export const validateSendAll = async (
             .filter((phone) => phone); // Elimina los valores undefined o null
   }
 
-  
   try {
     for (let i = 0; i < recipients.length; i++) {
-      const message = personalizedMessages[i]; 
-      
+      const message = personalizedMessages[i];
+
       await fetchSendMessage(
         url,
         message,
-        [recipients[i]], 
+        [recipients[i]],
         setError,
         token,
         id
@@ -166,25 +165,25 @@ export const fetchScanQrCode = async (
 ) => {
   try {
     setLoading(true);
-    // const result = await Swal.fire({
-    //   title: "¿Generar código QR?",
-    //   text: "Generará un código QR para vincular dispositivos.",
-    //   icon: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#3085d6",
-    //   cancelButtonColor: "#d33",
-    //   confirmButtonText: "Sí, generar.",
-    //   cancelButtonText: "Cancelar",
-    // });
-    // if (!result.isConfirmed) {
-    //   Swal.fire({
-    //     title: "Operación cancelada",
-    //     text: "Puede intentarlo nuevamente si lo desea.",
-    //     icon: "info",
-    //   });
-    //   setLoading(false);
-    //   return false;
-    // }
+    const result = await Swal.fire({
+      title: "¿Generar código QR?",
+      text: "Generará un código QR para vincular dispositivos.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, generar.",
+      cancelButtonText: "Cancelar",
+    });
+    if (!result.isConfirmed) {
+      Swal.fire({
+        title: "Operación cancelada",
+        text: "Puede intentarlo nuevamente si lo desea.",
+        icon: "info",
+      });
+      setLoading(false);
+      return false;
+    }
     const response = await fetch(`${url}/wablas/scanqr`, {
       method: "POST",
       headers: {
@@ -195,10 +194,10 @@ export const fetchScanQrCode = async (
     });
 
     const data = await response.text();
-
+    console.log(data);
     if (data) {
       setLoading(false);
-      return data;
+      window.location.href = data;
     }
   } catch (error) {
     setLoading(false);
