@@ -6,7 +6,6 @@ export const sendPasswordResetEmail = async (
   token: string
 ): Promise<void> => {
   try {
-    
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
