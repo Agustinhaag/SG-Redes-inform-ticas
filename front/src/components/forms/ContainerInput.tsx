@@ -54,7 +54,7 @@ const ContainerInput: React.FC<InputProps> = ({
             } 
             ${textarea ? (contact ? "text-black" : "text-gray-400") : ""}`}
           style={{
-            top: textarea ? "20%": "50%",
+            top: textarea ? "20%" : "50%",
             transform: "translateY(-50%)",
             transition: ".4s",
           }}
@@ -71,18 +71,20 @@ const ContainerInput: React.FC<InputProps> = ({
           </button>
         )}
       </div>
-      {recoveryPass && (
-        <button
-          type="button"
-          onClick={() => setViewResetPassword(!viewResetPassword)}
-          className="flex justify-end w-full pt-0.5 hover:underline"
-        >
-          ¿Olvidó su contraseña?
-        </button>
-      )}
-      <span className="span" style={{ color: "red" }}>
-        <ErrorMessage name={nombre} />
-      </span>
+      <div className=" flex w-full">
+        <span className="span w-full" style={{ color: "red" }}>
+          <ErrorMessage name={nombre} />
+        </span>
+        {recoveryPass && (
+          <button
+            type="button"
+            onClick={() => setViewResetPassword(!viewResetPassword)}
+            className="flex lg:text-base text-sm justify-end w-full pt-0.5 hover:underline"
+          >
+            ¿Olvidó su contraseña?
+          </button>
+        )}
+      </div>
       {viewResetPassword && (
         <div
           className="fixed inset-0 bg-black bg-opacity-55 z-40"

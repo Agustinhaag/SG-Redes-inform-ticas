@@ -17,7 +17,7 @@
   color: #ff0000;
 }
 .span {
-  @apply flex justify-start sm:my-1 md:text-base text-xs min-h-6;
+  @apply flex justify-start sm:my-1 lg:text-base text-xs min-h-6;
 }
 
 .custom-button {
@@ -30,7 +30,7 @@
   left: 15px;
   font-size: 14px;
   padding: 0 2px;
-  background-color: #0f0f0f;
+  background-color: black;
 }
 
 .input-contact:focus ~ .label,

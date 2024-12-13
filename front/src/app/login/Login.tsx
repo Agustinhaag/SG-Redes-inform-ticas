@@ -13,12 +13,16 @@ const Login: React.FC = () => {
               ¡Bienvenido otra vez!
             </h3>
             <p className="text-custom-grey font-light pt-3 pb-1 sm:text-base text-xs text-center">
-              !Gracias por confiar en nosotros, es un placer que nos sigas eligiendo¡
+              !Gracias por confiar en nosotros, es un placer que nos sigas
+              eligiendo¡
             </p>
             <p className="text-center pb-3 sm:text-base text-xs">
               Inicia sesión con
               <span className="text-custom-blue font-semibold"> Email </span> y
-              <span className="text-custom-blue font-semibold"> Contraseña</span>
+              <span className="text-custom-blue font-semibold">
+                {" "}
+                Contraseña
+              </span>
             </p>
             <LoginForm />
             <p className="text-center sm:text-base text-xs">
