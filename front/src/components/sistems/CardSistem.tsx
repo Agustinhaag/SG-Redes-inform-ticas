@@ -12,7 +12,7 @@ const CardSistem: React.FC<{ name: string; img: string }> = ({ img, name }) => {
 
   return (
     <>
-      <div className=" flex items-center flex-col bg-opacity-30 shadow-md overflow-hidden  duration-300 ease-in-out transition-transform transform hover:scale-105 border-custom-blue border-2 p-3 w-1/5 h-56 rounded-bl-3xl rounded-tr-3xl">
+      <div className=" flex items-center flex-col bg-opacity-30 shadow-md overflow-hidden  duration-300 ease-in-out transition-transform transform hover:scale-105 border-custom-blue border-2 p-3 md:w-1/5 medium-xs:w-1/3 w-1/2 min-w-44 h-56 rounded-bl-3xl rounded-tr-3xl">
         <Image alt={name} src={img} width={80} height={80} className="mt-1" />
         <p className="my-5 text-lg">IspCube</p>
         <button

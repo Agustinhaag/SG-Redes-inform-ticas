@@ -70,7 +70,7 @@ const RegisterForm: React.FC = () => {
         }}
       >
         {(formikProps) => (
-          <Form className="flex flex-col items-start">
+          <Form className="flex flex-col items-start gap-2.5">
             <div className="flex gap-2 w-full">
               <ContainerInput
                 error={error}

@@ -15,20 +15,19 @@ const CardUsers: React.FC<{ user: IUser; onChangeState: () => void }> = ({
   const handleToggleState = async () => {
     const success = await activateUser(url!, token!, user.id);
     if (success) {
-      onChangeState(); 
+      onChangeState();
     }
   };
 
-  const namesArray = user.name.split(' ');
-  const surnamesArray = user.surname.split(' ');
-
+  const namesArray = user.name.split(" ");
+  const surnamesArray = user.surname.split(" ");
 
   const firstName = namesArray[0];
   const firstSurname = surnamesArray[0];
 
   return (
     <div
-      className={`flex lg:gap-5 md:gap-3 ${
+      className={`flex xs:flex-row flex-col lg:gap-5 md:gap-3 ${
         user.tokenwablas ? "sm:gap-12 gap-7" : "gap-2"
       } items-center px-3 py-6 bg-black bg-opacity-50 rounded `}
     >
@@ -43,8 +42,8 @@ const CardUsers: React.FC<{ user: IUser; onChangeState: () => void }> = ({
         } medium-xs:flex-row flex-col`}
       >
         <p className="flex gap-1">
-        <span className="capitalize">{firstName}</span>
-        <span className="capitalize">{firstSurname}</span>
+          <span className="capitalize">{firstName}</span>
+          <span className="capitalize">{firstSurname}</span>
         </p>
         <p>+{user.phone}</p>
 

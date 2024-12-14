@@ -5,27 +5,26 @@ import "../../styles/forms.css";
 
 const Contact: React.FC = () => {
   return (
-    <div className="flex flex-col mx-10">
+    <main className="flex flex-col mx-10">
       {/* Encabezado centrado */}
-      <h1 className="text-white text-4xl font-bold text-center mb-10 mt-[115px]">
+      <h1 className="text-white text-4xl font-bold text-center mb-10 mt-[30px]">
         CONTACTANOS
       </h1>
 
       {/* Sección superior con ContactoForm y ContactoInfo */}
-      <div className="flex flex-col md:flex-row w-full justify-center space-y-4 md:space-y-0 md:space-x-4">
+      <section className="flex flex-col md:flex-row w-full justify-center space-y-4 md:space-y-0 md:space-x-4">
         <div className="w-full md:max-w-[550px] flex-grow flex items-stretch">
           <ContactoForm />
         </div>
         <div className="w-full md:max-w-[550px] flex-grow flex items-stretch">
           <ContactoInfo />
         </div>
-      </div>
-
+      </section>
       {/* Sección inferior con ContactoImg */}
       <div className="w-full my-8">
         <ContactoImg />
       </div>
-    </div>
+    </main>
   );
 };
 

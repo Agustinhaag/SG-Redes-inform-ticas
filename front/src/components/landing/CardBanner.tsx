@@ -13,7 +13,12 @@ const CardBanner: React.FC<BannerProps> = ({ img, text, title }) => {
         <h4 className="sm:text-4xl text-3xl font-bold">{title}</h4>
         <p className="text-custom-white font-light mb-5">{text}</p>
         <div>
-        <Link href={PATHROUTES.SERVICES} className="border border-custom-blue font-medium py-2 px-5 rounded-2xl bg-none text-custom-blue text-xs sm:text-sm hover:bg-custom-blue hover:text-custom-white">COMPRAR</Link>
+          <Link
+            href={PATHROUTES.SERVICES}
+            className="border border-custom-blue font-medium py-2 px-5 rounded-md bg-none text-custom-blue text-xs sm:text-sm hover:bg-custom-blue hover:text-custom-white"
+          >
+            Servicios
+          </Link>
         </div>
       </div>
     </div>

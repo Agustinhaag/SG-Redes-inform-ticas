@@ -28,7 +28,9 @@ const ModalResetPasswordInit: React.FC<{
           }}
         >
           <div className=" flex items-center mb-5 pb-5 border-b border-custom-grey w-full">
-            <h3 className="font-semibold text-2xl">Recuperar contraseña</h3>
+            <h3 className="font-semibold sm:text-2xl text-xl">
+              Recuperar contraseña
+            </h3>
           </div>
           <button
             onClick={(e) => {
@@ -41,14 +43,16 @@ const ModalResetPasswordInit: React.FC<{
             <IoMdClose />
           </button>
           <div>
-            <h3 className="text-xl font-light">
+            <h3 className="sm:text-xl text-base font-light">
               Por favor ingrese el email de registro
             </h3>
             <p className="text-sm my-2">
               Le enviaremos un correo con un enlace temporal para recuperar su
               contraseña
             </p>
-            <FormModalResetPassword setViewResetPassword={setViewResetPassword}/>
+            <FormModalResetPassword
+              setViewResetPassword={setViewResetPassword}
+            />
           </div>
         </div>
       </div>

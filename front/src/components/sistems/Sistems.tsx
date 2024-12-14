@@ -15,7 +15,7 @@ const Sistems: React.FC = () => {
   const router = useRouter();
 
   // Estado para determinar si hay un token
-  const [isReady, setIsReady] = useState(false); 
+  const [isReady, setIsReady] = useState(false);
   const [hasToken, setHasToken] = useState(false);
 
   const tokenIspCube: string | undefined = useSelector(
@@ -58,22 +58,31 @@ const Sistems: React.FC = () => {
   };
 
   if (!isReady) {
-    return <Spinner title="Cargando"/>;
+    return <Spinner title="Cargando" />;
   }
 
   return (
     <main className="text-custom-white">
       {hasToken ? (
         <section className="ml-4 mt-2">
-          <h1 >Ya ha seleccionado un sistema para operar</h1>
+          <h1>Ya ha seleccionado un sistema para operar</h1>
           <div className="flex  gap-8 mt-4">
-
-          <Link className="border-neutral-600 border rounded py-1.5 px-4 hover:bg-neutral-600" href={PATHROUTES.LANDING}>Volver</Link>
-          <button className="bg-custom-blue text-white px-4 py-1.5 rounded hover:bg-blue-600" onClick={changeSistem}>Elegir otro sistema</button>
+            <Link
+              className="border-neutral-600 border rounded py-1.5 px-4 hover:bg-neutral-600"
+              href={PATHROUTES.LANDING}
+            >
+              Volver
+            </Link>
+            <button
+              className="bg-custom-blue text-white px-4 py-1.5 rounded hover:bg-blue-600"
+              onClick={changeSistem}
+            >
+              Elegir otro sistema
+            </button>
           </div>
         </section>
       ) : (
-        <section >
+        <section className="pb-3">
           <h1 className="text-center  mb-4 text-2xl">¡Bienvenidos!</h1>
           <p className="text-neutral-300 ml-2 mb-4">
             Por favor seleccione el sistema con el que desea comenzar a operar

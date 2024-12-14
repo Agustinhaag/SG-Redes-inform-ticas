@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href="/files/SG-FB-logo.ico" />
       <body
-        className="bg-cover"
+        className="bg-no-repeat bg-cover"
         style={{ backgroundImage: "url(/files/fondoazul2.jpg)" }}
       >
         <Providers>

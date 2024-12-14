@@ -62,7 +62,7 @@ const ModalNewToken: React.FC<{
           }}
         >
           <div className=" flex items-center mb-5 pb-5 border-b border-custom-grey w-full">
-            <h3 className="font-semibold text-xl">
+            <h3 className="font-semibold sm:text-xl xs:text-base text-sm">
               Añadir ApiKey y DeviceId Wablas
             </h3>
           </div>
@@ -88,7 +88,7 @@ const ModalNewToken: React.FC<{
               }}
             >
               {(formikProps) => (
-                <Form className="flex flex-col items-start">
+                <Form className="flex flex-col items-start gap-3">
                   <ContainerInput
                     error={error}
                     formikProps={formikProps}

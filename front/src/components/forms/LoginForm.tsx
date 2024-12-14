@@ -13,7 +13,6 @@ import "../../styles/forms.css";
 import { setToken, setUserData } from "@/redux/userSlice";
 import { validarLogin } from "@/helpers/validateForms";
 
-
 const LoginForm: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -44,7 +43,7 @@ const LoginForm: React.FC = () => {
         fetchDataUser(userData.token, secret, url).then((res) => {
           dispatch(setUserData(res));
         });
-        
+
         router.push(PATHROUTES.SISTEMS);
       }
     } catch (error: any) {
@@ -75,7 +74,7 @@ const LoginForm: React.FC = () => {
         }}
       >
         {(formikProps) => (
-          <Form className="flex flex-col items-start">
+          <Form className="flex flex-col items-start gap-2.5">
             <ContainerInput
               error={error}
               formikProps={formikProps}

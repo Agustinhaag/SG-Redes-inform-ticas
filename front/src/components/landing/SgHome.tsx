@@ -21,7 +21,7 @@ const SgHome: React.FC = () => {
             todo lo que ofrecemos para tu empresa.
           </p>
 
-          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mt-4">
+          <div className="flex text-center flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mt-4">
             <input
               type="text"
               placeholder="Conoce nuestros servicios"

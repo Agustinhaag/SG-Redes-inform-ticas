@@ -72,9 +72,11 @@ const ContainerInput: React.FC<InputProps> = ({
         )}
       </div>
       <div className=" flex w-full">
-        <span className="span w-full" style={{ color: "red" }}>
-          <ErrorMessage name={nombre} />
-        </span>
+        {formikProps.errors[nombre] && formikProps.touched[nombre] && (
+          <span className="span w-full" style={{ color: "red" }}>
+            <ErrorMessage name={nombre} />
+          </span>
+        )}
         {recoveryPass && (
           <button
             type="button"

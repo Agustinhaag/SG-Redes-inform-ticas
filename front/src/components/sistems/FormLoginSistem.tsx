@@ -69,7 +69,7 @@ const FormLoginSistem: React.FC<{
       }}
     >
       {(formikProps) => (
-        <Form className="flex flex-col items-start">
+        <Form className="flex flex-col items-start gap-3">
           <ContainerInput
             error={error}
             formikProps={formikProps}
