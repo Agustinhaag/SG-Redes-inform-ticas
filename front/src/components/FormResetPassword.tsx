@@ -21,7 +21,7 @@ const FormResetPassword: React.FC<{ token: string | null }> = ({ token }) => {
     }
   };
   return (
-    <div className="mt-5 bg-black bg-opacity-85 w-2/3 mx-auto rounded py-5 min-w-72">
+    <div className="mt-5 bg-black bg-opacity-100 w-2/3 mx-auto rounded py-5 min-w-72">
       <h2
         className="text-center mb-3 text-base sm:text-xl underline-offset-2"
         style={{
