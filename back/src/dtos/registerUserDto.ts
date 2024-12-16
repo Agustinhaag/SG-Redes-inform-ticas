@@ -5,9 +5,10 @@ interface RegisterUserDto {
   password: string;
   name: string;
   surname: string;
-  phone:string;
+  phone: string;
   role?: Role;
-  
+  deviceid?: string;
+  tokenwablas?: string;
 }
 
-export default RegisterUserDto
+export default RegisterUserDto;

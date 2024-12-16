@@ -26,18 +26,18 @@ const Banner: React.FC = () => {
         <div className="container-proyect  flex flex-nowrap h-96">
           <CardBanner
             img="/files/banner3.jpg"
-            title="Nuevos productos todas los días"
+            title="Atención todos los días"
             text="Contamos con excelente calidad y variedad al mejor precio."
           />
           <CardBanner
             img="/files/banner2.jpg"
-            title="Envio gratis y 100% seguro"
-            text="Si acumulas 2 o más productos te bonificamos el envio a cualquier punto del país."
+            title="Servicio de calidad comprobada"
+            text="Contamos con asesoramiento guiado todos los días."
           />
           <CardBanner
             img="/files/banner1.jpg"
-            title="Todos los medios de pago disponibles"
-            text="Paga en comodas cuotas, accesibles y con 0% interés."
+            title="Eficiencia y excelencia asegurada"
+            text="Descubrí todo lo que ofrecemos para tu empresa."
           />
         </div>
       </div>

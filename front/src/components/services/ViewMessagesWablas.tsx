@@ -7,6 +7,7 @@ import { IUser, RootState } from "@/helpers/types";
 import { useSelector } from "react-redux";
 import { fetchScanQrCode } from "@/helpers/fetchSendMessage";
 import style from "../forms/button.module.css";
+import QRCodeGenerator from "./QrCodeGenerator";
 
 const ViewMessagesWablas: React.FC = () => {
   const [viewModalMessage, setViewModalMessage] = useState<boolean>(false);
@@ -19,10 +20,10 @@ const ViewMessagesWablas: React.FC = () => {
   };
 
   return (
-    <section className="flex flex-col w-full mx-3">
-      <div className="flex justify-between my-3 xs:flex-row flex-col gap-3 xs:gap-0">
+    <section className="flex flex-col w-full px-3">
+      <div className="flex justify-between my-3 medium-xs:flex-row flex-col gap-3 xs:gap-0 w-full">
         <button
-          className="bg-custom-blue xs:w-auto w-2/3 min-w-44 text-white px-6 py-3 rounded-md hover:bg-blue-600"
+          className="bg-custom-blue medium-xs:mb-0 mb-2 h-12 medium-xs:w-auto w-2/3 min-w-44 text-white px-6 py-3 rounded-md hover:bg-blue-600"
           onClick={() => {
             setViewModalMessage(!viewModalMessage);
           }}
@@ -31,14 +32,7 @@ const ViewMessagesWablas: React.FC = () => {
         </button>
         {dataUser && dataUser.tokenwablas && (
           <>
-            <button
-              className="border-2 xs:w-auto w-2/3 min-w-44 border-custom-blue rounded-md px-6 py-2.5 hover:bg-custom-blue text-custom-white"
-              onClick={async () =>
-                await fetchScanQrCode(url!, token!, dataUser.id, setLoading)
-              }
-            >
-              {loading ? <span className={style.loader}></span> : "Generar QR"}
-            </button>
+            <QRCodeGenerator />
           </>
         )}
       </div>

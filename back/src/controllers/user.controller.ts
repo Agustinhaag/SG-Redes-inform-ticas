@@ -11,7 +11,16 @@ import { User } from "../entities/User";
 
 export const userRegister = catchedController(
   async (req: Request, res: Response) => {
-    const { email, password, name, surname, phone, role } = req.body;
+    const {
+      email,
+      password,
+      name,
+      surname,
+      phone,
+      role,
+      deviceid,
+      tokenwablas,
+    } = req.body;
     const newUser = await registerUserService({
       email,
       password,
@@ -19,6 +28,8 @@ export const userRegister = catchedController(
       surname,
       phone,
       role,
+      deviceid,
+      tokenwablas,
     });
     res.status(201).send({ register: true });
   }

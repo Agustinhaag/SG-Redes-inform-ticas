@@ -1,7 +1,9 @@
 import { userModel } from "../config/dataSource";
 import { URL_WABLAS } from "../config/envs";
+import { User } from "../entities/User";
 import { decrypt } from "../helpers/hashPropsHeader";
 import { ClientError } from "../utils/errors";
+import { findUserById } from "./user.service";
 
 const hashRevertToken = async (userId: number) => {
   try {
@@ -81,11 +83,12 @@ export const sendMessages = async (
 
 export const fetchQrCode = async (userId: number) => {
   try {
-    const token = await hashRevertToken(userId);
-    if (token) {
-      const urlQr = `${URL_WABLAS}/device/scan?token=${token}`;
-      return urlQr;
-    }
+    const user: User = await findUserById(userId);
+    const response = await fetch(
+      `${URL_WABLAS}/device/qr-code/${user.deviceid}`
+    );
+    const data = await response.text();
+    return data;
   } catch (error) {
     console.log(error);
     throw new ClientError("Error al generar QR");
