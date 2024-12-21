@@ -84,11 +84,16 @@ export const sendMessages = async (
 export const fetchQrCode = async (userId: number) => {
   try {
     const user: User = await findUserById(userId);
-    const response = await fetch(
-      `${URL_WABLAS}/device/qr-code/${user.deviceid}`
+    const reset = await fetch(
+      `${URL_WABLAS}/device/reset-qr-code/${user.deviceid}`
     );
-    const data = await response.text();
-    return data;
+    if (reset.status === 200) {
+      const response = await fetch(
+        `${URL_WABLAS}/device/qr-code/${user.deviceid}`
+      );
+      const data = await response.text();
+      return data;
+    }
   } catch (error) {
     console.log(error);
     throw new ClientError("Error al generar QR");

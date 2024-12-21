@@ -1,11 +1,12 @@
-import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { IUser, RootState } from "@/helpers/types";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 const QRCodeComponent: React.FC = () => {
   const [qrImage, setQrImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState<number>(35); // Temporizador en segundos
   const [error, setError] = useState<string | null>(null);
   const url = process.env.NEXT_PUBLIC_URL;
   const token = Cookies.get("token");
@@ -24,9 +25,10 @@ const QRCodeComponent: React.FC = () => {
         body: JSON.stringify({ id: dataUser.id }),
       });
       const data = await response.json();
-
+      console.log(data);
       if (data.message === "success" && data.image) {
         setQrImage(data.image); // Actualiza el estado con la URL de la imagen
+        setTimer(35);
       } else {
         setError("Failed to fetch QR code. Please try again.");
       }
@@ -38,6 +40,21 @@ const QRCodeComponent: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    let countdown: NodeJS.Timeout;
+
+    if (qrImage && timer > 0) {
+      // Reduce el contador cada segundo
+      countdown = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      setQrImage(null); // Oculta la imagen cuando el temporizador llega a 0
+    }
+
+    return () => clearInterval(countdown); // Limpiar el intervalo cuando se desmonte el componente o cambie el estado
+  }, [qrImage, timer]);
+
   return (
     <div className="w-auto">
       <button
@@ -48,15 +65,18 @@ const QRCodeComponent: React.FC = () => {
         {loading ? "Generando Qr..." : "Generar Qr"}
       </button>
       {qrImage && (
-        <img
-          src={qrImage}
-          alt="Generated QR Code"
-          style={{
-            width: "200px",
-            border: "1px solid #cccccc",
-            borderRadius: "10px",
-          }}
-        />
+        <>
+          <img
+            src={qrImage}
+            alt="Generated QR Code"
+            style={{
+              width: "200px",
+              border: "1px solid #cccccc",
+              borderRadius: "10px",
+            }}
+          />
+          <p>El Qr expira en: {timer} segundos.</p>
+        </>
       )}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>

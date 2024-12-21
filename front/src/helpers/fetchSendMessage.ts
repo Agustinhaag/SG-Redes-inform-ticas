@@ -17,7 +17,7 @@ const fetchSendMessage = async (
       },
       body: JSON.stringify({
         message,
-        phones: ["5493548604817"],
+        phones,
         id,
       }),
     });
