@@ -6,6 +6,7 @@ enum PATHROUTES {
   CONTACT = "/contact",
   SERVICES = "/services",
   SISTEMS = "/sistems",
+  DEVICES = "/devices",
 }
 
 export default PATHROUTES;

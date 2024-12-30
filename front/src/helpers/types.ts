@@ -38,7 +38,8 @@ export interface IUser {
   status: string;
   surname: string;
   tokenwablas?: string | null;
-  deviceid?:string | null
+  deviceid?: string | null;
+  device?: string | null;
 }
 
 export interface InputProps {

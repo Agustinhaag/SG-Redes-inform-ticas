@@ -32,12 +32,12 @@ export const toggleStatusUser = catchedController(
 export const addToken = catchedController(
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { token, deviceId } = req.body;
+    const { apikey, deviceId } = req.body;
     const userId = parseInt(id);
     if (isNaN(userId)) {
       return res.status(400).json({ error: "ID de usuario inválido" });
     }
-    await addNewToken(userId, token,deviceId);
+    await addNewToken(userId, apikey,deviceId);
     res.status(200).json({
       message: "Se ha añadido el token correctamente",
     });

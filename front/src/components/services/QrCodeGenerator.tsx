@@ -1,17 +1,37 @@
 import { IUser, RootState } from "@/helpers/types";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Swal from "sweetalert2";
+import style from "../forms/button.module.css";
+import { fetchInfoDevice } from "@/helpers/fetchDevice"; 
 
 const QRCodeComponent: React.FC = () => {
   const appUrl = process.env.NEXT_PUBLIC_URL_WABLAS;
   const [qrImage, setQrImage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [worker, setWorker] = useState<Worker | null>(null);
+  const [isScanned, setIsScanned] = useState<boolean>(false);
+  const [deviceStatus, setDeviceStatus] = useState<string | null>(null); 
   const dataUser: IUser = useSelector((state: RootState) => state.user.user);
+  const token: string = useSelector((state: RootState) => state.user.token);
+  const alertShown = useRef(false);
+  const pollingInterval = useRef<NodeJS.Timeout | null>(null); 
+
+  useEffect(() => {
+    
+    return () => {
+      if (pollingInterval.current) {
+        clearInterval(pollingInterval.current);
+      }
+    };
+  }, []);
 
   const generateQRCode = () => {
+    if (isScanned) return;
     setLoading(true);
+    setIsScanned(false);
+    alertShown.current = false;
+
     fetch(`/api/device/reset-qr-code/${dataUser.deviceid}`)
       .then((response) => response.text())
       .catch((error) => console.error("Error:", error));
@@ -34,14 +54,22 @@ const QRCodeComponent: React.FC = () => {
           if (
             data.message === "success" &&
             data.text === "" &&
-            data.is_ready === 1
+            data.is_ready === 1 &&
+            !isScanned
           ) {
-            stopWorker();
-            Swal.fire({
-              title: "¡Escaneo exitoso!",
-              text: "Ahora su dispositivo esta conectado",
-              icon: "success",
-            });
+            if (!alertShown.current) {
+              alertShown.current = true;
+              setIsScanned(true);
+              stopWorker();
+              Swal.fire({
+                title: "¡Escaneo exitoso!",
+                text: "Ahora su dispositivo está conectado",
+                icon: "success",
+              }).then(() => {
+               
+                startPolling();
+              });
+            }
           }
         } else {
           console.log(event.data);
@@ -50,6 +78,27 @@ const QRCodeComponent: React.FC = () => {
     } else {
       console.error("Web Worker no soportado en este navegador");
     }
+  };
+
+  const startPolling = () => {
+    pollingInterval.current = setInterval(() => {
+     
+      fetchInfoDevice(dataUser?.id, process.env.NEXT_PUBLIC_URL!, token)
+        .then((res) => {
+          if (res.data.status === "connected") {
+           
+            setDeviceStatus("connected");
+            clearInterval(pollingInterval.current!);
+            pollingInterval.current = null;
+          } else {
+            
+            setDeviceStatus("disconnected");
+          }
+        })
+        .catch((err) => {
+          console.error("Error al obtener el estado del dispositivo:", err);
+        });
+    }, 5000); 
   };
 
   const stopWorker = () => {
@@ -61,15 +110,29 @@ const QRCodeComponent: React.FC = () => {
     setLoading(false);
   };
 
+  const getButtonText = () => {
+    if (loading) {
+      return "Generando...";
+    }
+    if (deviceStatus === "connected") {
+      return "Conectado";
+    }
+    if (deviceStatus === "disconnected") {
+      return <span className={style.loader}></span>;
+    }
+    return "Generar QR";
+  };
+
   return (
-    <div>
+    <div className="text-custom-white">
       <button
-        className="bg-transparent  border medium-xs:w-auto w-2/3 min-w-44 border-custom-blue rounded-md py-2 px-3 hover:bg-custom-blue"
+        className="bg-transparent border medium-xs:w-auto w-2/3 min-w-44 border-custom-blue rounded-md py-2 px-3 hover:bg-custom-blue"
         onClick={generateQRCode}
         disabled={loading}
       >
-        {loading ? "Generando..." : "Generar QR"}
+        {getButtonText()}
       </button>
+
       {qrImage && (
         <>
           <img
@@ -83,8 +146,15 @@ const QRCodeComponent: React.FC = () => {
               marginTop: "5px",
             }}
           />
-          <p>El Qr expira en: 40 segundos.</p>
+          <p>El QR expira en: 40 segundos.</p>
         </>
+      )}
+      {deviceStatus && (
+        <p>
+          {deviceStatus === "connected"
+            ? "Dispositivo conectado"
+            : "Esperando conexión..."}
+        </p>
       )}
     </div>
   );

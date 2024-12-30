@@ -192,3 +192,17 @@ export const findUserById = async (id: number): Promise<User> => {
     throw new ClientError("Error al obtener el usuario", 500);
   }
 };
+
+export const saveDevice = async (id: number, device: string) => {
+  try {
+    const user: User = await findUserById(id);
+    if (!user) {
+      throw new ClientError("El usuario no existe");
+    }
+    user.device = device;
+    await userModel.save(user);
+    return user
+  } catch (error) {
+    throw new ClientError("Error al guardar el dispositivo", 500);
+  }
+};

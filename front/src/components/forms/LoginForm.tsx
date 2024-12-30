@@ -44,7 +44,7 @@ const LoginForm: React.FC = () => {
           dispatch(setUserData(res));
         });
 
-        router.push(PATHROUTES.SISTEMS);
+        router.push(PATHROUTES.LANDING);
       }
     } catch (error: any) {
       setLoading(false);

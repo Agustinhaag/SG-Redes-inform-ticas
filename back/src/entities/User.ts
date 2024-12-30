@@ -55,6 +55,11 @@ export class User {
   })
   deviceid: string;
 
+  @Column({
+    nullable: true,
+  })
+  device: string;
+
   @OneToOne(() => Credential)
   @JoinColumn()
   credential: Credential;

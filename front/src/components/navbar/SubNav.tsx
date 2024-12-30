@@ -61,6 +61,14 @@ const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
       >
         Servicios
       </Link>
+      <Link
+        href={PATHROUTES.DEVICES}
+        className={`enlaces hover:text-custom-white font-semibold ${
+          pathName === `${PATHROUTES.DEVICES}` ? "text-custom-white" : ""
+        } `}
+      >
+        Dispositivos
+      </Link>
       {token && dataUser ? (
         <ButtonUser dataUser={dataUser} subNav={true} />
       ) : (

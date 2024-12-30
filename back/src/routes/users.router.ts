@@ -4,6 +4,7 @@ import {
   validateUserExists,
 } from "../middlewares/userRegister.middleware";
 import {
+  addDevice,
   getUserById,
   initiatePasswordReset,
   resetPassword,
@@ -25,6 +26,8 @@ usersRouter.post(
 usersRouter.post("/signin", validateLogin, userLogin);
 
 usersRouter.post("/password-reset", initiatePasswordReset);
+
+usersRouter.post("/addDevice", checkLogin, addDevice);
 
 usersRouter.post("/reset-password", resetPassword);
 

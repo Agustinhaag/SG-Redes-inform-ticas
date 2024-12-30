@@ -153,3 +153,17 @@ export const validateContact = (input: FormikValues): Partial<FormikValues> => {
   }
   return errors;
 };
+
+export const validateDevice = (
+  input: FormikValues
+): Partial<FormikValues> => {
+  const errors: Partial<FormikValues> = {};
+
+  if (!input.device) {
+    errors.device = "El dispositivo es requerido";
+  }
+
+
+
+  return errors;
+};

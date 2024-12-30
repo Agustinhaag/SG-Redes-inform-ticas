@@ -42,7 +42,7 @@ export const findAllUsers = async (): Promise<User[]> => {
 
 export const addNewToken = async (
   userId: number,
-  token: string,
+  apikey: string,
   deviceId: string
 ) => {
   try {
@@ -54,8 +54,7 @@ export const addNewToken = async (
     if (user.tokenwablas) {
       throw new ClientError("El usuario ya posee un token", 400);
     }
-    const hashToken = encrypt(token);
-    user.tokenwablas = hashToken;
+    user.tokenwablas = encrypt(apikey);
     user.deviceid = deviceId;
     await userModel.save(user);
   } catch (error) {

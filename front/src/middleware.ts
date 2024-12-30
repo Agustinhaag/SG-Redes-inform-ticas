@@ -52,6 +52,7 @@ export const config = {
     "/services",
     "/dashboard",
     "/sistems",
+    "/devices",
     "/dashboard/user",
     "/dashboard/admin",
   ], 

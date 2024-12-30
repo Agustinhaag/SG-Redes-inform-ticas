@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { catchedController } from "../utils/catchedControllers";
 import {
+  fetchDeviceInfo,
   fetchMessages,
   sendMessages,
 } from "../service/wablas.service";
@@ -30,3 +31,14 @@ export const fetchMessagesWablas = catchedController(
   }
 );
 
+export const fetchInfoDevices = catchedController(
+  async (req: Request, res: Response) => {
+    const { id } = req.body;
+    const response = await fetchDeviceInfo(id);
+   
+    if (response === false) {
+      return res.json({ message: "No se encontro un token", status: false });
+    }
+    res.status(201).send(response);
+  }
+);

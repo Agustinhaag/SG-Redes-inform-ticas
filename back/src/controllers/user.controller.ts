@@ -6,6 +6,7 @@ import {
   loginUserService,
   registerUserService,
   resetPasswordService,
+  saveDevice,
 } from "../service/user.service";
 import { User } from "../entities/User";
 
@@ -77,5 +78,15 @@ export const getUserById = catchedController(
     const id = Number(req.params.id);
     const user: User = await findUserById(id);
     res.status(200).json(user);
+  }
+);
+
+export const addDevice = catchedController(
+  async (req: Request, res: Response): Promise<any> => {
+    const { id, device } = req.body;
+    const user = await saveDevice(id, device);
+    res
+      .status(200)
+      .json({ message: "Dispositivo guardado correctamente", user });
   }
 );
