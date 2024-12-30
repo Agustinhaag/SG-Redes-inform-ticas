@@ -11,6 +11,7 @@ const ServiceDevice: React.FC = () => {
   const [viewModalDevice, setViewModalDevice] = useState<boolean>(false);
   const [infoDevice, setInfoDevice] = useState<any>(null);
   const [deviceStatus, setDeviceStatus] = useState<string>("disconnected");
+  const [loading, setLoading] = useState<boolean>(true);
   const url = process.env.NEXT_PUBLIC_URL!;
   const token: string = useSelector((state: RootState) => state.user.token);
   const secret = process.env.NEXT_PUBLIC_SECRET;
@@ -26,6 +27,9 @@ const ServiceDevice: React.FC = () => {
         })
         .catch((err) => {
           console.error("Error al obtener el estado del dispositivo:", err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }, 5000);
 
@@ -37,69 +41,85 @@ const ServiceDevice: React.FC = () => {
       {dataUser && (
         <div className="flex sm:flex-row flex-col sm:gap-0 gap-5 justify-between mx-auto w-11/12 mt-3">
           <div>
-            {!dataUser.device ? (
-              <div>
-                <h2>Agregue un dispositivo para el envío de mensajes</h2>
-                <button onClick={() => setViewModalDevice(!viewModalDevice)}>
-                  Agregar
-                </button>
+            {loading ? (
+              <div className="text-custom-white">
+                <h2 className="text-xl">
+                  Cargando información del dispositivo...
+                </h2>
               </div>
             ) : (
-              <div>
-                {infoDevice && infoDevice.status ? (
-                  <div className="text-custom-white">
-                    <h2 className="text-2xl mb-2">
-                      Información del dispositivo
+              <>
+                {!dataUser.device ? (
+                  <div className="text-custom-white flex flex-col gap-2">
+                    <h2 className="text-xl">
+                      Agregue un dispositivo para el envío de mensajes
                     </h2>
-                    <div className="flex flex-col gap-1">
-                      <p className="text-base text-neutral-400">
-                        <span className="text-lg text-custom-white">
-                          Dispositivo:{" "}
-                        </span>
-                        {infoDevice.data.name}
-                      </p>
-                      <p className="text-base text-neutral-400">
-                        <span className="text-lg text-custom-white">
-                          Número:{" "}
-                        </span>
-                        {infoDevice.data.sender}
-                      </p>
-                      <p
-                        className={`text-base ${
-                          deviceStatus === "disconnected"
-                            ? "text-red-600"
-                            : "text-green-600"
-                        }`}
-                      >
-                        <span className="text-lg text-custom-white">
-                          Estado:{" "}
-                        </span>
-                        {deviceStatus}
-                      </p>
-                      <p className="text-base text-neutral-400">
-                        <span className="text-lg text-custom-white">
-                          Expiración:{" "}
-                        </span>
-                        {infoDevice.data.expired_date}
-                      </p>
-                    </div>
+                    <button
+                      className="hover:bg-custom-blue rounded-md py-2 px-3 bg-blue-600"
+                      onClick={() => setViewModalDevice(!viewModalDevice)}
+                    >
+                      Agregar
+                    </button>
                   </div>
                 ) : (
-                  <div className="text-custom-white">
-                    <p>
-                      Su dispositivo aún no está disponible para el envío de
-                      mensajes
-                    </p>
-                    <p>Por favor comuníquese con nuestro equipo</p>
+                  <div>
+                    {infoDevice && infoDevice.status ? (
+                      <div className="text-custom-white">
+                        <h2 className="text-2xl mb-2">
+                          Información del dispositivo
+                        </h2>
+                        <div className="flex flex-col gap-1">
+                          <p className="text-base text-neutral-400">
+                            <span className="text-lg text-custom-white">
+                              Dispositivo:{" "}
+                            </span>
+                            {infoDevice.data.name}
+                          </p>
+                          <p className="text-base text-neutral-400">
+                            <span className="text-lg text-custom-white">
+                              Número:{" "}
+                            </span>
+                            {infoDevice.data.sender}
+                          </p>
+                          <p
+                            className={`text-base ${
+                              deviceStatus === "disconnected"
+                                ? "text-red-600"
+                                : "text-green-600"
+                            }`}
+                          >
+                            <span className="text-lg text-custom-white">
+                              Estado:{" "}
+                            </span>
+                            {deviceStatus}
+                          </p>
+                          <p className="text-base text-neutral-400">
+                            <span className="text-lg text-custom-white">
+                              Expiración:{" "}
+                            </span>
+                            {infoDevice.data.expired_date}
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-custom-white">
+                        <p>
+                          Su dispositivo aún no está disponible para el envío de
+                          mensajes
+                        </p>
+                        <p>Por favor comuníquese con nuestro equipo</p>
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
+              </>
             )}
           </div>
 
           {dataUser.tokenwablas &&
             dataUser.device &&
-            deviceStatus === "disconnected" && <QRCodeComponent />}
+            deviceStatus === "disconnected" &&
+            !loading && <QRCodeComponent />}
 
           {viewModalDevice && (
             <div className="fixed inset-0 bg-black bg-opacity-55 z-40"></div>

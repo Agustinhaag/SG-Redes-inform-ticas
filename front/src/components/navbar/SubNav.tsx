@@ -63,9 +63,10 @@ const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
       </Link>
       <Link
         href={PATHROUTES.DEVICES}
-        className={`enlaces hover:text-custom-white font-semibold ${
-          pathName === `${PATHROUTES.DEVICES}` ? "text-custom-white" : ""
-        } `}
+        className={`${dataUser ? "block" : "hidden"}
+         enlaces hover:text-custom-white font-semibold ${
+           pathName === `${PATHROUTES.DEVICES}` ? "text-custom-white" : ""
+         } `}
       >
         Dispositivos
       </Link>
