@@ -31,7 +31,6 @@ export const toggleUserStatusService = async (
 export const findAllUsers = async (): Promise<User[]> => {
   try {
     const users = await userModel.find({ where: { role: Role.USER } });
-    console.log(1)
     return users;
   } catch (error) {
     throw new ClientError(
