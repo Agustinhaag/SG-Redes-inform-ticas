@@ -255,7 +255,7 @@ const FormNewMessage: React.FC<{
               textarea={true}
             />
           </div>
-     holo
+     hola
           <div className="cont-btn flex flex-col w-full justify-center mb-5">
             <ButtonLogin loading={loading} name="Enviar" />
           </div>
