@@ -10,6 +10,7 @@ import Spinner from "../spinner/Spinner";
 
 const ListMessages: React.FC = () => {
   const [messages, setMessages] = useState<IMessageUser[] | undefined>([]);
+  const [messagesResponse, setMessagesResponse] = useState<any>();
   const [users, setUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // Nuevo estado para el Spinner
   const dataUser: IUser = useSelector((state: RootState) => state.user.user);
@@ -36,7 +37,7 @@ const ListMessages: React.FC = () => {
             url!,
             dataUser.id
           );
-
+          setMessagesResponse(messagesResponse);
           if (
             usersResponse &&
             usersResponse.length > 0 &&
@@ -65,10 +66,26 @@ const ListMessages: React.FC = () => {
 
     fetchData();
   }, [dataUser, token, tokenIspCube, url]);
-  return (
-    <div className="flex flex-col w-full">
-      <h2 className="text-xl mb-3">Mensajes enviados</h2>
+  const deliveredCount =
+    messagesResponse &&
+    messagesResponse.data.filter((msg: any) => msg.status === "delivered")
+      .length;
+  const pendingCount =
+    messagesResponse &&
+    messagesResponse.data.filter((msg: any) => msg.status !== "delivered")
+      .length;
 
+  return (
+    <div className="flex flex-col w-full mb-2">
+      <h2 className="text-xl mb-3">Mensajes enviados</h2>
+      <div className="my-1">
+        <p>
+          <strong>Mensajes Enviados:</strong> {deliveredCount}
+        </p>
+        <p>
+          <strong>Mensajes No Enviados:</strong> {pendingCount}
+        </p>
+      </div>
       {isLoading ? (
         <div className="flex justify-center w-full">
           <Spinner title="Cargando mensajes" />
