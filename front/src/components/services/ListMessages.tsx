@@ -10,6 +10,7 @@ import Spinner from "../spinner/Spinner";
 
 const ListMessages: React.FC = () => {
   const [messages, setMessages] = useState<IMessageUser[] | undefined>([]);
+  const [messagesResponse, setMessagesResponse] = useState<any>();
   const [users, setUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // Nuevo estado para el Spinner
   const dataUser: IUser = useSelector((state: RootState) => state.user.user);
@@ -36,7 +37,7 @@ const ListMessages: React.FC = () => {
             url!,
             dataUser.id
           );
-
+          setMessagesResponse(messagesResponse);
           if (
             usersResponse &&
             usersResponse.length > 0 &&
@@ -65,10 +66,38 @@ const ListMessages: React.FC = () => {
 
     fetchData();
   }, [dataUser, token, tokenIspCube, url]);
-  return (
-    <div className="flex flex-col w-full">
-      <h2 className="text-xl mb-3">Mensajes enviados</h2>
+  const deliveredCount =
+    messagesResponse &&
+    messagesResponse.data.filter(
+      (msg: any) =>
+        msg.status === "sent" ||
+        msg.status === "read" ||
+        msg.status === "delivered"
+    ).length;
 
+  const pending =
+    messagesResponse &&
+    messagesResponse.data.filter((msg: any) => msg.status === "pending").length;
+
+  const NoDeliveredCount =
+    messagesResponse &&
+    messagesResponse.data.filter(
+      (msg: any) => msg.status === "cancel" || msg.status === "reject"
+    ).length;
+  return (
+    <div className="flex flex-col w-full mb-2">
+      <h2 className="text-xl mb-3">Mensajes enviados</h2>
+      <div className="sm:my-1 mb-2 flex justify-between sm:flex-row flex-col">
+        <p>
+          <strong>Mensajes Enviados:</strong> {deliveredCount}
+        </p>
+        <p>
+          <strong>Mensajes pendientes:</strong> {pending}
+        </p>
+        <p>
+          <strong>Mensajes No Enviados:</strong> {NoDeliveredCount}
+        </p>
+      </div>
       {isLoading ? (
         <div className="flex justify-center w-full">
           <Spinner title="Cargando mensajes" />

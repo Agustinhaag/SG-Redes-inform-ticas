@@ -217,9 +217,7 @@ const FormNewMessage: React.FC<{
               />
             </div>
           </div>
-
           {/* Botones para agregar variables */}
-
           <ManualSelection
             users={users}
             manualSelection={manualSelection}
@@ -227,11 +225,9 @@ const FormNewMessage: React.FC<{
             setShowManualSelection={setShowManualSelection}
             showManualSelection={showManualSelection}
           />
-
           {formikProps.errors.addressee && (
             <div className="text-[#ff0000]">{formikProps.errors.addressee}</div>
           )}
-
           <div className="variable-list flex gap-2 my-3 justify-start w-full flex-wrap">
             {userVariables.map((variable) => (
               <button
@@ -259,7 +255,7 @@ const FormNewMessage: React.FC<{
               textarea={true}
             />
           </div>
-
+          hola
           <div className="cont-btn flex flex-col w-full justify-center mb-5">
             <ButtonLogin loading={loading} name="Enviar" />
           </div>
