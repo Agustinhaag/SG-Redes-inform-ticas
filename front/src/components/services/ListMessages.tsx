@@ -68,22 +68,34 @@ const ListMessages: React.FC = () => {
   }, [dataUser, token, tokenIspCube, url]);
   const deliveredCount =
     messagesResponse &&
-    messagesResponse.data.filter((msg: any) => msg.status === "delivered")
-      .length;
-  const pendingCount =
-    messagesResponse &&
-    messagesResponse.data.filter((msg: any) => msg.status !== "delivered")
-      .length;
+    messagesResponse.data.filter(
+      (msg: any) =>
+        msg.status === "sent" ||
+        msg.status === "read" ||
+        msg.status === "delivered"
+    ).length;
 
+  const pending =
+    messagesResponse &&
+    messagesResponse.data.filter((msg: any) => msg.status === "pending").length;
+
+  const NoDeliveredCount =
+    messagesResponse &&
+    messagesResponse.data.filter(
+      (msg: any) => msg.status === "cancel" || msg.status === "reject"
+    ).length;
   return (
     <div className="flex flex-col w-full mb-2">
       <h2 className="text-xl mb-3">Mensajes enviados</h2>
-      <div className="my-1">
+      <div className="sm:my-1 mb-2 flex justify-between sm:flex-row flex-col">
         <p>
           <strong>Mensajes Enviados:</strong> {deliveredCount}
         </p>
         <p>
-          <strong>Mensajes No Enviados:</strong> {pendingCount}
+          <strong>Mensajes pendientes:</strong> {pending}
+        </p>
+        <p>
+          <strong>Mensajes No Enviados:</strong> {NoDeliveredCount}
         </p>
       </div>
       {isLoading ? (

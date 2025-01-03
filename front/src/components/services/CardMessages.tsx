@@ -6,7 +6,8 @@ import { CiCalendarDate } from "react-icons/ci";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { IoMdTime } from "react-icons/io";
-import { MdCancel, MdPhoneAndroid } from "react-icons/md";
+import { LuCheckCheck } from "react-icons/lu";
+import { MdCancel, MdPending, MdPhoneAndroid } from "react-icons/md";
 
 const CardMessages: React.FC<{ message: IMessageUser }> = ({ message }) => {
   return (
@@ -40,15 +41,27 @@ const CardMessages: React.FC<{ message: IMessageUser }> = ({ message }) => {
           </p>
 
           <p className="flex items-center gap-1 xs:text-base text-sm">
-            {message.status === "cancel" ? (
+            {message.status === "cancel" || message.status === "reject" ? (
               <>
                 <MdCancel className="text-red-500" /> Cancelado
               </>
-            ) : (
+            ) : message.status === "pending" ? (
+              <>
+                <MdPending className="text-yellow-500" /> Pendiente
+              </>
+            ) : message.status === "read" ? (
+              <>
+                <LuCheckCheck  className="text-green-500" /> Leído
+              </>
+            ) : message.status === "delivered" ? (
+              <>
+                <LuCheckCheck  className="text-green-500" /> Entregado
+              </>
+            ) : message.status === "sent" ? (
               <>
                 <FaCheckCircle className="text-green-500" /> Enviado
               </>
-            )}
+            ) : null}
           </p>
         </div>
         <div className="flex gap-3 md:flex-row sm:flex-col flex-row">
