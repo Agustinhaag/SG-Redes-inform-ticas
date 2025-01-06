@@ -41,6 +41,8 @@ const ContactoForm: React.FC = () => {
               name: "",
               email: "",
               message: "",
+              whatsapp: "",
+              pais: "",
             }}
             validate={validateContact}
             onSubmit={(values, { resetForm }) => {
@@ -62,7 +64,7 @@ const ContactoForm: React.FC = () => {
             }}
           >
             {(formikProps) => (
-              <Form id="form" className="flex flex-col items-start">
+              <Form id="form" className="flex flex-col gap-2 items-start">
                 <ContainerInput
                   formikProps={formikProps}
                   nombre="name"
@@ -77,6 +79,20 @@ const ContactoForm: React.FC = () => {
                   type="email"
                   contact={true}
                 />
+                <ContainerInput
+                  formikProps={formikProps}
+                  nombre="whatsapp"
+                  title="Whatsapp"
+                  type="text"
+                  contact={true}
+                />
+                <ContainerInput
+                  formikProps={formikProps}
+                  nombre="pais"
+                  title="País"
+                  type="text"
+                  contact={true}
+                />
 
                 <ContainerInput
                   formikProps={formikProps}
@@ -87,7 +103,7 @@ const ContactoForm: React.FC = () => {
                   contact={true}
                 />
 
-                <div className="cont-btn flex w-full justify-end">
+                <div className="cont-btn flex w-full justify-end mb-2">
                   <button
                     type="submit"
                     className="md:mb-0 mb-4 bg-none border border-custom-blue text-custom-blue  rounded-3xl text-base py-2  px-10 hover:cursor-pointer hover:bg-custom-blue hover:text-custom-white "

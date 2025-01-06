@@ -41,7 +41,9 @@ const CardMessages: React.FC<{ message: IMessageUser }> = ({ message }) => {
           </p>
 
           <p className="flex items-center gap-1 xs:text-base text-sm">
-            {message.status === "cancel" || message.status === "reject" ? (
+            {message.status === "cancel" ||
+            message.status === "reject" ||
+            message.status === "delivered" ? (
               <>
                 <MdCancel className="text-red-500" /> Cancelado
               </>
@@ -51,11 +53,7 @@ const CardMessages: React.FC<{ message: IMessageUser }> = ({ message }) => {
               </>
             ) : message.status === "read" ? (
               <>
-                <LuCheckCheck  className="text-green-500" /> Leído
-              </>
-            ) : message.status === "delivered" ? (
-              <>
-                <LuCheckCheck  className="text-green-500" /> Entregado
+                <LuCheckCheck className="text-green-500" /> Leído
               </>
             ) : message.status === "sent" ? (
               <>

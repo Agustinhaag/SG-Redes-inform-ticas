@@ -100,7 +100,7 @@ const RegisterForm: React.FC = () => {
               error={error}
               formikProps={formikProps}
               nombre="phone"
-              title="Teléfono"
+              title="Teléfono de contacto"
               type="text"
             />
             <ContainerInput

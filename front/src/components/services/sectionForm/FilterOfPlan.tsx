@@ -13,8 +13,8 @@ const FilterOfPlan: React.FC<{
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
   return (
-    <div className="relative sm:w-1/2 sm:h-full w-full flex flex-col">
-      <span className="text-custom-white text-sm">Planes</span>
+    <div className="relative text-custom-white sm:w-1/2 sm:h-full w-full flex flex-col">
+      <span className=" text-sm">Planes</span>
 
       <div className="flex items-center">
         {/* Input deshabilitado que muestra los plan_name seleccionados */}

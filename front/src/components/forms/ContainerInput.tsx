@@ -13,6 +13,7 @@ const ContainerInput: React.FC<InputProps> = ({
   textarea = false,
   recoveryPass = false,
   contact = false,
+  message = false,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [viewResetPassword, setViewResetPassword] = useState<boolean>(false);
@@ -45,7 +46,7 @@ const ContainerInput: React.FC<InputProps> = ({
         />
         <label
           htmlFor={nombre}
-          className={`label 
+          className={`${message ? "label-message" : "label"} 
             ${
               (formikProps.errors[nombre] && formikProps.touched[nombre]) ||
               error
