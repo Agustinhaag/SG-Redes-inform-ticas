@@ -49,33 +49,9 @@ const FormNewMessage: React.FC<{
       }
     );
   }, []);
+  
 
-  const fetchInvoicesForUsers = async (users: any[]) => {
-    const invoicePromises = users.map(async (user) => {
-      try {
-        const invoiceData = await fetchUserInvoices(
-          url!,
-          dataUser.email,
-          token!,
-          tokenIspCube,
-          user.id
-        );
-        return { userId: user.id, invoice: invoiceData };
-      } catch (err) {
-        console.error(`Error fetching invoices for user ${user.id}`, err);
-        return { userId: user.id, invoice: "Error al obtener facturas" };
-      }
-    });
-
-    const resolvedInvoices = await Promise.all(invoicePromises);
-    const invoiceMap: Record<number, string> = {};
-    resolvedInvoices.forEach(({ userId, invoice }) => {
-      invoiceMap[userId] = invoice;
-    });
-
-    return invoiceMap; // Devuelve el mapa directamente
-  };
-
+ 
   const handleFilter = (filters: {
     node_code: any[];
     status: string[];
@@ -113,18 +89,9 @@ const FormNewMessage: React.FC<{
     setFilteredUsers(newFilteredUsers);
   };
 
-  const personalizeMessage = (
-    template: string,
-    user: any,
-    invoiceMap: Record<number, string>
-  ) => {
-    return template
-      .replace(/{{name}}/g, user.name)
-      .replace(/{{debt}}/g, user.debt || "N/A")
-      .replace(/{{address}}/g, user.address || "N/A")
-      .replace(/{{plan_name}}/g, user.plan_name || "N/A")
-      .replace(/{{invoices}}/g, invoiceMap[user.id] || "N/A");
-  };
+
+  
+ 
 
   const handleSubmit = async (values: FormValues, resetForm: () => void) => {
     try {
@@ -138,20 +105,12 @@ const FormNewMessage: React.FC<{
             })
           : filteredUsers;
 
-      // Espera a obtener todas las facturas antes de proceder
-      const invoiceData = await fetchInvoicesForUsers(selectedUsers);
-
-      // Personaliza los mensajes con los datos de las facturas
-      const personalizedMessages = selectedUsers.map((user) =>
-        personalizeMessage(values.message, user, invoiceData)
-      );
-
-      // Procede con el envío
+    
       await validateSendAll(
         manualSelection,
         filteredUsers,
         users,
-        personalizedMessages,
+        values.message,
         setFilteredUsers,
         setManualSelection,
         resetForm,
@@ -160,7 +119,9 @@ const FormNewMessage: React.FC<{
         token!,
         setError,
         dataUser.id,
-        setLoading
+        setLoading,
+        tokenIspCube,
+        dataUser.email
       );
     } catch (err) {
       setLoading(false);
@@ -253,9 +214,10 @@ const FormNewMessage: React.FC<{
               title="Mensaje"
               type="text"
               textarea={true}
+              message={true}
             />
           </div>
-          hola
+         
           <div className="cont-btn flex flex-col w-full justify-center mb-5">
             <ButtonLogin loading={loading} name="Enviar" />
           </div>

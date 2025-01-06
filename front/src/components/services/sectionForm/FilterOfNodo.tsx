@@ -13,8 +13,8 @@ const FilterOfNodo: React.FC<{
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
   return (
-    <div className="relative sm:w-1/2 sm:h-full w-full flex flex-col">
-      <span className="text-custom-white text-sm">Nodos</span>
+    <div className="relative text-custom-white sm:w-1/2 sm:h-full w-full flex flex-col">
+      <span className=" text-sm">Nodos</span>
 
       <div className="flex items-center">
         <Field

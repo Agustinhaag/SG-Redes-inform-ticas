@@ -183,6 +183,7 @@ export const findUserById = async (id: number): Promise<User> => {
   try {
     const user = await userModel.findOne({
       where: { id },
+      relations: ["ispCubeUser"],
     });
     if (!user) {
       throw new ClientError("El usuario no existe");
@@ -201,7 +202,7 @@ export const saveDevice = async (id: number, device: string) => {
     }
     user.device = device;
     await userModel.save(user);
-    return user
+    return user;
   } catch (error) {
     throw new ClientError("Error al guardar el dispositivo", 500);
   }

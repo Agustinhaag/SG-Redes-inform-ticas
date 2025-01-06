@@ -151,6 +151,12 @@ export const validateContact = (input: FormikValues): Partial<FormikValues> => {
   if (!input.message) {
     errors.message = "El mensaje es requerido";
   }
+  if (!input.whatsapp) {
+    errors.whatsapp = "El Whatsapp es requerido";
+  }
+  if (!input.pais) {
+    errors.pais = "El país es requerido";
+  }
   return errors;
 };
 

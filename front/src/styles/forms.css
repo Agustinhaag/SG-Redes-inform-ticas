@@ -1,7 +1,8 @@
 .cont-input {
   @apply relative w-full;
 }
-.label {
+.label,
+.label-message {
   @apply font-medium md:text-base absolute left-4 pointer-events-none text-sm;
 }
 .input {
@@ -31,6 +32,15 @@
   font-size: 14px;
   padding: 0 2px;
   background-color: black;
+}
+
+.input:focus ~ .label-message,
+.input:not(:placeholder-shown) ~ .label-message {
+  top: 4px !important;
+  left: 15px;
+  font-size: 14px;
+  padding: 0 2px;
+  background-color: rgb(15, 15, 15);
 }
 
 .input-contact:focus ~ .label,

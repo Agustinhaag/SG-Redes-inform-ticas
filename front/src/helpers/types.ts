@@ -51,6 +51,7 @@ export interface InputProps {
   textarea?: boolean;
   recoveryPass?: boolean;
   contact?: boolean;
+  message?: boolean;
 }
 
 export interface IUserIspCube {

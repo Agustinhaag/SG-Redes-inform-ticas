@@ -123,12 +123,7 @@ export const getUsersFromIspCubeService = async (
   }
 };
 
-export const factFetchLink = async (
-  token: string,
-  user: User,
-  id: string,
-
-) => {
+export const factFetchLink = async (token: string, user: User, id: string) => {
   try {
     const response = await fetch(
       `${ISPCUBEURL}/api/bills/last_bill_api?customer_id=${id}`,
@@ -152,9 +147,13 @@ export const factFetchLink = async (
     // );
     // }
 
-    const fact = await response.text();
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData?.message || "Error desconocido";
+    }
 
-    return fact;
+    const fact = await response.text();
+    return fact || "Factura no encontrada";
   } catch (error) {
     console.error("Error en el servicio de IspCube:", error);
     throw new ClientError("No se pudo conectar con IspCube.", 500);

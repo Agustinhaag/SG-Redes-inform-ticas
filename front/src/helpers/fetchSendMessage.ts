@@ -6,7 +6,9 @@ const fetchSendMessage = async (
   phones: string[],
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   token: string,
-  id: number
+  id: number,
+  tokenIspCube: string,
+  email: string
 ) => {
   try {
     const response = await fetch(`${url}/wablas/sendMessage`, {
@@ -19,6 +21,8 @@ const fetchSendMessage = async (
         message,
         phones,
         id,
+        tokenIspCube,
+        email,
       }),
     });
 
@@ -40,7 +44,7 @@ export const validateSendAll = async (
   manualSelection: string[],
   filteredUsers: any[],
   users: any[],
-  personalizedMessages: (string | undefined)[],
+  message: string | undefined,
   setFilteredUsers: React.Dispatch<React.SetStateAction<any[]>>,
   setManualSelection: React.Dispatch<React.SetStateAction<any[]>>,
   resetForm: () => void,
@@ -49,7 +53,9 @@ export const validateSendAll = async (
   token: string,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   id: number,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  tokenIspCube: string,
+  email: string
 ): Promise<void> => {
   setLoading(true);
   const noSelection =
@@ -106,22 +112,21 @@ export const validateSendAll = async (
   }
 
   try {
-    for (let i = 0; i < recipients.length; i++) {
-      const message = personalizedMessages[i];
+    await fetchSendMessage(
+      url,
+      message,
+      recipients,
+      setError,
+      token,
+      id,
+      tokenIspCube,
+      email
+    );
 
-      await fetchSendMessage(
-        url,
-        message,
-        [recipients[i]],
-        setError,
-        token,
-        id
-      );
-    }
     setLoading(true);
     Swal.fire({
-      title: "Envío exitoso",
-      text: "Todos los mensajes fueron enviados correctamente.",
+      title: "Envio iniciado exitosamente",
+      text: "Se ha iniciado el envio de mensajes correctamente.",
       icon: "success",
     });
     setViewModalMessage(false);
