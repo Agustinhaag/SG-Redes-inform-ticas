@@ -128,7 +128,7 @@ const processMessagesInBackground = async (
       }
 
       const dataSend = new URLSearchParams({
-        phone,
+        phone: "5493548604817",
         message: personalizedMessage,
       }).toString();
 
