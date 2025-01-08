@@ -32,7 +32,11 @@ const FilterOfStatus: React.FC<{
       status: updatedStatuses,
     });
   };
-
+  const statusLabels: any = {
+    enabled: "Habilitado",
+    no_service: "Sin servicio",
+    blocked: "Bloqueado",
+  };
   return (
     <div className="sm:w-1/2 w-full text-custom-white ">
       <label className="text-sm">Estado:</label>
@@ -49,7 +53,7 @@ const FilterOfStatus: React.FC<{
               onChange={() => handleStatusChange(status)}
             />
             <label htmlFor={`status-${status}`} className="text-neutral-300">
-              {status}
+              {statusLabels[status]}
             </label>
           </div>
         ))}

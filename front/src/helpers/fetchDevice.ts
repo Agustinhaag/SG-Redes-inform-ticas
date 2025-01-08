@@ -43,7 +43,7 @@ export const sendDevice = async (
       setViewModalDevice(false);
       Swal.fire({
         title: "¡Dispositivo almacenado exitosamente!",
-        text: "El usuario ya posee un dispositivo para mensajeria",
+        text: " ",
         icon: "success",
       });
     }

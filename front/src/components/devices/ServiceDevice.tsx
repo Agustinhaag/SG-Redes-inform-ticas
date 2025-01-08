@@ -76,8 +76,8 @@ const ServiceDevice: React.FC = () => {
                             {infoDevice.data.name}
                           </p>
                           <p className="text-base text-neutral-400">
-                            <span className="text-lg text-custom-white">
-                              Número:{" "}
+                            <span className="text-lg mr-1 text-custom-white">
+                              Número:
                             </span>
                             {infoDevice.data.sender}
                           </p>
@@ -89,15 +89,23 @@ const ServiceDevice: React.FC = () => {
                             }`}
                           >
                             <span className="text-lg text-custom-white">
-                              Estado:{" "}
+                              Estado:
                             </span>
-                            {deviceStatus}
+                            {deviceStatus === "disconnected"
+                              ? " Desconectado"
+                              : " Conectado"}
                           </p>
                           <p className="text-base text-neutral-400">
                             <span className="text-lg text-custom-white">
-                              Expiración:{" "}
+                              Venciminento:{" "}
                             </span>
                             {infoDevice.data.expired_date}
+                          </p>
+                          <p className="text-base text-neutral-400">
+                            <span className="text-lg text-custom-white">
+                              Mensajes disponibles:{" "}
+                            </span>
+                            {infoDevice.data.quota}
                           </p>
                         </div>
                       </div>

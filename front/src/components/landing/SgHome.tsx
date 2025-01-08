@@ -6,7 +6,7 @@ const SgHome: React.FC = () => {
   return (
     <section className="flex flex-col gap-4  items-center justify-between text-white pb-8">
       <h1 className="sm:text-5xl xs:text-4xl text-3xl font-bold text-custom-blue ">
-        SG-Redes informáticas
+        SG-Software
       </h1>
 
       <div className="md:w-1/2 w-11/12 flex justify-center">

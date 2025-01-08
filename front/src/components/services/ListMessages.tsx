@@ -3,16 +3,12 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { fetchAllMessages } from "@/helpers/fetchSendMessage";
 import { useSelector } from "react-redux";
-import { IMessageUser, IUser, RootState } from "@/helpers/types";
-import CardMessages from "./CardMessages";
+import {  IUser, RootState } from "@/helpers/types";
 import { fetchAllUsersIspCube } from "@/helpers/fetchIspCube";
-import Spinner from "../spinner/Spinner";
 
 const ListMessages: React.FC = () => {
-  const [messages, setMessages] = useState<IMessageUser[] | undefined>([]);
   const [messagesResponse, setMessagesResponse] = useState<any>();
   const [users, setUsers] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Nuevo estado para el Spinner
   const dataUser: IUser = useSelector((state: RootState) => state.user.user);
   const tokenIspCube: string = useSelector(
     (state: any) => state.user.tokenIspCube
@@ -38,30 +34,11 @@ const ListMessages: React.FC = () => {
             dataUser.id
           );
           setMessagesResponse(messagesResponse);
-          if (
-            usersResponse &&
-            usersResponse.length > 0 &&
-            messagesResponse.data
-          ) {
-            const dataMessage: IMessageUser[] | undefined =
-              messagesResponse.data.map((message: any) => {
-                const targetPhone = message.phone?.to;
-                const user = usersResponse.find(
-                  (user: any) => user.phones[0]?.number === targetPhone
-                );
-                return {
-                  ...message,
-                  userName: user?.name || "Desconocido",
-                };
-              });
-            setMessages(dataMessage);
-          }
+        
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false); // Desactiva el Spinner al terminar
-      }
+      } 
     };
 
     fetchData();
@@ -84,6 +61,7 @@ const ListMessages: React.FC = () => {
     messagesResponse.data.filter(
       (msg: any) => msg.status === "cancel" || msg.status === "reject"
     ).length;
+  
   return (
     <div className="flex flex-col w-full mb-2">
       <h2 className="text-xl mb-3">Mensajes enviados</h2>
@@ -98,19 +76,7 @@ const ListMessages: React.FC = () => {
           <strong>Mensajes No Enviados:</strong> {NoDeliveredCount}
         </p>
       </div>
-      {isLoading ? (
-        <div className="flex justify-center w-full">
-          <Spinner title="Cargando mensajes" />
-        </div>
-      ) : messages && messages.length > 0 ? (
-        <div className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {messages.map((message: IMessageUser) => (
-            <CardMessages message={message} key={message.id} />
-          ))}
-        </div>
-      ) : (
-        <p style={{ color: "#52525B" }}>No se encontraron mensajes.</p>
-      )}
+      
     </div>
   );
 };
