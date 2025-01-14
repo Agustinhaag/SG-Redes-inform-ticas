@@ -8,7 +8,8 @@ import FormNewMessage from "./FormNewMessage";
 const ModalNewMessage: React.FC<{
   viewModalMessage: boolean;
   setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ viewModalMessage, setViewModalMessage }) => {
+  onNewCampaign: (newCampaign: any) => void; 
+}> = ({ viewModalMessage, setViewModalMessage, onNewCampaign }) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
   return (
     <CSSTransition
@@ -28,7 +29,7 @@ const ModalNewMessage: React.FC<{
           }}
         >
           <div className=" flex items-center mb-5 pb-5 border-b border-custom-grey w-full">
-            <h3 className="font-semibold text-2xl">Envio masivo de mensajes</h3>
+            <h3 className="font-semibold text-2xl">Crear mensaje</h3>
           </div>
           <button
             onClick={(e) => {
@@ -41,7 +42,7 @@ const ModalNewMessage: React.FC<{
             <IoMdClose />
           </button>
           <div>
-            <FormNewMessage setViewModalMessage={setViewModalMessage} />
+            <FormNewMessage setViewModalMessage={setViewModalMessage}  onNewCampaign={onNewCampaign}/>
           </div>
         </div>
       </div>

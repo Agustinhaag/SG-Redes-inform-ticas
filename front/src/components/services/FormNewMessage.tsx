@@ -18,7 +18,8 @@ import { fetchUserInvoices } from "@/helpers/fetchInvoices";
 
 const FormNewMessage: React.FC<{
   setViewModalMessage: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ setViewModalMessage }) => {
+  onNewCampaign: (newCampaign: any) => void;
+}> = ({ setViewModalMessage, onNewCampaign }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<any[]>([]);
   const [invoices, setInvoices] = useState<Record<number, string>>({});
@@ -39,7 +40,7 @@ const FormNewMessage: React.FC<{
     { key: "{{debt}}", description: "Saldo" },
     { key: "{{address}}", description: "Dirección" },
     { key: "{{plan_name}}", description: "Plan" },
-    { key: "{{invoices}}", description: "Facturas" }, // Nueva variable
+    { key: "{{invoices}}", description: "Factura" }, 
   ];
 
   useEffect(() => {
@@ -49,9 +50,7 @@ const FormNewMessage: React.FC<{
       }
     );
   }, []);
-  
 
- 
   const handleFilter = (filters: {
     node_code: any[];
     status: string[];
@@ -89,10 +88,6 @@ const FormNewMessage: React.FC<{
     setFilteredUsers(newFilteredUsers);
   };
 
-
-  
- 
-
   const handleSubmit = async (values: FormValues, resetForm: () => void) => {
     try {
       setLoading(true);
@@ -105,8 +100,7 @@ const FormNewMessage: React.FC<{
             })
           : filteredUsers;
 
-    
-      await validateSendAll(
+      const response: any = await validateSendAll(
         manualSelection,
         filteredUsers,
         users,
@@ -123,12 +117,12 @@ const FormNewMessage: React.FC<{
         tokenIspCube,
         dataUser.email
       );
+      onNewCampaign(response.campaign);
     } catch (err) {
       setLoading(false);
       setError("Error al conectar con el servidor");
     }
   };
-
   return (
     <Formik<FormValues>
       initialValues={{
@@ -217,7 +211,7 @@ const FormNewMessage: React.FC<{
               message={true}
             />
           </div>
-         
+
           <div className="cont-btn flex flex-col w-full justify-center mb-5">
             <ButtonLogin loading={loading} name="Enviar" />
           </div>

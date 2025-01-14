@@ -82,7 +82,7 @@ const Sistems: React.FC = () => {
           </div>
         </section>
       ) : (
-        <section className="pb-3">
+        <section className="pb-3 mt-2">
           
           <div className="flex justify-center w-full">
             <CardSistem img="/files/logo-ispcube.png" name="IspCube" />

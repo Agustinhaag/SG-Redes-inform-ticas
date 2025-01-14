@@ -2,15 +2,19 @@
 import React, { useState } from "react";
 import ModalNewMessage from "./ModalNewMessage";
 import ListMessages from "./ListMessages";
-import { IUser, RootState } from "@/helpers/types";
+import { Campaign, IUser, RootState } from "@/helpers/types";
 import { useSelector } from "react-redux";
 
 const ViewMessagesWablas: React.FC = () => {
   const [viewModalMessage, setViewModalMessage] = useState<boolean>(false);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const toggleMenu = () => {
     setViewModalMessage(!viewModalMessage);
   };
   const dataUser: IUser = useSelector((state: RootState) => state.user.user);
+  const handleNewCampaign = (newCampaign: any) => {
+    setCampaigns((prevCampaigns) => [newCampaign, ...prevCampaigns]);
+  };
   return (
     <section className="flex flex-col w-full px-3">
       {dataUser && dataUser.tokenwablas && dataUser.device ? (
@@ -22,10 +26,10 @@ const ViewMessagesWablas: React.FC = () => {
                 setViewModalMessage(!viewModalMessage);
               }}
             >
-              Enviar mensajes
+              Crear mensajes
             </button>
           </div>
-          <ListMessages />
+          <ListMessages campaigns={campaigns} setCampaigns={setCampaigns}/>
           {viewModalMessage && (
             <div
               className="fixed inset-0 bg-black bg-opacity-55 z-40"
@@ -35,6 +39,7 @@ const ViewMessagesWablas: React.FC = () => {
           <ModalNewMessage
             setViewModalMessage={setViewModalMessage}
             viewModalMessage={viewModalMessage}
+            onNewCampaign={handleNewCampaign}
           />
         </>
       ) : (
