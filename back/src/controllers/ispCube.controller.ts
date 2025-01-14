@@ -28,7 +28,6 @@ export const getUsersFromIspCubeController = catchedController(
       const { token, email } = req.body;
 
       const user: User = await findByEmail(email);
-      console.log(user)
       const usersIspCube = await getUsersFromIspCubeService(token, user);
 
       res.status(200).json(usersIspCube);

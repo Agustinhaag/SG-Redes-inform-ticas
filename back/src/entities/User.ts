@@ -2,12 +2,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Credential } from "./Credentials";
 import { IspCubeUser } from "./IspCubeUser";
 import { Role, Status } from "../utils/types";
+import { Campaign } from "./Campaign";
 
 @Entity({ name: "users" })
 export class User {
@@ -67,4 +69,7 @@ export class User {
   @OneToOne(() => IspCubeUser, { nullable: true, cascade: true })
   @JoinColumn()
   ispCubeUser: IspCubeUser | null;
+
+  @OneToMany(() => Campaign, (campaign) => campaign.user)
+  campaign: Campaign[];
 }

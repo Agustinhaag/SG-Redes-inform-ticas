@@ -1,9 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "ispcube" })
 export class IspCubeUser {
