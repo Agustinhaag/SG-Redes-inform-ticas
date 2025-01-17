@@ -31,7 +31,7 @@ const hashRevertToken = async (userId: number) => {
 export const fetchMessages = async (userId: number) => {
   try {
     const token = await hashRevertToken(userId);
-   const tokenWithSecret = token && token.split('.')[0]
+    const tokenWithSecret = token && token.split(".")[0];
     if (token) {
       const response = await fetch(`${URL_WABLAS}/report-realtime`, {
         headers: {
@@ -139,7 +139,6 @@ const processMessagesInBackground = async (
         invoices
       );
       const phone = userSelected.phones[0]?.number;
-      // const phone = "5493548604817";
 
       const token = await hashRevertToken(userId);
       if (!token) {
@@ -192,12 +191,16 @@ export const fetchDeviceInfo = async (userId: number) => {
     if (!token) {
       return false;
     }
-    const response = await fetch(`${URL_WABLAS}/device/info?token=${token}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const tokenWithSecret = token && token.split(".")[0];
+    const response = await fetch(
+      `${URL_WABLAS}/device/info?token=${tokenWithSecret}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
 
     return data;
