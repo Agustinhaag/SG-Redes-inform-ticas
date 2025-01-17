@@ -40,7 +40,7 @@ const FormNewMessage: React.FC<{
     { key: "{{debt}}", description: "Saldo" },
     { key: "{{address}}", description: "Dirección" },
     { key: "{{plan_name}}", description: "Plan" },
-    { key: "{{invoices}}", description: "Factura" }, 
+    { key: "{{invoices}}", description: "Factura" },
   ];
 
   useEffect(() => {

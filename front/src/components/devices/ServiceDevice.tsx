@@ -14,7 +14,6 @@ const ServiceDevice: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const url = process.env.NEXT_PUBLIC_URL!;
   const token: string = useSelector((state: RootState) => state.user.token);
-  const secret = process.env.NEXT_PUBLIC_SECRET;
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -50,10 +49,36 @@ const ServiceDevice: React.FC = () => {
             ) : (
               <>
                 {!dataUser.device ? (
-                  <div className="text-custom-white flex flex-col gap-2">
+                  <div className="text-custom-white flex flex-col gap-2 mb-2">
                     <h2 className="text-xl">
                       Agregue un dispositivo para el envío de mensajes
                     </h2>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-1">
+                        <h3 className="text-xl">Requerimientos:</h3>
+                        <p className="text-neutral-400">
+                          Contar con un teléfono celular.
+                        </p>
+                        <p className="text-neutral-400">
+                          Disponer de una tarjeta SIM. No utilice la misma
+                          tarjeta SIM que usa actualmente para comunicarse con
+                          sus clientes.
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <h3 className="text-xl">Procedimiento:</h3>
+                        <p className="text-neutral-400">
+                          En el teléfono, inserte la tarjeta SIM. En el
+                          teléfono, instale la aplicación WhatsApp Business. En
+                          esta página, haga clic en el botón Agregar e ingrese
+                          el número de teléfono asociado a la tarjeta SIM. Una
+                          vez que haya agregado el número de teléfono,
+                          realizaremos un proceso de validación que puede tardar
+                          hasta 24 horas. Le notificaremos en cuanto haya sido
+                          validado.
+                        </p>
+                      </div>
+                    </div>
                     <button
                       className="hover:bg-custom-blue rounded-md py-2 px-3 bg-blue-600"
                       onClick={() => setViewModalDevice(!viewModalDevice)}
@@ -62,13 +87,34 @@ const ServiceDevice: React.FC = () => {
                     </button>
                   </div>
                 ) : (
-                  <div>
+                  <div className="text-custom-white ">
+                    <div className="flex flex-col gap-2 mb-1">
+                      <h2 className="sm:text-2xl text-lg">IMPORTANTE:</h2>
+                      <p className="text-neutral-400 sm:text-base text-sm">
+                        Inicialmente, dispone de 5000 mensajes gratuitos de
+                        forma mensual.
+                      </p>
+                      <p className="text-neutral-400 sm:text-base text-sm">
+                        Actualmente, el proceso de envío de mensajes es lento.
+                        Una mayor velocidad podría ser interpretada como spam
+                        por la empresa Whatsapp, resultando en el bloqueo del
+                        número de teléfono. Para evitar esta situación, el envío
+                        es de 1 minuto por mensaje.
+                      </p>
+                      <p className="text-neutral-400 sm:text-base text-sm">
+                        Por lo tanto, este software no debe utilizarse para
+                        informar emergencias a los clientes (por ejemplo, la
+                        caída imprevista de equipos). Su uso está diseñado para
+                        comunicaciones anticipadas, como avisos de vencimiento,
+                        mantenimientos programados, etc.
+                      </p>
+                    </div>
                     {infoDevice && infoDevice.status ? (
-                      <div className="text-custom-white">
-                        <h2 className="text-2xl mb-2">
-                          Información del dispositivo
-                        </h2>
+                      <div className="mb-2">
                         <div className="flex flex-col gap-1">
+                          <h2 className="text-2xl mb-2">
+                            Información del dispositivo
+                          </h2>
                           <p className="text-base text-neutral-400">
                             <span className="text-lg text-custom-white">
                               Dispositivo:{" "}
@@ -111,11 +157,16 @@ const ServiceDevice: React.FC = () => {
                       </div>
                     ) : (
                       <div className="text-custom-white">
+                        <h2>¡Dispositivo validado! </h2>
                         <p>
-                          Su dispositivo aún no está disponible para el envío de
-                          mensajes
+                          Procedimiento: En el teléfono, abra la aplicación
+                          WhatsApp Business. En WhatsApp Business, active la
+                          función de escaneo QR. En esta página, presione el
+                          botón Generar código QR Con su teléfono, escanee el
+                          código QR generado en esta página. Una vez escaneado
+                          el código QR, su teléfono estará habilitado para
+                          enviar mensajes masivos a sus clientes.
                         </p>
-                        <p>Por favor comuníquese con nuestro equipo</p>
                       </div>
                     )}
                   </div>

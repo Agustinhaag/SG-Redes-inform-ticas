@@ -18,6 +18,18 @@ const SgHome: React.FC = () => {
           height={500}
         />
       </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-3xl text-center">¡Bienvenido!</h2>
+        Para configurar el envío de mensajes masivos a sus clientes:
+        <p>
+          1) Ingrese al menú Sistemas para registrar el sistema de gestión
+          utilizado en su empresa.
+        </p>
+        <p>
+          2) Ingrese al menú Dispositivos para registrar el número de teléfono
+          desde el cual se enviarán los mensajes masivos.
+        </p>
+      </div>
     </section>
   );
 };

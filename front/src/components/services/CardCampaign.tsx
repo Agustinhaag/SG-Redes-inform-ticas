@@ -63,7 +63,7 @@ const CardCampaign: React.FC<{ campaign: Campaign }> = ({ campaign }) => {
             </>
           ) : campaign.status === "Enviado a wablas" ? (
             <>
-              <LuCheckCheck className="text-green-500" /> Enviados a Wablas
+              <LuCheckCheck className="text-green-500" /> Peticiones enviadas
             </>
           ) : null}
         </p>

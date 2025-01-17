@@ -5,9 +5,16 @@ import PATHROUTES from "@/helpers/PathRoutes";
 import Link from "next/link";
 import React from "react";
 
+export function generateStaticParams() {
+  return [{ detail: "user" }, { detail: "admin" }];
+}
 
-const Dashboard: React.FC<any> = ({ params }) => {
-  const { detail } = params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ detail: string }>;
+}) {
+  const { detail } = await params;
 
   if (detail !== "user" && detail !== "admin") {
     return (
@@ -30,6 +37,4 @@ const Dashboard: React.FC<any> = ({ params }) => {
       {detail === "admin" && <AdminFunctions />}
     </main>
   );
-};
-
-export default Dashboard;
+}

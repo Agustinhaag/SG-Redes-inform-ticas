@@ -137,7 +137,7 @@ const ModalCampaign: React.FC<{
                 </>
               ) : null}
             </p>
-            <p>Mensaje: "{campaign.message}"</p>
+            <p>Mensaje: {campaign.message}</p>
             <p>Fecha: {dayjs(campaign.createdAt).format("DD/MM/YY HH:mm")} Hr.</p>
 
             <h4>Usuarios con fallos:</h4>
