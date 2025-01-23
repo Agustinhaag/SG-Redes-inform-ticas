@@ -124,7 +124,7 @@ const QRCodeComponent: React.FC = () => {
   };
 
   return (
-    <div className="text-custom-white">
+    <div className="text-custom-white md:mb-0 mb-2">
       <button
         className="bg-transparent border medium-xs:w-auto w-2/3 min-w-44 border-custom-blue rounded-md py-2 px-3 hover:bg-custom-blue"
         onClick={generateQRCode}

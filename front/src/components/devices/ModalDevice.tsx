@@ -66,10 +66,19 @@ const ModalDevice: React.FC<{
             maxHeight: "85vh",
           }}
         >
-          <div className=" flex items-center mb-5 pb-5 border-b border-custom-grey w-full">
+          <div className=" flex gap-1 mb-5 pb-5 border-b text-custom-white items-start flex-col border-custom-grey w-full">
             <h3 className="font-semibold sm:text-xl xs:text-base text-sm text-custom-white">
               Añadir dispositivo
             </h3>
+            <small>
+              Formato: código pais + Indicador de celular + código de area +
+              número de teléfono
+            </small>
+            <small className="flex ">
+              Ejemplo para Argentina: <span className="text-red-500 ml-1">54</span>
+              <span className="text-violet-900">9</span>
+              <span className="text-green-600">343</span>4151061
+            </small>
           </div>
           <button
             onClick={(e) => {
