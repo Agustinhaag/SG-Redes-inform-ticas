@@ -1,12 +1,14 @@
-import { userModel } from "../config/dataSource";
+import { campaignModel, userModel } from "../config/dataSource";
 import { URL_WABLAS } from "../config/envs";
 import { User } from "../entities/User";
 import { decrypt } from "../helpers/hashPropsHeader";
 import {
   handleDataIspcube,
   personalizeMessage,
+  saveMessageIds,
 } from "../helpers/helperSendMessage";
 import { ClientError } from "../utils/errors";
+import { handleChangeStatus } from "./campaign.service";
 import { getUsersFromIspCubeService } from "./ispCube.service";
 import { findByEmail } from "./user.service";
 
@@ -29,11 +31,12 @@ const hashRevertToken = async (userId: number) => {
 export const fetchMessages = async (userId: number) => {
   try {
     const token = await hashRevertToken(userId);
+    const tokenWithSecret = token && token.split(".")[0];
     if (token) {
       const response = await fetch(`${URL_WABLAS}/report-realtime`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${token}`,
+          Authorization: `${tokenWithSecret}`,
         },
       });
       const data = await response.json();
@@ -65,10 +68,22 @@ export const sendMessages = async (
       );
     }
 
+    const user = await findByEmail(email);
+
+    const campaign = campaignModel.create({
+      message,
+      recipients: validPhones,
+      user,
+      createdAt: new Date(),
+    });
+
+    await campaignModel.save(campaign);
+
     // Responder inmediatamente al frontend después de validar los números
     const response = {
       message:
         "Datos recibidos correctamente. El proceso de envío se está gestionando.",
+      campaign,
     };
 
     // Después de la validación, ejecutamos el resto del proceso en segundo plano
@@ -77,7 +92,8 @@ export const sendMessages = async (
       validPhones,
       userId,
       tokenIspCube,
-      email
+      user,
+      campaign.id
     );
 
     return response; // Respuesta inmediata al frontend
@@ -93,11 +109,12 @@ const processMessagesInBackground = async (
   phones: string[],
   userId: number,
   tokenIspCube: string,
-  email: string
+  user: User,
+  id: number
 ) => {
   try {
     // Obtener información del usuario y los usuarios de IspCube
-    const user = await findByEmail(email);
+
     const usersIspCube = await getUsersFromIspCubeService(tokenIspCube, user);
 
     // Filtrar usuarios seleccionados
@@ -114,6 +131,7 @@ const processMessagesInBackground = async (
 
     // Personalizar mensajes y enviar uno por uno
     const results = [];
+    const messageIds: string[] = [];
     for (const userSelected of usersSelected) {
       const personalizedMessage = personalizeMessage(
         message,
@@ -143,16 +161,24 @@ const processMessagesInBackground = async (
         });
 
         const data = await response.json();
+
         if (!response.ok) {
           throw new Error(data?.error || "Error al enviar mensaje.");
         }
-
+        const messageId = data?.data?.messages[0]?.id;
+        if (messageId) {
+          messageIds.push(messageId);
+        }
         results.push({ phone, status: "success", response: data });
       } catch (err: any) {
         console.error(`Error enviando a ${phone}:`, err.message);
         results.push({ phone, status: "error", error: err.message });
       }
     }
+    if (messageIds.length > 0) {
+      await saveMessageIds(id, messageIds);
+    }
+    await handleChangeStatus(`${id}`, "Enviado a wablas");
   } catch (error) {
     console.error("Error en el proceso en segundo plano:", error);
     // Aquí puedes agregar un sistema de notificación o guardar el error en un log
@@ -165,12 +191,16 @@ export const fetchDeviceInfo = async (userId: number) => {
     if (!token) {
       return false;
     }
-    const response = await fetch(`${URL_WABLAS}/device/info?token=${token}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const tokenWithSecret = token && token.split(".")[0];
+    const response = await fetch(
+      `${URL_WABLAS}/device/info?token=${tokenWithSecret}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
 
     return data;

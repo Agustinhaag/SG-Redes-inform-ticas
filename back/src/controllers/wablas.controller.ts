@@ -26,7 +26,13 @@ export const fetchMessagesWablas = catchedController(
     if (isNaN(userId)) {
       return res.status(400).json({ error: "ID de usuario inválido" });
     }
-    const response = await sendMessages(message, phones, userId,tokenIspCube,email);
+    const response = await sendMessages(
+      message,
+      phones,
+      userId,
+      tokenIspCube,
+      email
+    );
     res.status(201).send(response);
   }
 );
@@ -37,7 +43,9 @@ export const fetchInfoDevices = catchedController(
     const response = await fetchDeviceInfo(id);
 
     if (response === false) {
-      return res.json({ message: "No se encontro un token", status: false });
+      return res
+        .status(404)
+        .json({ message: "No se encontro un token", status: false });
     }
     res.status(201).send(response);
   }

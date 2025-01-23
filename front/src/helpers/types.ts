@@ -80,18 +80,6 @@ export interface FormValues {
   };
 }
 
-export interface IMessageUser {
-  category: string;
-  date: { created_at: string; updated_at: string };
-  file: null;
-  id: string;
-  message: string;
-  phone: { from: string; to: string };
-  status: string;
-  type: string;
-  userName: string;
-}
-
 export interface RootState {
   user: {
     user: IUser;
@@ -116,4 +104,25 @@ export interface BannerProps {
   img: string;
   text: string;
   title: string;
+}
+
+export interface MessageCampaign {
+  id: number;
+  messageIds: string[];
+}
+
+export interface Campaign {
+  id: number;
+
+  createdAt: Date;
+
+  status: string;
+
+  message: string;
+
+  recipients: string[];
+
+  messages: MessageCampaign[];
+
+  user: IUser;
 }

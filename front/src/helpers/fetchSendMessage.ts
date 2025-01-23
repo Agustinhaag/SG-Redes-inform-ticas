@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import { fetchInfoDevice } from "./fetchDevice";
 
 const fetchSendMessage = async (
   url: string,
@@ -70,10 +71,11 @@ export const validateSendAll = async (
     setLoading(false);
     return;
   }
+
   let recipients: string[] = [];
   const result = await Swal.fire({
     title: "Confirma que desea hacer el envío masivo de mensajes?",
-    text: "Si no ha asignado parámetros de filtrado, el mensaje se enviará a todos los usuarios.",
+    text: "",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -110,9 +112,18 @@ export const validateSendAll = async (
             .map((user) => user.phones[0]?.number)
             .filter((phone) => phone); // Elimina los valores undefined o null
   }
-
+  const response = await fetchInfoDevice(id, url, token);
+  if (response.data.quota < recipients.length) {
+    Swal.fire({
+      title: "No posee suficientes mensajes disponibles para enviar.",
+      text: "Por favor comuniquese con nuestro equipo",
+      icon: "info",
+    });
+    setLoading(false);
+    return;
+  }
   try {
-    await fetchSendMessage(
+    const response = await fetchSendMessage(
       url,
       message,
       recipients,
@@ -130,6 +141,7 @@ export const validateSendAll = async (
       icon: "success",
     });
     setViewModalMessage(false);
+    return response?.data;
   } catch (err) {
     setLoading(false);
     Swal.fire({
@@ -207,5 +219,29 @@ export const fetchScanQrCode = async (
   } catch (error) {
     setLoading(false);
     console.log(error);
+  }
+};
+
+export const updateCampaignStatus = async (
+  url: string,
+  token: string,
+  campaignId: number,
+  newStatus: string
+): Promise<void> => {
+  try {
+    const response = await fetch(`${url}/campaign/status/${campaignId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `${token}`,
+      },
+      body: JSON.stringify({ status: newStatus }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error updating campaign status:", error);
   }
 };

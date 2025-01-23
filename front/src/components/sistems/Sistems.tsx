@@ -82,11 +82,17 @@ const Sistems: React.FC = () => {
           </div>
         </section>
       ) : (
-        <section className="pb-3">
-          <h1 className="text-center  mb-4 text-2xl">¡Bienvenidos!</h1>
-          <p className="text-neutral-300 ml-2 mb-4">
-            Por favor seleccione el sistema con el que desea comenzar a operar
-          </p>
+        <section className="pb-3 mt-2">
+          <div className=" flex flex-col pl-2">
+           <p> Antes de proceder con el registro, deberá solicitar los siguientes
+            datos al soporte técnico de su sistema de gestión: </p>
+            <ul className="list-disc pl-5 ">
+  <li>Usuario</li>
+  <li>Contraseña</li>
+  <li>ID de Cliente</li>
+  <li>API Key</li>
+</ul>
+          </div>
           <div className="flex justify-center w-full">
             <CardSistem img="/files/logo-ispcube.png" name="IspCube" />
           </div>

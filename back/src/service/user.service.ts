@@ -186,7 +186,7 @@ export const findUserById = async (id: number): Promise<User> => {
       relations: ["ispCubeUser"],
     });
     if (!user) {
-      throw new ClientError("El usuario no existe");
+      throw new ClientError("El usuario no existe", 404);
     }
     return user;
   } catch (error) {
