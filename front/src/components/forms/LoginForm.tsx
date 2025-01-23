@@ -40,7 +40,7 @@ const LoginForm: React.FC = () => {
         };
 
         dispatch(setToken(userData.token));
-        fetchDataUser(userData.token, secret, url).then((res) => {
+        fetchDataUser(userData.token, url).then((res) => {
           dispatch(setUserData(res));
         });
 

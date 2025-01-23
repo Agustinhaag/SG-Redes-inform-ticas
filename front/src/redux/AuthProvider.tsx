@@ -20,7 +20,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const tokenString = Cookies.get("token");
     const tokenIspCube = Cookies.get("tokenIspCube");
     if (tokenString) {
-      fetchDataUser(tokenString, secret, url)
+      fetchDataUser(tokenString, url)
         .then((userData) => {
           dispatch(setUserData(userData));
           dispatch(setToken(tokenString));

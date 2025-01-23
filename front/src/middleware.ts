@@ -1,25 +1,48 @@
-import { jwtVerify } from "jose";
+
 import { NextRequest, NextResponse } from "next/server";
 
-const validateJWT = async (
-  secret: string | undefined,
-  user: string
-): Promise<boolean> => {
+const validateJWT = (token: string): boolean => {
   try {
-    const { payload } = await jwtVerify(user, new TextEncoder().encode(secret));
+    // Decodificar el JWT y extraer el payload
+    const userId = decodeJWT(token);
 
-    if (!payload.id || !payload.iat || !payload.exp) {
-      console.error(
-        "Falta el id del usuario o dato de emisión o fecha de expiración:",
-        payload
-      );
+    // Verificar si el userId está presente en el payload
+    if (!userId) {
+      console.error("Falta el userId en el token");
       return false;
     }
 
+    // Si no falta el userId, retornamos true
     return true;
   } catch (error) {
-    console.error("JWT Validation Error:", error);
+    console.error("Error validando el token:", error);
     return false;
+  }
+};
+
+
+const decodeJWT = (token: string): string | null => {
+  try {
+    // Separar el token en sus tres partes
+    const parts = token.split('.');
+
+    // Si no tiene 3 partes, el token es inválido
+    if (parts.length !== 3) {
+      throw new Error('Token inválido');
+    }
+
+    // Decodificar la parte payload (base64url -> base64)
+    const base64Url = parts[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Reemplazar base64url por base64
+
+    // Decodificar y parsear el payload como JSON
+    const decodedPayload = JSON.parse(atob(base64));
+
+    // Devuelve el userId del payload, si está presente
+    return decodedPayload.userId || null;
+  } catch (error) {
+    console.error('Error decodificando el token:', error);
+    return null;
   }
 };
 
@@ -34,7 +57,7 @@ export const middleware = async (request: NextRequest) => {
   }
 
   if (userData) {
-    const validateToken = await validateJWT(secret, userData);
+    const validateToken = await validateJWT(userData);
     if (validateToken === true) {
       return NextResponse.next();
     }
