@@ -6,12 +6,12 @@ import wablasRouter from "./wablas.router";
 
 const router = Router();
 
-router.use("/auth", usersRouter);
+router.use("/api/auth", usersRouter);
 
-router.use("/admin",adminRouter)
+router.use("/api/admin",adminRouter)
 
-router.use("/ispCube",ispCubeRouter)
+router.use("/api/ispCube",ispCubeRouter)
 
-router.use("/wablas", wablasRouter)
+router.use("/api/wablas", wablasRouter)
 
 export default router;

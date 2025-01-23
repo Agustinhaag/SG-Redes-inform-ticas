@@ -29,11 +29,12 @@ const hashRevertToken = async (userId: number) => {
 export const fetchMessages = async (userId: number) => {
   try {
     const token = await hashRevertToken(userId);
+const tokenWithSecret = token && token.split(".")[0];
     if (token) {
       const response = await fetch(`${URL_WABLAS}/report-realtime`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${token}`,
+          Authorization: `${tokenWithSecret}`,
         },
       });
       const data = await response.json();
@@ -165,7 +166,8 @@ export const fetchDeviceInfo = async (userId: number) => {
     if (!token) {
       return false;
     }
-    const response = await fetch(`${URL_WABLAS}/device/info?token=${token}`, {
+const tokenWithSecret = token && token.split(".")[0];
+    const response = await fetch(`${URL_WABLAS}/device/info?token=${tokenWithSecret}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

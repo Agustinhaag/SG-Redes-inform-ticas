@@ -7,7 +7,13 @@ import router from "./routes";
 const app = express();
 
 app.use(morgan("dev"));
-app.use(cors());
+
+app.use(cors({
+  origin: 'https://sistema.sgredesinformaticas.com.ar',
+  methods: ['GET', 'POST','PUT','DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(express.json());
 // app.use(
 //   cookie({
