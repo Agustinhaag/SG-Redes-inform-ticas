@@ -26,4 +26,3 @@ app.prepare().then(() => {
     console.log('> Server running on https://localhost:4000');
   });
 });
-

@@ -29,19 +29,17 @@ export const fetchDataUser = async (
   url: string | undefined
 ) => {
   try {
-
     const userId = decodeJWT(token);
 
     // Si el userId no existe, lanzar un error
     if (!userId) {
       throw new Error('El token no contiene un userId válido');
     }
-
     
     const data = await fetchDataUserByID(token, url, userId);
     return data;
   } catch (error) {
-    console.error("Error fetching data user:", error);
+    console.error("Error al obtener los datos del usuario:", error);
     throw error;
   }
 };

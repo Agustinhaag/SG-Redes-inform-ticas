@@ -36,7 +36,7 @@ const FormModalResetPassword: React.FC<{
 
       return;
     }
-    const response = await fetchResetPassword(url!, email);
+    const response = await fetchResetPassword(url!, email, setLoading);
     if (response && response.ok) {
       setLoading(false);
       setViewResetPassword(false);

@@ -20,15 +20,15 @@ const validateJWT = (token: string): boolean => {
   }
 };
 
-
+// Función auxiliar para decodificar el JWT
 const decodeJWT = (token: string): string | null => {
   try {
     // Separar el token en sus tres partes
-    const parts = token.split('.');
+    const parts = token.split(".");
 
     // Si no tiene 3 partes, el token es inválido
     if (parts.length !== 3) {
-      throw new Error('Token inválido');
+      throw new Error("Token inválido");
     }
 
     // Decodificar la parte payload (base64url -> base64)
@@ -41,7 +41,7 @@ const decodeJWT = (token: string): string | null => {
     // Devuelve el userId del payload, si está presente
     return decodedPayload.userId || null;
   } catch (error) {
-    console.error('Error decodificando el token:', error);
+    console.error("Error decodificando el token:", error);
     return null;
   }
 };
@@ -55,13 +55,11 @@ export const middleware = async (request: NextRequest) => {
   if (!userData) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-
   if (pathname.startsWith("/services")) {
     if (!ispCubeToken) {
       return NextResponse.redirect(new URL("/sistems", request.url)); // Redirige al login de ISPCube
     }
   }
-
   if (userData) {
     const validateToken = await validateJWT(userData);
     if (validateToken === true) {
@@ -78,5 +76,5 @@ export const config = {
     "/devices",
     "/dashboard/user",
     "/dashboard/admin",
-  ], 
+  ],
 };

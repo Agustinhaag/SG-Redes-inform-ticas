@@ -20,7 +20,7 @@ const Login: React.FC = () => {
                 href={PATHROUTES.REGISTER}
                 className="pl-1 text-custom-blue font-semibold hover:underline"
               >
-                !Registrate¡
+                Registrate
               </Link>
             </p>
           </div>

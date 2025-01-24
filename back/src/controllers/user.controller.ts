@@ -9,6 +9,7 @@ import {
   saveDevice,
 } from "../service/user.service";
 import { User } from "../entities/User";
+import { ClientError } from "../utils/errors";
 
 export const userRegister = catchedController(
   async (req: Request, res: Response) => {
@@ -52,10 +53,14 @@ export const initiatePasswordReset = catchedController(
     try {
       const { email } = req.body;
       const message = await initiatePasswordResetService(email);
-
       res.status(200).json({ message });
     } catch (error) {
-      res.status(500).json({ error });
+      // Si el error tiene un código 404, se indica que el usuario no existe
+      if (error instanceof ClientError && error.statusCode === 404) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: "Error interno del servidor." });
+      }
     }
   }
 );
