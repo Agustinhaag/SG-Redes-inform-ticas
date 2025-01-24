@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
       </div>
 
       <p className="text-center ">
-        &copy; 2024 SG-Redes informáticas. Todos los derechos reservados.
+        &copy; 2025 SG-Redes informáticas. Todos los derechos reservados.
       </p>
     </footer>
   );

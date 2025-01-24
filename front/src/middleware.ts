@@ -56,16 +56,16 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  if (pathname.startsWith("/services")) {
+    if (!ispCubeToken) {
+      return NextResponse.redirect(new URL("/sistems", request.url)); // Redirige al login de ISPCube
+    }
+  }
+
   if (userData) {
     const validateToken = await validateJWT(userData);
     if (validateToken === true) {
       return NextResponse.next();
-    }
-  }
-
-  if (pathname.startsWith("/services")) {
-    if (!ispCubeToken) {
-      return NextResponse.redirect(new URL("/sistems", request.url)); // Redirige al login de ISPCube
     }
   }
 };
