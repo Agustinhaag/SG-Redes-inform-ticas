@@ -40,53 +40,65 @@ const ServiceDevice: React.FC = () => {
       {dataUser && (
         <div className="flex sm:flex-row flex-col sm:gap-0 gap-5 justify-between mx-auto w-11/12 mt-3">
           <div>
-            {loading ? (
-              <div className="text-custom-white">
+            {/* Condición para si no tienes un dispositivo */}
+            {!dataUser.device ? (
+              <div className="text-custom-white flex flex-col gap-2 mb-2">
                 <h2 className="text-xl">
-                  Cargando información del dispositivo...
+                  Agregue un dispositivo para el envío de mensajes
                 </h2>
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-xl ml-1">Requerimientos:</h3>
+                    <ul className="ml-7 list-disc">
+                      <li>Contar con un teléfono celular.</li>
+                      <li>
+                        Disponer de una tarjeta SIM.
+                        <ul
+                          className="ml-5 mt-1"
+                          style={{ listStyleType: "circle" }}
+                        >
+                          <li>
+                            No utilice la misma tarjeta SIM que usa actualmente
+                            para comunicarse con sus clientes.
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col gap-1 mt-2">
+                    <h3 className="text-xl ml-1">Procedimiento:</h3>
+                    <ul className="list-disc ml-7">
+                      <li> En el teléfono, inserte la tarjeta SIM. </li>
+                      <li>
+                        En el teléfono, instale la aplicación WhatsApp Business.
+                      </li>
+                      <li>
+                        En esta página, haga clic en el botón Agregar e ingrese
+                        el número de teléfono asociado a la tarjeta SIM.
+                      </li>
+                    </ul>
+                    <p className="text-neutral-400">
+                      Una vez que haya agregado el número de teléfono,
+                      realizaremos un proceso de validación que puede tardar
+                      hasta 24 horas. Le notificaremos en cuanto haya sido
+                      validado.
+                    </p>
+                  </div>
+                </div>
+                <div className="w-1/4">
+                  <button
+                    className="w-full hover:bg-custom-blue rounded-md py-2 px-3 bg-blue-600"
+                    onClick={() => setViewModalDevice(!viewModalDevice)}
+                  >
+                    Agregar
+                  </button>
+                </div>
               </div>
             ) : (
               <>
-                {!dataUser.device ? (
-                  <div className="text-custom-white flex flex-col gap-2 mb-2">
-                    <h2 className="text-xl">
-                      Agregue un dispositivo para el envío de mensajes
-                    </h2>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex flex-col gap-1">
-                        <h3 className="text-xl">Requerimientos:</h3>
-                        <p className="text-neutral-400">
-                          Contar con un teléfono celular.
-                        </p>
-                        <p className="text-neutral-400">
-                          Disponer de una tarjeta SIM. No utilice la misma
-                          tarjeta SIM que usa actualmente para comunicarse con
-                          sus clientes.
-                        </p>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <h3 className="text-xl">Procedimiento:</h3>
-                        <p className="text-neutral-400">
-                          En el teléfono, inserte la tarjeta SIM. En el
-                          teléfono, instale la aplicación WhatsApp Business. En
-                          esta página, haga clic en el botón Agregar e ingrese
-                          el número de teléfono asociado a la tarjeta SIM. Una
-                          vez que haya agregado el número de teléfono,
-                          realizaremos un proceso de validación que puede tardar
-                          hasta 24 horas. Le notificaremos en cuanto haya sido
-                          validado.
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      className="hover:bg-custom-blue rounded-md py-2 px-3 bg-blue-600"
-                      onClick={() => setViewModalDevice(!viewModalDevice)}
-                    >
-                      Agregar
-                    </button>
-                  </div>
-                ) : (
+                {/* Si tienes un dispositivo */}
+                {dataUser.tokenwablas ? (
+                  // Si tienes el tokenwablas, mostrar la información del dispositivo y el texto de los mensajes
                   <div className="text-custom-white ">
                     <div className="flex flex-col gap-2 mb-1">
                       <h2 className="sm:text-2xl text-lg">IMPORTANTE:</h2>
@@ -97,7 +109,7 @@ const ServiceDevice: React.FC = () => {
                       <p className="text-neutral-400 sm:text-base text-sm">
                         Actualmente, el proceso de envío de mensajes es lento.
                         Una mayor velocidad podría ser interpretada como spam
-                        por la empresa Whatsapp, resultando en el bloqueo del
+                        por la empresa WhatsApp, resultando en el bloqueo del
                         número de teléfono. Para evitar esta situación, el envío
                         es de 1 minuto por mensaje.
                       </p>
@@ -110,6 +122,7 @@ const ServiceDevice: React.FC = () => {
                       </p>
                     </div>
                     {infoDevice && infoDevice.status ? (
+                      // Si tienes el dispositivo y el estado, mostrar la información
                       <div className="mb-2">
                         <div className="flex flex-col gap-1">
                           <h2 className="text-2xl mb-2">
@@ -162,13 +175,23 @@ const ServiceDevice: React.FC = () => {
                           Procedimiento: En el teléfono, abra la aplicación
                           WhatsApp Business. En WhatsApp Business, active la
                           función de escaneo QR. En esta página, presione el
-                          botón Generar código QR Con su teléfono, escanee el
+                          botón Generar código QR. Con su teléfono, escanee el
                           código QR generado en esta página. Una vez escaneado
                           el código QR, su teléfono estará habilitado para
                           enviar mensajes masivos a sus clientes.
                         </p>
                       </div>
                     )}
+                  </div>
+                ) : (
+                  // Si no tienes el tokenwablas, indicar que el dispositivo aún no está disponible
+                  <div className="text-custom-white">
+                    <h2>Dispositivo no disponible</h2>
+                    <p>
+                      El dispositivo está registrado, pero aún no está
+                      habilitado para el envío de mensajes. Por favor, espere la
+                      validación de WhatsApp.
+                    </p>
                   </div>
                 )}
               </>

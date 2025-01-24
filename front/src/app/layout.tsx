@@ -6,7 +6,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "SG-Redes",
+  title: "SG-Software",
   description: "Envio de mensajes masivos",
 };
 

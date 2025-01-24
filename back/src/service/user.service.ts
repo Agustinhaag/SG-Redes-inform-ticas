@@ -95,7 +95,7 @@ export const initiatePasswordResetService = async (
 ): Promise<string> => {
   try {
     const user = await userModel.findOne({ where: { email } });
-    if (!user) throw new ClientError("Usuario no encontrado.");
+    if (!user) throw new ClientError("Usuario no encontrado.", 404); // Error 404 para indicar que el usuario no existe
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
       expiresIn: "1h",
@@ -115,9 +115,13 @@ export const initiatePasswordResetService = async (
     return "Se ha enviado un correo electrónico con instrucciones para restablecer tu contraseña.";
   } catch (error) {
     console.log(error);
+    if (error instanceof ClientError && error.message === "Usuario no encontrado.") {
+      throw new ClientError("El correo electrónico no está registrado en nuestra base de datos.", 404); // Mensaje personalizado de usuario no encontrado
+    }
     throw new ClientError("Error al enviar el correo", 500);
   }
 };
+
 
 export const resetPasswordService = async (
   token: string,

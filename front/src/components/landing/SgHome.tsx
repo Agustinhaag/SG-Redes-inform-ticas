@@ -1,12 +1,17 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
+import { IUser, RootState } from "@/helpers/types";
 
 const SgHome: React.FC = () => {
+  const dataUser: IUser = useSelector((state: RootState) => state.user.user);
+  const token = Cookies.get("token");
   return (
     <section className="flex flex-col gap-4  items-center justify-between text-white pb-8">
       <h1 className="sm:text-5xl xs:text-4xl text-3xl font-bold text-custom-blue ">
-        SG-Software
+        SG Software
       </h1>
 
       <div className="md:w-1/2 w-11/12 flex justify-center">
@@ -18,18 +23,20 @@ const SgHome: React.FC = () => {
           height={500}
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <h2 className="text-3xl text-center">¡Bienvenido!</h2>
-        Para configurar el envío de mensajes masivos a sus clientes:
-        <p>
-          1) Ingrese al menú Sistemas para registrar el sistema de gestión
-          utilizado en su empresa.
-        </p>
-        <p>
-          2) Ingrese al menú Dispositivos para registrar el número de teléfono
-          desde el cual se enviarán los mensajes masivos.
-        </p>
-      </div>
+      {token && dataUser && (
+        <div className="flex flex-col gap-2">
+          <h2 className="text-3xl text-center">¡Bienvenido!</h2>
+          Para configurar el envío de mensajes masivos a sus clientes:
+          <p>
+            1) Ingrese al menú Sistemas para registrar el sistema de gestión
+            utilizado en su empresa.
+          </p>
+          <p>
+            2) Ingrese al menú Dispositivos para registrar el número de teléfono
+            desde el cual se enviarán los mensajes masivos.
+          </p>
+        </div>
+      )}
     </section>
   );
 };
