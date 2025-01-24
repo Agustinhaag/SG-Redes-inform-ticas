@@ -75,7 +75,8 @@ const ModalDevice: React.FC<{
               número de teléfono
             </small>
             <small className="flex ">
-              Ejemplo para Argentina: <span className="text-red-500 ml-1">54</span>
+              Ejemplo para Argentina:{" "}
+              <span className="text-red-500 ml-1">54</span>
               <span className="text-violet-900">9</span>
               <span className="text-green-600">343</span>4151061
             </small>
@@ -107,7 +108,7 @@ const ModalDevice: React.FC<{
                     formikProps={formikProps}
                     nombre="device"
                     title="N° teléfono"
-                    type="text"
+                    type="number"
                   />
 
                   {error && (
