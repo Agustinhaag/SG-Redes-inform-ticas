@@ -45,7 +45,7 @@ const CardUsers: React.FC<{ user: IUser; onChangeState: () => void }> = ({
           <span className="capitalize">{firstName}</span>
           <span className="capitalize">{firstSurname}</span>
         </p>
-        <p>+{user.phone}</p>
+        <p>+{user.device}</p>
 
         <p className="md:min-w-[196px] lg:block medium-xs:hidden block">
           {user.email}
