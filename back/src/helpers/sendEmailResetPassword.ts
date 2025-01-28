@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { KEYGMAIL, URL_FRONT, USERGMAIL } from "../config/envs";
+import { SMTP_HOST, SMTP_PASS, SMTP_USER, URL_FRONT } from "../config/envs";
 
 export const sendPasswordResetEmail = async (
   email: string,
@@ -7,17 +7,18 @@ export const sendPasswordResetEmail = async (
 ): Promise<void> => {
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: SMTP_HOST, 
+      port: 465, 
+      secure: true, 
       auth: {
-        user: USERGMAIL,
-        pass: KEYGMAIL,
+        user: SMTP_USER, 
+        pass: SMTP_PASS, 
       },
     });
-
     const resetLink = `${URL_FRONT}/reset-password?token=${token}`;
 
     const mailOptions = {
-      from: USERGMAIL,
+      from: SMTP_USER,
       to: email,
       subject: "Restablecimiento de contraseña",
       text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetLink}`,
