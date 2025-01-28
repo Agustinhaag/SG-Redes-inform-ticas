@@ -121,76 +121,90 @@ const ServiceDevice: React.FC = () => {
                         mantenimientos programados, etc.
                       </p>
                     </div>
-                    {infoDevice && infoDevice.status ? (
+                    {infoDevice && infoDevice.status && (
                       // Si tienes el dispositivo y el estado, mostrar la información
-                      <div className="mb-2">
-                        <div className="flex flex-col gap-1">
-                          <h2 className="text-2xl mb-2">
-                            Información del dispositivo
-                          </h2>
-                          <p className="text-base text-neutral-400">
-                            <span className="text-lg text-custom-white">
-                              Dispositivo:{" "}
-                            </span>
-                            {infoDevice.data.name}
-                          </p>
-                          <p className="text-base text-neutral-400">
-                            <span className="text-lg mr-1 text-custom-white">
-                              Número:
-                            </span>
-                            {infoDevice.data.sender}
-                          </p>
-                          <p
-                            className={`text-base ${
-                              deviceStatus === "disconnected"
-                                ? "text-red-600"
-                                : "text-green-600"
-                            }`}
-                          >
-                            <span className="text-lg text-custom-white">
-                              Estado:
-                            </span>
-                            {deviceStatus === "disconnected"
-                              ? " Desconectado"
-                              : " Conectado"}
-                          </p>
-                          <p className="text-base text-neutral-400">
-                            <span className="text-lg text-custom-white">
-                              Venciminento:{" "}
-                            </span>
-                            {infoDevice.data.expired_date}
-                          </p>
-                          <p className="text-base text-neutral-400">
-                            <span className="text-lg text-custom-white">
-                              Mensajes disponibles:{" "}
-                            </span>
-                            {infoDevice.data.quota}
-                          </p>
+                      <div className="flex lg:flex-row flex-col gap-5 w-full my-3">
+                        <div className="mb-2 min-w-80">
+                          <div className="flex flex-col gap-1">
+                            <h2 className="text-2xl mb-2">
+                              Información del dispositivo
+                            </h2>
+                            <p className="text-base text-neutral-400">
+                              <span className="text-lg text-custom-white">
+                                Dispositivo:{" "}
+                              </span>
+                              {infoDevice.data.name}
+                            </p>
+                            <p className="text-base text-neutral-400">
+                              <span className="text-lg mr-1 text-custom-white">
+                                Número:
+                              </span>
+                              {infoDevice.data.sender}
+                            </p>
+                            <p
+                              className={`text-base ${
+                                deviceStatus === "disconnected"
+                                  ? "text-red-600"
+                                  : "text-green-600"
+                              }`}
+                            >
+                              <span className="text-lg text-custom-white">
+                                Estado:
+                              </span>
+                              {deviceStatus === "disconnected"
+                                ? " Desconectado"
+                                : " Conectado"}
+                            </p>
+                            <p className="text-base text-neutral-400">
+                              <span className="text-lg text-custom-white">
+                                Venciminento:{" "}
+                              </span>
+                              {infoDevice.data.expired_date}
+                            </p>
+                            <p className="text-base text-neutral-400">
+                              <span className="text-lg text-custom-white">
+                                Mensajes disponibles:{" "}
+                              </span>
+                              {infoDevice.data.quota}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="text-custom-white">
-                        <h2>¡Dispositivo validado! </h2>
-                        <p>
-                          Procedimiento: En el teléfono, abra la aplicación
-                          WhatsApp Business. En WhatsApp Business, active la
-                          función de escaneo QR. En esta página, presione el
-                          botón Generar código QR. Con su teléfono, escanee el
-                          código QR generado en esta página. Una vez escaneado
-                          el código QR, su teléfono estará habilitado para
-                          enviar mensajes masivos a sus clientes.
-                        </p>
+                        {deviceStatus === "disconnected" && (
+                          <div className="text-custom-white flex flex-col gap-1">
+                            <h2 className="text-xl">¡Dispositivo validado! </h2>
+                            <p>Procedimiento:</p>
+                            <ul className="list-decimal ml-4">
+                              <li>
+                                En el teléfono, abra la aplicación WhatsApp
+                                Business.
+                              </li>
+                              <li>
+                                En WhatsApp Business, active la función de
+                                escaneo QR.
+                              </li>
+                              <li>
+                                En esta página, presione el botón Generar código
+                                QR.
+                              </li>
+                              <li>
+                                Con su teléfono, escanee el código QR generado
+                                en esta página. Una vez escaneado el código QR,
+                                su teléfono estará habilitado para enviar
+                                mensajes masivos a sus clientes.
+                              </li>
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
                 ) : (
                   // Si no tienes el tokenwablas, indicar que el dispositivo aún no está disponible
                   <div className="text-custom-white">
-                    <h2>Dispositivo no disponible</h2>
                     <p>
-                      El dispositivo está registrado, pero aún no está
-                      habilitado para el envío de mensajes. Por favor, espere la
-                      validación de WhatsApp.
+                      El dispositivo está en proceso de validación, lo cual
+                      puede tardar hasta 24 horas. Le notificaremos en cuanto
+                      haya sido validado.
                     </p>
                   </div>
                 )}
