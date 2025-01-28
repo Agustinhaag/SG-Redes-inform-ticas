@@ -88,7 +88,6 @@ const Sistems: React.FC = () => {
               Antes de proceder con el registro, deberá solicitar los siguientes
               datos al soporte técnico de su sistema de gestión:{" "}
             </p>
-            <p className="text-xl my-2 ml-2">Requerimientos:</p>
             <ul className="list-disc pl-5 ml-4">
               <li>Usuario</li>
               <li>Contraseña</li>
