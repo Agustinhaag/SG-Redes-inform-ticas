@@ -46,7 +46,7 @@ const FormResetPassword: React.FC<{ token: string | null }> = ({ token }) => {
         }}
       >
         {(formikProps) => (
-          <Form className="flex flex-col items-start w-1/2 mx-auto min-w-60">
+          <Form className="flex flex-col items-start w-1/2 mx-auto min-w-60 gap-3">
             <ContainerInput
               error={error}
               formikProps={formikProps}

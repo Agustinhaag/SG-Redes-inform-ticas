@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import Swal from "sweetalert2";
 import style from "../forms/button.module.css";
-import { fetchInfoDevice } from "@/helpers/fetchDevice"; 
+import { fetchInfoDevice } from "@/helpers/fetchDevice";
 
 const QRCodeComponent: React.FC = () => {
   const appUrl = process.env.NEXT_PUBLIC_URL_WABLAS;
@@ -11,17 +11,20 @@ const QRCodeComponent: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [worker, setWorker] = useState<Worker | null>(null);
   const [isScanned, setIsScanned] = useState<boolean>(false);
-  const [deviceStatus, setDeviceStatus] = useState<string | null>(null); 
+  const [deviceStatus, setDeviceStatus] = useState<string | null>(null);
   const dataUser: IUser = useSelector((state: RootState) => state.user.user);
   const token: string = useSelector((state: RootState) => state.user.token);
   const alertShown = useRef(false);
-  const pollingInterval = useRef<NodeJS.Timeout | null>(null); 
+  const pollingInterval = useRef<NodeJS.Timeout | null>(null);
+  const reloadTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    
     return () => {
       if (pollingInterval.current) {
         clearInterval(pollingInterval.current);
+      }
+      if (reloadTimeout.current) {
+        clearTimeout(reloadTimeout.current);
       }
     };
   }, []);
@@ -49,6 +52,24 @@ const QRCodeComponent: React.FC = () => {
           const data = JSON.parse(event.data);
           if (data.message === "success" && data.text !== "") {
             setQrImage(data.image);
+
+            // Iniciar temporizador de recarga solo si el QR no es escaneado
+            if (!reloadTimeout.current) {
+              reloadTimeout.current = setTimeout(() => {
+                if (!isScanned) {
+                  Swal.fire({
+                    title: "Recargando página...",
+                    text: "El QR ha expirado. Se recargará automáticamente.",
+                    icon: "info",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    willClose: () => {
+                      window.location.reload();
+                    },
+                  });
+                }
+              }, 40000);
+            }
           }
 
           if (
@@ -61,12 +82,18 @@ const QRCodeComponent: React.FC = () => {
               alertShown.current = true;
               setIsScanned(true);
               stopWorker();
+
+              // Si el QR fue escaneado, cancelar la recarga de la página
+              if (reloadTimeout.current) {
+                clearTimeout(reloadTimeout.current);
+                reloadTimeout.current = null;
+              }
+
               Swal.fire({
                 title: "¡Escaneo exitoso!",
                 text: "Ahora su dispositivo está conectado",
                 icon: "success",
               }).then(() => {
-               
                 startPolling();
               });
             }
@@ -82,23 +109,20 @@ const QRCodeComponent: React.FC = () => {
 
   const startPolling = () => {
     pollingInterval.current = setInterval(() => {
-     
       fetchInfoDevice(dataUser?.id, process.env.NEXT_PUBLIC_URL!, token)
         .then((res) => {
           if (res.data.status === "connected") {
-           
             setDeviceStatus("connected");
             clearInterval(pollingInterval.current!);
             pollingInterval.current = null;
           } else {
-            
             setDeviceStatus("disconnected");
           }
         })
         .catch((err) => {
           console.error("Error al obtener el estado del dispositivo:", err);
         });
-    }, 5000); 
+    }, 5000);
   };
 
   const stopWorker = () => {
