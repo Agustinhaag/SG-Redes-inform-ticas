@@ -14,7 +14,6 @@ const ServiceDevice: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const url = process.env.NEXT_PUBLIC_URL!;
   const token: string = useSelector((state: RootState) => state.user.token);
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchInfoDevice(dataUser?.id, url, token)
@@ -97,7 +96,7 @@ const ServiceDevice: React.FC = () => {
             ) : (
               <>
                 {/* Si tienes un dispositivo */}
-                {dataUser.tokenwablas ? (
+                {dataUser.tokenwablas && deviceStatus !== "disconnected" ? (
                   // Si tienes el tokenwablas, mostrar la información del dispositivo y el texto de los mensajes
                   <div className="text-custom-white ">
                     <div className="flex flex-col gap-2 mb-1">
