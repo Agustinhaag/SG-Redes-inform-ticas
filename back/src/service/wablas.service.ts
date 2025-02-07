@@ -1,3 +1,4 @@
+
 import { campaignModel, userModel } from "../config/dataSource";
 import { URL_WABLAS } from "../config/envs";
 import { User } from "../entities/User";
@@ -31,7 +32,10 @@ const hashRevertToken = async (userId: number) => {
 export const fetchMessages = async (userId: number) => {
   try {
     const token = await hashRevertToken(userId);
+
+
     const tokenWithSecret = token && token.split(".")[0];
+
     if (token) {
       const response = await fetch(`${URL_WABLAS}/report-realtime`, {
         headers: {
@@ -191,6 +195,7 @@ export const fetchDeviceInfo = async (userId: number) => {
     if (!token) {
       return false;
     }
+
     const tokenWithSecret = token && token.split(".")[0];
     const response = await fetch(
       `${URL_WABLAS}/device/info?token=${tokenWithSecret}`,

@@ -1,4 +1,3 @@
-import { jwtVerify } from "jose";
 import { IUser } from "./types";
 
 export const fetchDataUserByID = async (
@@ -24,22 +23,20 @@ export const fetchDataUserByID = async (
   }
 };
 
+
 export const fetchDataUser = async (
   token: string,
   url: string | undefined
 ) => {
   try {
-    // Decodificar el JWT y obtener el userId
     const userId = decodeJWT(token);
 
     // Si el userId no existe, lanzar un error
     if (!userId) {
       throw new Error('El token no contiene un userId válido');
     }
-
-    // Realizar la llamada para obtener los datos del usuario
+    
     const data = await fetchDataUserByID(token, url, userId);
-
     return data;
   } catch (error) {
     console.error("Error al obtener los datos del usuario:", error);
@@ -47,7 +44,6 @@ export const fetchDataUser = async (
   }
 };
 
-// Función auxiliar para decodificar el JWT (igual a la anterior)
 const decodeJWT = (token: string): string | null => {
   try {
     // Separar el token en sus tres partes
