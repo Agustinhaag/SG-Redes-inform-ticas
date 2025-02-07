@@ -58,7 +58,7 @@ export const registerUserService = async (
 
 export const loginUserService = async (
   loginUserDto: LoginUserDto
-): Promise<string> => {
+): Promise<any> => {
   try {
     const user: User | null = await userModel.findOne({
       where: {
@@ -83,7 +83,7 @@ export const loginUserService = async (
     // Genera el token JWT
     const token = jwt.sign({ userId: user.id }, JWT_SECRET);
 
-    return token;
+    return {token, user};
   } catch (error) {
     console.error("Error en loginUserService:", error);
     throw error; // Lanza el error para que se maneje en un nivel superior

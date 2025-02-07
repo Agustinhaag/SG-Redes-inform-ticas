@@ -34,7 +34,6 @@ const FormNewMessage: React.FC<{
   const tokenIspCube: string = useSelector(
     (state: any) => state.user.tokenIspCube
   );
-
   const userVariables = [
     { key: "{{name}}", description: "Nombre" },
     { key: "{{debt}}", description: "Saldo" },
@@ -42,7 +41,7 @@ const FormNewMessage: React.FC<{
     { key: "{{plan_name}}", description: "Plan" },
     { key: "{{invoices}}", description: "Factura" },
   ];
-
+ 
   useEffect(() => {
     fetchAllUsersIspCube(url!, dataUser.email, token!, tokenIspCube!).then(
       (res) => {
@@ -52,7 +51,7 @@ const FormNewMessage: React.FC<{
   }, []);
 
   const handleFilter = (filters: {
-    node_code: any[];
+    node_code: string[];
     status: string[];
     debt: string[];
     plan_name: string[];
@@ -60,8 +59,15 @@ const FormNewMessage: React.FC<{
     const { node_code, status, debt, plan_name } = filters;
 
     const newFilteredUsers = users.filter((user) => {
+      const userNodes = user.node_code
+        ? user.node_code.split("|").map((n: any) => n.trim())
+        : [];
+      const userPlans = user.plan_name
+        ? user.plan_name.split("|").map((p: any) => p.trim())
+        : [];
+
       const matchesNode = node_code.length
-        ? node_code.includes(user.node_code)
+        ? userNodes.some((node: any) => node_code.includes(node))
         : true;
 
       const matchesStatus = status.length ? status.includes(user.status) : true;
@@ -79,7 +85,7 @@ const FormNewMessage: React.FC<{
         : true;
 
       const matchesPlan = plan_name.length
-        ? plan_name.includes(user.plan_name)
+        ? userPlans.some((plan: any) => plan_name.includes(plan))
         : true;
 
       return matchesNode && matchesStatus && matchesDebt && matchesPlan;
@@ -115,7 +121,8 @@ const FormNewMessage: React.FC<{
         dataUser.id,
         setLoading,
         tokenIspCube,
-        dataUser.email
+        dataUser.email,
+        // Aquí estamos pasando los filtros de forma correcta
       );
       onNewCampaign(response.campaign);
     } catch (err) {
@@ -123,6 +130,7 @@ const FormNewMessage: React.FC<{
       setError("Error al conectar con el servidor");
     }
   };
+
   return (
     <Formik<FormValues>
       initialValues={{
@@ -165,7 +173,6 @@ const FormNewMessage: React.FC<{
                 handleFilter={handleFilter}
                 users={users}
               />
-
               <FilterOfPay
                 formikProps={formikProps}
                 handleFilter={handleFilter}

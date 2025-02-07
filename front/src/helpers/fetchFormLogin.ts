@@ -21,7 +21,10 @@ export const handleSubmit = async ({
     if (response.ok) {
       Swal.fire({
         title: titleSwal,
-        text: textSwal,
+        text:
+          data.userStatus === "suspended"
+            ? "Su usuario esta suspendido aún"
+            : textSwal,
         icon: "success",
       });
 
@@ -68,8 +71,8 @@ export const handleSubmitIpsCube = async (
 
     if (response.ok) {
       Swal.fire({
-        title: "¡Ingreso exitoso!",
-        text: "Ahora puede comenzar a operar con IspCube",
+        title: "¡Integración exitosa!",
+        text: "",
         icon: "success",
       });
 
@@ -81,12 +84,11 @@ export const handleSubmitIpsCube = async (
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error en handleSubmit:", error.message);
-      setError(error.message );
+      setError(error.message);
     } else {
       console.error("Error desconocido en handleSubmit:", error);
-      
     }
-  }finally {
+  } finally {
     setLoading(false);
   }
 };

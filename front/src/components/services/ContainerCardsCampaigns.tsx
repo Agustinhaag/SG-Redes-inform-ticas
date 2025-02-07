@@ -40,7 +40,7 @@ const ContainerCardsCampaigns: React.FC<{
           if (!messages || !messages.data) continue;
 
           const relatedMessages = messages.data.filter((msg: any) =>
-            campaign.messages[0].messageIds.includes(msg.id)
+            campaign.messages[0] && campaign.messages[0].messageIds.includes(msg.id)
           );
 
           // Lógica actualizada para determinar el nuevo estado
@@ -101,8 +101,8 @@ const ContainerCardsCampaigns: React.FC<{
       <h2>Procesos:</h2>
       {campaigns && campaigns.length > 0 ? (
         <div className="grid mt-3 gap-4 w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {campaigns.map((campaign) => {
-            return <CardCampaign campaign={campaign} key={campaign.id} />;
+          {campaigns.map((campaign,index) => {
+            return <CardCampaign campaign={campaign} key={index} />;
           })}
         </div>
       ) : (

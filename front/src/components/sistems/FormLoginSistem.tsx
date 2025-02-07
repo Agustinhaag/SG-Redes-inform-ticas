@@ -102,7 +102,7 @@ const FormLoginSistem: React.FC<{
             <p className="text-red-600 text-center mb-2 w-full">¡{error}!</p>
           )}
           <div className="cont-btn flex flex-col w-full justify-center mb-5">
-            <ButtonLogin loading={loading} name="Ingresar" />
+            <ButtonLogin loading={loading} name="Integrar" />
           </div>
         </Form>
       )}

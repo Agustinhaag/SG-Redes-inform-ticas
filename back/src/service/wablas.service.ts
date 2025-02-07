@@ -40,7 +40,7 @@ export const fetchMessages = async (userId: number) => {
       const response = await fetch(`${URL_WABLAS}/report-realtime`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${tokenWithSecret}`,
+          Authorization: `${token}`,
         },
       });
       const data = await response.json();
@@ -150,7 +150,7 @@ const processMessagesInBackground = async (
       }
 
       const dataSend = new URLSearchParams({
-        phone,
+        phone: phone.startsWith("549") ? phone : "549" + phone,
         message: personalizedMessage,
       }).toString();
 
@@ -195,15 +195,7 @@ export const fetchDeviceInfo = async (userId: number) => {
     if (!token) {
       return false;
     }
-<<<<<<< HEAD
-const tokenWithSecret = token && token.split(".")[0];
-    const response = await fetch(`${URL_WABLAS}/device/info?token=${tokenWithSecret}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-=======
+
     const tokenWithSecret = token && token.split(".")[0];
     const response = await fetch(
       `${URL_WABLAS}/device/info?token=${tokenWithSecret}`,
@@ -214,9 +206,8 @@ const tokenWithSecret = token && token.split(".")[0];
         },
       }
     );
->>>>>>> 44d3403f14113ccb77c9bb67b25f7587eb3eb75c
-    const data = await response.json();
 
+    const data = await response.json();
     return data;
   } catch (error) {
     console.log(error);
