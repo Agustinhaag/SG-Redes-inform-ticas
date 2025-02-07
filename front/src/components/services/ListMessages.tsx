@@ -15,7 +15,6 @@ const ListMessages: React.FC<{
   const url = process.env.NEXT_PUBLIC_URL;
   const token = Cookies.get("token");
   const [messagesResponse, setMessagesResponse] = useState<any>();
-
   useEffect(() => {
     const fetchData = async () => {
       try {

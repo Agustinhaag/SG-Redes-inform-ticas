@@ -30,7 +30,7 @@ const ModalSelectSistem: React.FC<{
         >
           <div className=" flex items-center mb-5 pb-5 border-b border-custom-grey w-full">
             <h3 className="font-semibold md:text-2xl medium-xs:text-xl text-base">
-              Inicie sesión en {nameSistem}
+              Integración de la API
             </h3>
           </div>
           <button
@@ -44,9 +44,7 @@ const ModalSelectSistem: React.FC<{
             <IoMdClose />
           </button>
           <div>
-            <h3 className="md:text-xl text-base font-light mb-4">
-              Por favor ingrese sus credenciales
-            </h3>
+        
 
             <FormLoginSistem setViewModalSistem={setViewModalSistem} />
           </div>

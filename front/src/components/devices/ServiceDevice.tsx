@@ -17,19 +17,21 @@ const ServiceDevice: React.FC = () => {
   console.log(infoDevice);
   useEffect(() => {
     const intervalId = setInterval(() => {
-      fetchInfoDevice(dataUser?.id, url, token)
-        .then((res) => {
-          if (res) {
-            setInfoDevice(res);
-            setDeviceStatus(res.data.status);
-          }
-        })
-        .catch((err) => {
-          console.error("Error al obtener el estado del dispositivo:", err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      if (dataUser.tokenwablas) {
+        fetchInfoDevice(dataUser?.id, url, token)
+          .then((res) => {
+            if (res) {
+              setInfoDevice(res);
+              setDeviceStatus(res.data.status);
+            }
+          })
+          .catch((err) => {
+            console.error("Error al obtener el estado del dispositivo:", err);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      }
     }, 5000);
 
     return () => clearInterval(intervalId);
@@ -224,7 +226,8 @@ const ServiceDevice: React.FC = () => {
           {dataUser.tokenwablas &&
             dataUser.device &&
             deviceStatus === "disconnected" &&
-            !loading && <QRCodeComponent />}
+            !loading &&
+            dataUser.status === "active" && <QRCodeComponent />}
 
           {viewModalDevice && (
             <div className="fixed inset-0 bg-black bg-opacity-55 z-40"></div>

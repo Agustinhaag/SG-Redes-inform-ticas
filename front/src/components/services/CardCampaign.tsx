@@ -43,7 +43,7 @@ const CardCampaign: React.FC<{ campaign: Campaign }> = ({ campaign }) => {
           <span className="text-custom-blue xs:text-lg text-base">
             <FaUser />
           </span>
-          Cantidad de usuarios: {campaign.recipients.length}
+          Cantidad de usuarios: {campaign && campaign.recipients.length}
         </h2>
 
         <p className="flex items-center gap-1 xs:text-base text-sm">

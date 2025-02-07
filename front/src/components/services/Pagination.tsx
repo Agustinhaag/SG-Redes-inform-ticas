@@ -7,42 +7,60 @@ const Pagination: React.FC<PaginationProps> = ({
   setCurrentPage,
   totalProducts,
 }) => {
+  const totalPages = Math.ceil(totalProducts! / productsPage);
+  const visiblePages = 4;
   const pageNumbers: number[] = [];
 
-  for (let i = 1; i <= Math.ceil(totalProducts! / productsPage); i++) {
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, currentPage + 2);
+
+  if (endPage - startPage < visiblePages - 1) {
+    if (startPage === 1) {
+      endPage = Math.min(startPage + visiblePages - 1, totalPages);
+    } else if (endPage === totalPages) {
+      startPage = Math.max(endPage - visiblePages + 1, 1);
+    }
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
   }
 
-  const onPreviusPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
+  const onPreviusPage = () => setCurrentPage(currentPage - 1);
+  const onNextPage = () => setCurrentPage(currentPage + 1);
+  const specificPage = (page: number) => setCurrentPage(page);
 
-  const onNextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  const specificPage = (page: number) => {
-    setCurrentPage(page);
-  };
   return (
-    <nav
-      aria-label="Page navigation example"
-      className="w-full flex justify-between my-3 text-gray-400"
-    >
+    <nav className="w-full flex justify-between my-3 text-gray-400">
       <button
         onClick={onPreviusPage}
-        type="button"
-        disabled={currentPage === 1 ? true : false}
-        className={`flex items-center text-base  justify-center border px-3 py-1.5 rounded sm:w-24 w-[75px] text-black  hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all ${
+        disabled={currentPage === 1}
+        className={`flex items-center text-base justify-center border px-3 py-1.5 rounded sm:w-24 w-[75px] text-custom-white hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all ${
           currentPage === 1
-            ? "text-gray-400 hover:bg-inherit hover:border-inherit hover:text-gray-400 "
+            ? "text-gray-400 hover:bg-inherit hover:border-inherit hover:text-gray-400"
             : ""
         }`}
       >
         Anterior
       </button>
-      <ul className="md:flex hidden md:mx-1 mx-0 gap-2 bg-transparent ">
-        {pageNumbers.map((page: number) => (
+
+      <ul className="md:flex hidden md:mx-1 mx-0 gap-2 bg-transparent">
+        {startPage > 1 && (
+          <>
+            <li>
+              <button
+                type="button"
+                className="flex items-center sm:text-base text-xs justify-center border sm:px-3 w-9 py-1 rounded hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all"
+                onClick={() => specificPage(1)}
+              >
+                1
+              </button>
+            </li>
+            {startPage > 2 && <span className="text-gray-500">...</span>}
+          </>
+        )}
+
+        {pageNumbers.map((page) => (
           <li key={page}>
             <button
               type="button"
@@ -57,15 +75,31 @@ const Pagination: React.FC<PaginationProps> = ({
             </button>
           </li>
         ))}
+
+        {endPage < totalPages && (
+          <>
+            {endPage < totalPages - 1 && (
+              <span className="text-gray-500">...</span>
+            )}
+            <li>
+              <button
+                type="button"
+                className="flex items-center sm:text-base text-xs justify-center border sm:px-3 w-9 py-1 rounded hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all"
+                onClick={() => specificPage(totalPages)}
+              >
+                {totalPages}
+              </button>
+            </li>
+          </>
+        )}
       </ul>
 
       <button
         onClick={onNextPage}
-        type="button"
-        disabled={currentPage >= pageNumbers.length ? true : false}
-        className={`flex items-center text-base  justify-center border px-3 py-1.5 rounded sm:w-24 w-[80px]   hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all  ${
-          currentPage >= pageNumbers.length
-            ? "text-gray-400 hover:bg-inherit hover:border-inherit hover:text-gray-400 "
+        disabled={currentPage >= totalPages}
+        className={`flex items-center text-base justify-center border px-3 py-1.5 rounded sm:w-24 w-[80px] hover:border-custom-blue hover:bg-custom-blue hover:text-custom-white transition-all ${
+          currentPage >= totalPages
+            ? "text-gray-400 hover:bg-inherit hover:border-inherit hover:text-gray-400"
             : ""
         }`}
       >

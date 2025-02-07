@@ -9,21 +9,31 @@ const FilterOfPlan: React.FC<{
     node_code: any[];
     status: string[];
     debt: string[];
-    plan_name: string[]; // Cambiado a plan_name
+    plan_name: string[];
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
+  
+  const uniquePlans = [
+    ...new Set(
+      users.flatMap((user) =>
+        user.plan_name
+          ? user.plan_name.split("|").map((plan:any) => plan.trim()) // Dividir y limpiar espacios
+          : []
+      )
+    ),
+  ];
+
   return (
     <div className="relative text-custom-white sm:w-1/2 sm:h-full w-full flex flex-col">
-      <span className=" text-sm">Planes</span>
+      <span className="text-sm">Planes</span>
 
       <div className="flex items-center">
-        {/* Input deshabilitado que muestra los plan_name seleccionados */}
         <Field
           type="text"
           name="filters.plan_name"
           disabled
           value={formikProps.values.filters.plan_name.join(", ")}
-          className={`border-[1.8px] border-neutral-700 bg-transparent outline-none py-2 px-3 rounded w-full`}
+          className="border-[1.8px] border-neutral-700 bg-transparent outline-none py-2 px-3 rounded w-full"
         />
         <button
           type="button"
@@ -39,41 +49,34 @@ const FilterOfPlan: React.FC<{
         </button>
       </div>
 
-      {/* Dropdown con opciones */}
       {formikProps.values.filters.showPlanDropdown && (
         <div className="absolute top-full mt-2 w-full max-h-40 overflow-y-auto bg-[#2b2b2b] border border-neutral-700 rounded z-10">
-          {[...new Set(users.flatMap((user) => user.plan_name))]
-            .filter((planName) => planName !== null) // Filtrar valores nulos
-            .map((planName, index) => (
-              <div
-                key={index} // Clave única
-                className={`p-2 cursor-pointer ${
+          {uniquePlans.map((planName, index) => (
+            <div
+              key={index}
+              className={`p-2 cursor-pointer ${
+                formikProps.values.filters.plan_name.includes(planName)
+                  ? "bg-gray-600"
+                  : ""
+              }`}
+              onClick={() => {
+                const updatedPlanName =
                   formikProps.values.filters.plan_name.includes(planName)
-                    ? "bg-gray-600"
-                    : ""
-                }`}
-                onClick={() => {
-                  const updatedPlanName =
-                    formikProps.values.filters.plan_name.includes(planName)
-                      ? formikProps.values.filters.plan_name.filter(
-                          (p) => p !== planName
-                        )
-                      : [...formikProps.values.filters.plan_name, planName];
+                    ? formikProps.values.filters.plan_name.filter(
+                        (p) => p !== planName
+                      )
+                    : [...formikProps.values.filters.plan_name, planName];
 
-                  // Actualiza el estado al hacer clic
-                  formikProps.setFieldValue(
-                    "filters.plan_name",
-                    updatedPlanName
-                  );
-                  handleFilter({
-                    ...formikProps.values.filters,
-                    plan_name: updatedPlanName,
-                  });
-                }}
-              >
-                {planName}
-              </div>
-            ))}
+                formikProps.setFieldValue("filters.plan_name", updatedPlanName);
+                handleFilter({
+                  ...formikProps.values.filters,
+                  plan_name: updatedPlanName,
+                });
+              }}
+            >
+              {planName}
+            </div>
+          ))}
         </div>
       )}
     </div>
