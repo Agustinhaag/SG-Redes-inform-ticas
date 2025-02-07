@@ -40,11 +40,13 @@ export const userRegister = catchedController(
 export const userLogin = catchedController(
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    const token = await loginUserService({
+    const data: any = await loginUserService({
       email,
       password,
     });
-    res.status(201).send({ token, login: true });
+    res
+      .status(201)
+      .send({ token: data.token, login: true, userStatus: data.user.status });
   }
 );
 

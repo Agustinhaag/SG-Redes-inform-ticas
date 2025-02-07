@@ -36,7 +36,7 @@ export const fetchMessages = async (userId: number) => {
       const response = await fetch(`${URL_WABLAS}/report-realtime`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${tokenWithSecret}`,
+          Authorization: `${token}`,
         },
       });
       const data = await response.json();
@@ -146,7 +146,7 @@ const processMessagesInBackground = async (
       }
 
       const dataSend = new URLSearchParams({
-        phone,
+        phone: phone.startsWith("549") ? phone : "549" + phone,
         message: personalizedMessage,
       }).toString();
 
@@ -201,8 +201,8 @@ export const fetchDeviceInfo = async (userId: number) => {
         },
       }
     );
-    const data = await response.json();
 
+    const data = await response.json();
     return data;
   } catch (error) {
     console.log(error);
