@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ContainerInput from "../forms/ContainerInput";
 import ButtonLogin from "../forms/ButtonLogin";
 import Cookies from "js-cookie";
@@ -34,6 +34,7 @@ const FormNewMessage: React.FC<{
   const tokenIspCube: string = useSelector(
     (state: any) => state.user.tokenIspCube
   );
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const userVariables = [
     { key: "{{name}}", description: "Nombre" },
     { key: "{{debt}}", description: "Saldo" },
@@ -41,7 +42,7 @@ const FormNewMessage: React.FC<{
     { key: "{{plan_name}}", description: "Plan" },
     { key: "{{invoices}}", description: "Factura" },
   ];
- 
+
   useEffect(() => {
     fetchAllUsersIspCube(url!, dataUser.email, token!, tokenIspCube!).then(
       (res) => {
@@ -121,7 +122,7 @@ const FormNewMessage: React.FC<{
         dataUser.id,
         setLoading,
         tokenIspCube,
-        dataUser.email,
+        dataUser.email
         // Aquí estamos pasando los filtros de forma correcta
       );
       onNewCampaign(response.campaign);
@@ -195,12 +196,17 @@ const FormNewMessage: React.FC<{
               <button
                 key={variable.key}
                 type="button"
-                onClick={() =>
+                onClick={() => {
                   formikProps.setFieldValue(
                     "message",
                     formikProps.values.message + " " + variable.key
-                  )
-                }
+                  );
+
+                  // Volver a poner el foco en el textarea
+                  if (textareaRef.current) {
+                    textareaRef.current.focus();
+                  }
+                }}
                 className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300"
               >
                 {variable.description}
@@ -216,6 +222,7 @@ const FormNewMessage: React.FC<{
               type="text"
               textarea={true}
               message={true}
+              ref={textareaRef}
             />
           </div>
 

@@ -15,38 +15,26 @@ const FilterOfPay: React.FC<{
     <div className="sm:w-1/2 w-full text-custom-white">
       <label className="text-sm">Deuda:</label>
       <div className="flex gap-4 flex-wrap">
-        {["positive", "negative", "zero"].map((debtType) => (
-          <label
-            key={debtType}
-            className="flex items-center gap-1 text-neutral-300"
-          >
-            <input
-              type="checkbox"
-              name="filters.debt"
-              value={debtType}
-              onChange={(e) => {
-                const value = e.target.value;
-                const isChecked = e.target.checked;
+        {/* Solo mostramos "Deudores" */}
+        <label className="flex items-center gap-1 text-neutral-300">
+          <input
+            type="checkbox"
+            name="filters.debt"
+            value="positive"
+            onChange={(e) => {
+              const isChecked = e.target.checked;
+              const newDebt = isChecked ? ["positive"] : [];
 
-                const newDebt = isChecked
-                  ? [...formikProps.values.filters.debt, value]
-                  : formikProps.values.filters.debt.filter((d) => d !== value);
-
-                formikProps.setFieldValue("filters.debt", newDebt);
-                handleFilter({
-                  ...formikProps.values.filters,
-                  debt: newDebt,
-                });
-              }}
-              checked={formikProps.values.filters.debt.includes(debtType)}
-            />
-            {debtType === "positive"
-              ? "Deudores"
-              : debtType === "negative"
-              ? "Dinero a favor"
-              : "Sin saldo"}
-          </label>
-        ))}
+              formikProps.setFieldValue("filters.debt", newDebt);
+              handleFilter({
+                ...formikProps.values.filters,
+                debt: newDebt,
+              });
+            }}
+            checked={formikProps.values.filters.debt.includes("positive")}
+          />
+          Deudores
+        </label>
       </div>
     </div>
   );
