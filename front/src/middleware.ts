@@ -1,4 +1,4 @@
-import { jwtVerify } from "jose";
+
 import { NextRequest, NextResponse } from "next/server";
 
 const validateJWT = (token: string): boolean => {
@@ -33,7 +33,7 @@ const decodeJWT = (token: string): string | null => {
 
     // Decodificar la parte payload (base64url -> base64)
     const base64Url = parts[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // Reemplazar base64url por base64
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Reemplazar base64url por base64
 
     // Decodificar y parsear el payload como JSON
     const decodedPayload = JSON.parse(atob(base64));
