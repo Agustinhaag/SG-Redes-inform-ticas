@@ -12,10 +12,12 @@ const FilterOfStatus: React.FC<{
     plan_name: any[];
   }) => void;
 }> = ({ users, formikProps, handleFilter }) => {
-  // Obtener los estados únicos
-  const uniqueStatuses = [
-    ...new Set(users && users.map((user) => user.status)),
-  ];
+  // Mapeo de estados a "Habilitado" o "Bloqueado"
+  const mapStatus = (status: string): string =>
+    status === "enabled" ? "enabled" : "blocked";
+
+  // Obtener estados únicos (solo "enabled" y "blocked")
+  const uniqueStatuses = [...new Set(users.map((user) => mapStatus(user.status)))];
 
   // Manejar cambios en los checkboxes
   const handleStatusChange = (status: string) => {
@@ -32,13 +34,15 @@ const FilterOfStatus: React.FC<{
       status: updatedStatuses,
     });
   };
-  const statusLabels: any = {
+
+  // Etiquetas de estado (solo dos opciones)
+  const statusLabels: Record<string, string> = {
     enabled: "Habilitado",
-    no_service: "Sin servicio",
     blocked: "Bloqueado",
   };
+
   return (
-    <div className="sm:w-1/2 w-full text-custom-white ">
+    <div className="sm:w-1/2 w-full text-custom-white">
       <label className="text-sm">Estado:</label>
       <div className="flex flex-wrap gap-4">
         {uniqueStatuses.map((status) => (
@@ -47,9 +51,7 @@ const FilterOfStatus: React.FC<{
               type="checkbox"
               id={`status-${status}`}
               name="filters.status"
-              checked={(formikProps.values.filters.status as string[]).includes(
-                status
-              )}
+              checked={(formikProps.values.filters.status as string[]).includes(status)}
               onChange={() => handleStatusChange(status)}
             />
             <label htmlFor={`status-${status}`} className="text-neutral-300">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Field, ErrorMessage } from "formik";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { InputProps } from "@/helpers/types";
@@ -14,6 +14,7 @@ const ContainerInput: React.FC<InputProps> = ({
   recoveryPass = false,
   contact = false,
   message = false,
+  ref: inputRef,  // 'ref' ahora es parte de las props
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [viewResetPassword, setViewResetPassword] = useState<boolean>(false);
@@ -43,6 +44,7 @@ const ContainerInput: React.FC<InputProps> = ({
             textarea && "resize-none min-h-52"
           }`}
           placeholder=" "
+          ref={inputRef}  // Asignación del ref recibido como prop
         />
         <label
           htmlFor={nombre}

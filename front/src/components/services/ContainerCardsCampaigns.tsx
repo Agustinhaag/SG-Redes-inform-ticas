@@ -39,8 +39,10 @@ const ContainerCardsCampaigns: React.FC<{
 
           if (!messages || !messages.data) continue;
 
-          const relatedMessages = messages.data.filter((msg: any) =>
-            campaign.messages[0] && campaign.messages[0].messageIds.includes(msg.id)
+          const relatedMessages = messages.data.filter(
+            (msg: any) =>
+              campaign.messages[0] &&
+              campaign.messages[0].messageIds.includes(msg.id)
           );
 
           // Lógica actualizada para determinar el nuevo estado
@@ -101,9 +103,16 @@ const ContainerCardsCampaigns: React.FC<{
       <h2>Procesos:</h2>
       {campaigns && campaigns.length > 0 ? (
         <div className="grid mt-3 gap-4 w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {campaigns.map((campaign,index) => {
-            return <CardCampaign campaign={campaign} key={index} />;
-          })}
+          {campaigns
+            .sort((a, b) => {
+              const dateA = new Date(a.createdAt).getTime() || 0;
+              const dateB = new Date(b.createdAt).getTime() || 0;
+              return dateB - dateA;
+            })
+            .slice(0, 20)
+            .map((campaign, index) => {
+              return <CardCampaign campaign={campaign} key={index} />;
+            })}
         </div>
       ) : (
         <p>No posee procesos actualmente.</p>

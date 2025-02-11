@@ -52,6 +52,7 @@ export interface InputProps {
   recoveryPass?: boolean;
   contact?: boolean;
   message?: boolean;
+  ref?: React.Ref<HTMLInputElement | HTMLTextAreaElement>;  
 }
 
 export interface IUserIspCube {
