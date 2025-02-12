@@ -95,6 +95,10 @@ input:checked + .slider:before {
     height: 100vh;
   }
 
+  .visibleMain {
+    visibility: visible !important;
+  }
+
   header nav a {
     margin: 12px 0;
     display: block;

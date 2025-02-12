@@ -93,6 +93,8 @@ export interface RootState {
 export interface SubNavProps {
   typeClass: boolean;
   dataUser: IUser;
+  menuRef: React.RefObject<HTMLDivElement>
+  mostrarRef: React.RefObject<HTMLDivElement>
 }
 
 export interface PageProps {

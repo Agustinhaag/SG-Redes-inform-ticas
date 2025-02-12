@@ -21,11 +21,10 @@ const InfoAccount: React.FC = () => {
                 className="sm:w-36 xs:w-28 w-24 rounded-full min-h-28 min-w-32 max-h-40"
               />
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex">
               <h2 className="font-semibold sm:text-3xl text-xl">
                 {dataUser.name}
               </h2>
-              <p className="font-light text-base ">{dataUser.email}</p>
             </div>
           </div>
           <div className="text-custom-white flex flex-col sm:gap-5 w-full">

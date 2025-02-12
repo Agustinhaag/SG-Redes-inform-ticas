@@ -36,7 +36,10 @@ const ServiceDevice: React.FC = () => {
 
     return () => clearInterval(intervalId);
   }, [dataUser?.id, token, url]);
-
+  const formatDate = (date: string) => {
+    const partesFecha = date.split("-");
+    return `${partesFecha[2]}-${partesFecha[1]}-${partesFecha[0]}`;
+  };
   return (
     <section>
       {dataUser && (
@@ -165,9 +168,9 @@ const ServiceDevice: React.FC = () => {
                               </p>
                               <p className="text-base text-neutral-400">
                                 <span className="text-lg text-custom-white">
-                                  Venciminento:{" "}
+                                  Vencimiento:{" "}
                                 </span>
-                                {infoDevice.data.expired_date}
+                                {formatDate(infoDevice.data.expired_date)}
                               </p>
                               <p className="text-base text-neutral-400">
                                 <span className="text-lg text-custom-white">

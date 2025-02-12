@@ -42,7 +42,7 @@ const ViewMessagesWablas: React.FC = () => {
         <>
           <div className="flex justify-between my-3 medium-xs:flex-row flex-col gap-3 xs:gap-0 w-full">
             {dataUser.status === "suspended" ? (
-              <p>Su usuario aún no esta disponible para enviar mensajes</p>
+              <p>Su cuenta está suspendida. Por favor, comuníquese para más información.</p>
             ) : (
               <button
                 className="bg-custom-blue medium-xs:mb-0 mb-2 h-12 medium-xs:w-auto w-2/3 min-w-44 text-white px-6 py-3 rounded-md hover:bg-blue-600"
