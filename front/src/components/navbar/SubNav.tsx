@@ -8,7 +8,7 @@ import { RootState, SubNavProps } from "@/helpers/types";
 import { useSelector } from "react-redux";
 import ButtonUser from "./ButtonUser";
 
-const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
+const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser, menuRef,mostrarRef }) => {
   const tokenIspCube: string = useSelector(
     (state: any) => state.user.tokenIspCube
   );
@@ -21,6 +21,7 @@ const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
   return (
     <nav
       id="menu"
+      ref={menuRef}
       className={`${typeClass ? classHeader : classFooter} 
       `}
     >
@@ -71,7 +72,7 @@ const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
         Dispositivos
       </Link>
       {token && dataUser ? (
-        <ButtonUser dataUser={dataUser} subNav={true} />
+        <ButtonUser dataUser={dataUser} subNav={true} menuRef={menuRef} mostrarRef={mostrarRef}/>
       ) : (
         <div className=" md:hidden flex sm:gap-4 text-lg  gap-2 items-end justify-end flex-col sm:flex-row text-custom-white">
           <Link
@@ -90,7 +91,7 @@ const SubNav: React.FC<SubNavProps> = ({ typeClass, dataUser }) => {
       )}
 
       <div className="md:hidden absolute flex top-5 justify-between w-full">
-        <p className="text-custom-blue text-2xl font-semibold">SG-Redes</p>
+        <p className="text-custom-blue text-2xl font-semibold">SG-Software</p>
         <span
           id="cerrar"
           className=" cursor-pointer text-2xl absolute right-8 hover:text-custom-white"

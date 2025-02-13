@@ -14,6 +14,8 @@ const Navbar: React.FC = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const dataUser: IUser = useSelector((state: RootState) => state.user.user);
   const token: string = useSelector((state: RootState) => state.user.token);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const mostrarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const menu: HTMLElement | null = document.getElementById("menu");
@@ -74,13 +76,14 @@ const Navbar: React.FC = () => {
         />
 
         <div className="pl-2 flex items-center">
-          <SubNav typeClass={true} dataUser={dataUser} />
+          <SubNav typeClass={true} dataUser={dataUser} menuRef={menuRef} mostrarRef={mostrarRef}/>
         </div>
       </div>
 
       <div className="w-2/5 flex justify-end">
         <span
           id="mostrar"
+          ref={mostrarRef}
           className="md:hidden text-white flex cursor-pointer text-2xl relative right-1 order-1"
         >
           <RxHamburgerMenu />
